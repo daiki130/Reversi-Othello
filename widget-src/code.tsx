@@ -8,6 +8,7 @@ const {
   Line,
   Rectangle,
   Span,
+  Input,
   useSyncedState,
   useSyncedMap,
   useEffect,
@@ -22,11 +23,28 @@ function CustomComponent({ label }: { label: string }) {
 
 function Button({ label, onClick }: { label: string; onClick: () => void }) {
   return (
-    <Fragment>
-      <AutoLayout padding={10} cornerRadius={10}>
-        <Text onClick={onClick}>{label}</Text>
+    <Frame
+      width={"fill-parent"}
+      height={"fill-parent"}
+      cornerRadius={10}
+      stroke="#000"
+      fill="#000000"
+      strokeWidth={1}
+    >
+      <AutoLayout
+        padding={10}
+        cornerRadius={10}
+        direction="horizontal"
+        horizontalAlignItems="center"
+        verticalAlignItems="center"
+        width="hug-contents"
+        height="hug-contents"
+      >
+        <Text onClick={onClick} fill= "#FFFDFD">
+          {label}
+        </Text>
       </AutoLayout>
-    </Fragment>
+    </Frame>
   );
 }
 
@@ -48,15 +66,32 @@ function CustomComponentWithChildren({
 function Widget() {
   const [foo, setFoo] = useSyncedState("foo", () => 0);
   const [bar, setBar] = useSyncedState("bar", 0);
+  const [player1, setPlayer1] = useSyncedState("player1", {
+    name: "",
+    icon: "",
+  });
+  const [player2, setPlayer2] = useSyncedState("player2", {
+    name: "",
+    icon: "",
+  });
+  // プレイヤーの名前とアイコンを設定する関数
+  const updatePlayer1 = (name: string, icon: string) => {
+    setPlayer1({ name, icon });
+  };
+
+  const updatePlayer2 = (name: string, icon: string) => {
+    setPlayer2({ name, icon });
+  };
+
   const bazMap = useSyncedMap("baz");
 
-  useEffect(() => {
-    console.log(foo);
-    console.log(bar);
-    if (bazMap.has("hello")) {
-      console.log(bazMap.get("hello"));
-    }
-  });
+  // useEffect(() => {
+  //   console.log(foo);
+  //   console.log(bar);
+  //   if (bazMap.has("hello")) {
+  //     console.log(bazMap.get("hello"));
+  //   }
+  // });
 
   usePropertyMenu(
     [
@@ -116,14 +151,13 @@ function Widget() {
   // })
 
   return (
-    <AutoLayout>
+    <Frame width={100} height={100}>
       <Button
-        label="Game Start"
-        onClick={() => {
-          console.log("button");
-        }}
+        label="Join"
+        onClick={() => console.log("player1_icon_path")}
       />
-      <Text
+
+      {/* <Text
         onClick={() => {
           setFoo(foo + 1);
           setBar((bar) => bar + 1);
@@ -156,8 +190,8 @@ function Widget() {
             arcData={{ startingAngle: 1, endingAngle: 1, innerRadius: 1 }}
           />
         </>
-      </Frame>
-    </AutoLayout>
+      </Frame> */}
+    </Frame>
   );
 }
 
