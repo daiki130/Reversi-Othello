@@ -1,4 +1,4 @@
-const { widget } = figma;
+const { widget, notify } = figma;
 const {
   AutoLayout,
   Text,
@@ -7,6 +7,7 @@ const {
   Ellipse,
   Line,
   Rectangle,
+  Image,
   Span,
   Input,
   useSyncedState,
@@ -25,7 +26,7 @@ function Button({ label, onClick }: { label: string; onClick: () => void }) {
   return (
     <Frame
       width={"fill-parent"}
-      height={"fill-parent"}
+      height={40}
       cornerRadius={10}
       stroke="#000"
       fill="#000000"
@@ -40,11 +41,30 @@ function Button({ label, onClick }: { label: string; onClick: () => void }) {
         width="hug-contents"
         height="hug-contents"
       >
-        <Text onClick={onClick} fill= "#FFFDFD">
+        <Text onClick={onClick} fill="#FFFDFD">
           {label}
         </Text>
       </AutoLayout>
     </Frame>
+  );
+}
+
+function EllipseWithImage({ src }: { src: string }) {
+  return (
+    <Ellipse
+      fill={{
+        type: "image",
+        src: src,
+        imageSize: { width: 150, height: 150 },
+        scaleMode: "fit",
+        rotation: 0,
+        scalingFactor: 1.2,
+      }}
+      stroke="#000000"
+      strokeWidth={2}
+      width={200}
+      height={200}
+    />
   );
 }
 
@@ -74,24 +94,24 @@ function Widget() {
     name: "",
     icon: "",
   });
-  // プレイヤーの名前とアイコンを設定する関数
-  const updatePlayer1 = (name: string, icon: string) => {
-    setPlayer1({ name, icon });
-  };
-
-  const updatePlayer2 = (name: string, icon: string) => {
-    setPlayer2({ name, icon });
-  };
 
   const bazMap = useSyncedMap("baz");
 
-  // useEffect(() => {
-  //   console.log(foo);
-  //   console.log(bar);
-  //   if (bazMap.has("hello")) {
-  //     console.log(bazMap.get("hello"));
-  //   }
-  // });
+  // プレイヤー用の SyncedMap を追加
+  const players = useSyncedMap("players");
+
+  // handleJoin 関数を更新
+  const handleJoin = () => {
+    const currentUser = figma.currentUser;
+    const user = currentUser ? currentUser.name : "Unknown User";
+    const icon =
+      currentUser && currentUser.photoUrl ? currentUser.photoUrl : "";
+
+    if (players.size < 2) {
+      players.set(user, icon);
+      notify(`${user} が参加しました`);
+    }
+  };
 
   usePropertyMenu(
     [
@@ -145,53 +165,18 @@ function Widget() {
     console.log(oldHostId);
   });
 
-  // useStickableHost(async ({stuckNodeIds, unstuckNodeIds}) => {
-  //   console.log(stuckNodeIds)
-  //   console.log(unstuckNodeIds)
-  // })
-
   return (
-    <Frame width={100} height={100}>
-      <Button
-        label="Join"
-        onClick={() => console.log("player1_icon_path")}
-      />
-
-      {/* <Text
-        onClick={() => {
-          setFoo(foo + 1);
-          setBar((bar) => bar + 1);
-        }}
-      >
-        {foo} {bar}
-        <Span>
-          Hello <Span>World</Span>
-        </Span>
-      </Text>
-      <CustomComponentWithChildren>
-        <CustomComponent key={1} label="Hello" />
-      </CustomComponentWithChildren>
-      <Frame width={100} height={200}>
-        <Text x={{ type: "left", offset: 5 }} y={{ type: "bottom", offset: 5 }}>
-          Offsets
-        </Text>
-        <Fragment>
-          <Line />
-          <Rectangle
-            width={100}
-            height={100}
-            stroke="#000"
-            strokeDashPattern={[10, 20]}
-          />
-        </Fragment>
-        <>
-          <Line strokeCap="round" />
-          <Ellipse
-            arcData={{ startingAngle: 1, endingAngle: 1, innerRadius: 1 }}
-          />
-        </>
-      </Frame> */}
-    </Frame>
+    <AutoLayout direction="vertical" spacing={20} padding={20}>
+      {/* // {{ モーダルの追加 }} */}
+      <Text>Waiting for 2 players</Text>
+      <Button label="Join" onClick={handleJoin} />
+      <AutoLayout direction="horizontal" spacing={20}>
+        {Array.from(players.values()).map((icon, index) => (
+          // <Image key={index} src={icon as string} />
+          <EllipseWithImage key={index} src={icon as string} />
+        ))}
+      </AutoLayout>
+    </AutoLayout>
   );
 }
 
