@@ -4,13 +4,8 @@
     "jsxFactory": "figma.widget.h",
     "jsxFragmentFactory": "figma.widget.Fragment",
     "target": "es6",
-    "lib": ["dom", "esnext"],
+    "lib": ["es6"],
     "strict": true,
-    "moduleResolution": "node",
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./*"]
-    },
     "typeRoots": ["../node_modules/@figma"]
   }
 }

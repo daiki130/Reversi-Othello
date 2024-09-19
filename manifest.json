@@ -1,8 +1,8 @@
 {
-  "name": "Reversi（Othello）",
-  "id": "widget-id-Y70jt6aHbT",
+  "name": "Reversi",
+  "id": "widget-id-4OEOEE5vZJ",
   "api": "1.0.0",
-  "editorType": ["figma", "figjam"],
+  "editorType": ["figma","figjam"],
   "permissions": [],
   "containsWidget": true,
   "main": "dist/code.js",
