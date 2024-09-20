@@ -18,7 +18,6 @@ const {
   useStickable,
   useStickableHost,
 } = widget;
-
 import { Button } from "./components/Button";
 import { EllipseWithImage } from "./components/EllipseWithImage";
 const blackFigmaIcon = `
@@ -43,11 +42,9 @@ const whiteFigmaIcon = `
     </g>
   </svg>
 `;
-
 function CustomComponent({ label }: { label: string }) {
   return <Text>{label}</Text>;
 }
-
 function CustomComponentWithChildren({
   children,
 }: {
@@ -57,12 +54,11 @@ function CustomComponentWithChildren({
     <AutoLayout>
       {children}
       <Text x={0} y={0} positioning="absolute">
-        🍟
+        :フライドポテト:
       </Text>
     </AutoLayout>
   );
 }
-
 function Widget() {
   const [description, setDescription] = useSyncedState(
     "description",
@@ -71,14 +67,12 @@ function Widget() {
   const [buttonLabel, setButtonLabel] = useSyncedState("buttonLabel", "Join");
   // プレイヤー用の SyncedMap を追加
   const players = useSyncedMap("players");
-
   // handleJoin 関数を更新
   const handleJoin = () => {
     const currentUser = figma.currentUser;
     const user = currentUser ? currentUser.name : "Unknown User";
     const icon =
       currentUser && currentUser.photoUrl ? currentUser.photoUrl : "";
-
     if (players.size < 2) {
       players.set(user, icon);
       notify(`${user} が参加しました`);
@@ -92,7 +86,6 @@ function Widget() {
       setButtonLabel("Start Game");
     }
   };
-
   usePropertyMenu(
     [
       {
@@ -139,12 +132,10 @@ function Widget() {
     ],
     ({ propertyName, propertyValue }) => {}
   );
-
   useStickable(async ({ newHostId, oldHostId }) => {
     console.log(newHostId);
     console.log(oldHostId);
   });
-
   return (
     <AutoLayout
       direction="vertical"
@@ -153,7 +144,7 @@ function Widget() {
       minWidth={240}
       verticalAlignItems="center"
       horizontalAlignItems="center"
-      fill="#ffffff"
+      fill="#FFFFFF"
       cornerRadius={10}
       effect={{
         type: "drop-shadow",
@@ -168,8 +159,29 @@ function Widget() {
       }}
     >
       <Text>{description}</Text>
-      <SVG src={blackFigmaIcon} />
-      <SVG src={whiteFigmaIcon} />
+      <AutoLayout
+        direction="horizontal"
+        verticalAlignItems="center"
+        horizontalAlignItems="center"
+        spacing={10}
+        width={66}
+        height={66}
+        fill="#FFFFFF"
+        effect={{
+          type: "drop-shadow",
+          color: {
+            r: 0,
+            g: 0,
+            b: 0,
+            a: 0.25,
+          },
+          blur: 10,
+          offset: { x: 2, y: 4 },
+        }}
+        cornerRadius={9999}
+      >
+        <SVG src={blackFigmaIcon} />
+      </AutoLayout>
       <Button label={buttonLabel} onClick={handleJoin} />
       <AutoLayout direction="horizontal" spacing={-4}>
         {Array.from(players.values()).map((icon, index) => (
@@ -179,5 +191,4 @@ function Widget() {
     </AutoLayout>
   );
 }
-
 widget.register(Widget);
