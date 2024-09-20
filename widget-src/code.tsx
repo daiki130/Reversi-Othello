@@ -18,41 +18,11 @@ const {
   useStickableHost,
 } = widget;
 
+import { Button } from "./components/Button";
+import { EllipseWithImage } from "./components/EllipseWithImage";
+
 function CustomComponent({ label }: { label: string }) {
   return <Text>{label}</Text>;
-}
-
-function Button({ label, onClick }: { label: string; onClick: () => void }) {
-  return (
-    <AutoLayout
-      cornerRadius={8}
-      padding={{ top: 8, bottom: 8, left: 16, right: 16 }}
-      fill="#000000"
-    >
-      <Text onClick={onClick} fill="#FFFDFD">
-        {label}
-      </Text>
-    </AutoLayout>
-  );
-}
-
-function EllipseWithImage({ src }: { src: string }) {
-  return (
-    <Ellipse
-      fill={{
-        type: "image",
-        src: src,
-        imageSize: { width: 150, height: 150 },
-        scaleMode: "fit",
-        rotation: 0,
-        scalingFactor: 1.2,
-      }}
-      stroke="#000000"
-      strokeWidth={2}
-      width={50}
-      height={50}
-    />
-  );
 }
 
 function CustomComponentWithChildren({
