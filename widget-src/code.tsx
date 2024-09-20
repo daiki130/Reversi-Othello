@@ -24,28 +24,15 @@ function CustomComponent({ label }: { label: string }) {
 
 function Button({ label, onClick }: { label: string; onClick: () => void }) {
   return (
-    <Frame
-      width={"fill-parent"}
-      height={40}
-      cornerRadius={10}
-      stroke="#000"
+    <AutoLayout
+      cornerRadius={8}
+      padding={{ top: 8, bottom: 8, left: 16, right: 16 }}
       fill="#000000"
-      strokeWidth={1}
     >
-      <AutoLayout
-        padding={10}
-        cornerRadius={10}
-        direction="horizontal"
-        horizontalAlignItems="center"
-        verticalAlignItems="center"
-        width="hug-contents"
-        height="hug-contents"
-      >
-        <Text onClick={onClick} fill="#FFFDFD">
-          {label}
-        </Text>
-      </AutoLayout>
-    </Frame>
+      <Text onClick={onClick} fill="#FFFDFD">
+        {label}
+      </Text>
+    </AutoLayout>
   );
 }
 
@@ -62,8 +49,8 @@ function EllipseWithImage({ src }: { src: string }) {
       }}
       stroke="#000000"
       strokeWidth={2}
-      width={200}
-      height={200}
+      width={50}
+      height={50}
     />
   );
 }
@@ -166,13 +153,17 @@ function Widget() {
   });
 
   return (
-    <AutoLayout direction="vertical" spacing={20} padding={20}>
-      {/* // {{ モーダルの追加 }} */}
+    <AutoLayout
+      direction="vertical"
+      spacing={20}
+      padding={20}
+      verticalAlignItems="center"
+      horizontalAlignItems="center"
+    >
       <Text>Waiting for 2 players</Text>
       <Button label="Join" onClick={handleJoin} />
       <AutoLayout direction="horizontal" spacing={20}>
         {Array.from(players.values()).map((icon, index) => (
-          // <Image key={index} src={icon as string} />
           <EllipseWithImage key={index} src={icon as string} />
         ))}
       </AutoLayout>
