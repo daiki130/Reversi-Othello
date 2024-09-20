@@ -41,19 +41,6 @@ function CustomComponentWithChildren({
 }
 
 function Widget() {
-  const [foo, setFoo] = useSyncedState("foo", () => 0);
-  const [bar, setBar] = useSyncedState("bar", 0);
-  const [player1, setPlayer1] = useSyncedState("player1", {
-    name: "",
-    icon: "",
-  });
-  const [player2, setPlayer2] = useSyncedState("player2", {
-    name: "",
-    icon: "",
-  });
-
-  const bazMap = useSyncedMap("baz");
-
   // プレイヤー用の SyncedMap を追加
   const players = useSyncedMap("players");
 
@@ -126,13 +113,26 @@ function Widget() {
     <AutoLayout
       direction="vertical"
       spacing={20}
-      padding={20}
+      padding={24}
       verticalAlignItems="center"
       horizontalAlignItems="center"
+      fill="#ffffff"
+      cornerRadius={10}
+      effect={{
+        type: "drop-shadow",
+        color: {
+          r: 0,
+          g: 0,
+          b: 0,
+          a: 0.3,
+        },
+        blur: 10,
+        offset: { x: 0, y: 0 },
+      }}
     >
       <Text>Waiting for 2 players</Text>
       <Button label="Join" onClick={handleJoin} />
-      <AutoLayout direction="horizontal" spacing={20}>
+      <AutoLayout direction="horizontal" spacing={-4} >
         {Array.from(players.values()).map((icon, index) => (
           <EllipseWithImage key={index} src={icon as string} />
         ))}
