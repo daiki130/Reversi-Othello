@@ -41,6 +41,11 @@ function CustomComponentWithChildren({
 }
 
 function Widget() {
+  const [description, setDescription] = useSyncedState(
+    "description",
+    "Waiting for 2 players"
+  );
+  const [buttonLabel, setButtonLabel] = useSyncedState("buttonLabel", "Join");
   // プレイヤー用の SyncedMap を追加
   const players = useSyncedMap("players");
 
@@ -54,6 +59,14 @@ function Widget() {
     if (players.size < 2) {
       players.set(user, icon);
       notify(`${user} が参加しました`);
+    }
+    if (players.size === 1) {
+      setDescription("Waiting for 1 more player");
+      setButtonLabel("Join");
+    }
+    if (players.size === 2) {
+      setDescription("Let's play!");
+      setButtonLabel("Start Game");
     }
   };
 
@@ -114,6 +127,7 @@ function Widget() {
       direction="vertical"
       spacing={20}
       padding={24}
+      minWidth={240}
       verticalAlignItems="center"
       horizontalAlignItems="center"
       fill="#ffffff"
@@ -130,9 +144,9 @@ function Widget() {
         offset: { x: 0, y: 0 },
       }}
     >
-      <Text>Waiting for 2 players</Text>
-      <Button label="Join" onClick={handleJoin} />
-      <AutoLayout direction="horizontal" spacing={-4} >
+      <Text>{description}</Text>
+      <Button label={buttonLabel} onClick={handleJoin} />
+      <AutoLayout direction="horizontal" spacing={-4}>
         {Array.from(players.values()).map((icon, index) => (
           <EllipseWithImage key={index} src={icon as string} />
         ))}
