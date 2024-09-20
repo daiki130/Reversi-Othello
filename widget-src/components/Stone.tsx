@@ -1,13 +1,13 @@
 const { widget } = figma;
 const { AutoLayout, SVG } = widget;
 
-// SVGアイコンの定義は省略
-
-type StoneProps = {
-  color: "black" | "white";
-};
-
-export const Stone = ({ color }: StoneProps) => {
+export const Stone = ({
+    color,
+    onClick, 
+}: {
+    color: "black" | "white";
+    onClick: () => void;
+}) => {
   const blackFigmaIcon = `
     <svg width="23" height="32" viewBox="0 0 172 247" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g id="Group">
@@ -79,6 +79,7 @@ export const Stone = ({ color }: StoneProps) => {
         },
       ]}
       cornerRadius={9999}
+      onClick={onClick}
     >
       <SVG src={iconSrc} />
     </AutoLayout>
