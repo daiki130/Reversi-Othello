@@ -136,6 +136,7 @@ function Widget() {
     console.log(newHostId);
     console.log(oldHostId);
   });
+
   return (
     <AutoLayout
       direction="vertical"
@@ -167,17 +168,63 @@ function Widget() {
         width={66}
         height={66}
         fill="#FFFFFF"
-        effect={{
-          type: "drop-shadow",
-          color: {
-            r: 0,
-            g: 0,
-            b: 0,
-            a: 0.25,
+        effect={[
+          {
+            type: "drop-shadow",
+            color: {
+              r: 0,
+              g: 0,
+              b: 0,
+              a: 0.25,
+            },
+            offset: { x: 2, y: 0 },
+            blur: 4,
           },
-          blur: 10,
-          offset: { x: 2, y: 4 },
-        }}
+          {
+            type: "drop-shadow",
+            color: {
+              r: 0,
+              g: 0,
+              b: 0,
+              a: 0.25,
+            },
+            offset: { x: 0, y: 4 },
+            blur: 4,
+          },
+          {
+            type: "drop-shadow",
+            color: {
+              r: 0,
+              g: 0,
+              b: 0,
+              a: 0.25,
+            },
+            offset: { x: -2, y: 0 },
+            blur: 4,
+          },
+          {
+            type: "inner-shadow",
+            color: {
+              r: 0,
+              g: 0,
+              b: 0,
+              a: 0.5,
+            },
+            offset: { x: -1, y: -1 },
+            blur: 4,
+          },
+          {
+            type: "inner-shadow",
+            color: {
+              r: 0,
+              g: 0,
+              b: 0,
+              a: 0.5,
+            },
+            offset: { x: 1, y: 1 },
+            blur: 4,
+          },
+        ]}
         cornerRadius={9999}
       >
         <SVG src={blackFigmaIcon} />
