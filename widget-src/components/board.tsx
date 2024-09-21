@@ -1,9 +1,10 @@
 const { widget } = figma
-const { AutoLayout, Frame, Ellipse, useSyncedState } = widget
+const { AutoLayout, Frame, Ellipse, useSyncedState, Text } = widget
 
 export function OthelloBoard() {
   const [board, setBoard] = useSyncedState('board', initializeBoard())
   const [currentPlayer, setCurrentPlayer] = useSyncedState('currentPlayer', 'black')
+  const [gameOver, setGameOver] = useSyncedState('gameOver', false)
 
   const cellSize = 50
   const boardSize = cellSize * 8 + 20 + 2 * 7
@@ -15,8 +16,20 @@ export function OthelloBoard() {
     return newBoard
   }
 
+  function getValidMoves(player: string) {
+    const validMoves: [number, number][] = []
+    for (let row = 0; row < 8; row++) {
+      for (let col = 0; col < 8; col++) {
+        if (board[row][col] === null && getFlippedPieces(row, col, player).length > 0) {
+          validMoves.push([row, col])
+        }
+      }
+    }
+    return validMoves
+  }
+
   function handleCellClick(row: number, col: number) {
-    if (board[row][col] !== null) return
+    if (gameOver || board[row][col] !== null) return
 
     const flippedPieces = getFlippedPieces(row, col, currentPlayer)
     if (flippedPieces.length === 0) return
@@ -28,7 +41,25 @@ export function OthelloBoard() {
     })
 
     setBoard(newBoard)
-    setCurrentPlayer(currentPlayer === 'black' ? 'white' : 'black')
+    switchTurn()
+  }
+
+  function switchTurn() {
+    const nextPlayer = currentPlayer === 'black' ? 'white' : 'black'
+    const nextPlayerMoves = getValidMoves(nextPlayer)
+    
+    if (nextPlayerMoves.length > 0) {
+      setCurrentPlayer(nextPlayer)
+    } else {
+      const currentPlayerMoves = getValidMoves(currentPlayer)
+      if (currentPlayerMoves.length > 0) {
+        // 現在のプレイヤーがまだ置ける場合はパスする
+        console.log(`${nextPlayer} has no valid moves. Passing...`)
+      } else {
+        // 両プレイヤーが置けない場合はゲーム終了
+        setGameOver(true)
+      }
+    }
   }
 
   function getFlippedPieces(row: number, col: number, player: string) {
@@ -60,40 +91,63 @@ export function OthelloBoard() {
     return flippedPieces
   }
 
+  const validMoves = getValidMoves(currentPlayer)
+
   return (
     <AutoLayout
       direction="vertical"
-      spacing={2}
+      spacing={10}
       padding={10}
       cornerRadius={8}
       fill="#1e1e1e"
       width={boardSize}
-      height={boardSize}
+      height={boardSize + 40}
     >
-      {board.map((row, rowIndex) => (
-        <AutoLayout key={rowIndex} direction="horizontal" spacing={2}>
-          {row.map((cell: any, colIndex: any) => (
-            <Frame
-              key={`${rowIndex}-${colIndex}`}
-              width={cellSize}
-              height={cellSize}
-              fill="#4a4a4a"
-              cornerRadius={4}
-              onClick={() => handleCellClick(rowIndex, colIndex)}
-            >
-              {cell && (
-                <Ellipse
-                  width={cellSize - 10}
-                  height={cellSize - 10}
-                  x={5}
-                  y={5}
-                  fill={cell === 'black' ? '#000000' : '#ffffff'}
-                />
-              )}
-            </Frame>
-          ))}
-        </AutoLayout>
-      ))}
+      <Text
+        fill="#ffffff"
+        fontSize={16}
+      >
+        {gameOver ? "ゲーム終了" : `現在のプレイヤー: ${currentPlayer === 'black' ? '黒' : '白'}`}
+      </Text>
+      <AutoLayout
+        direction="vertical"
+        spacing={2}
+      >
+        {board.map((row, rowIndex) => (
+          <AutoLayout key={rowIndex} direction="horizontal" spacing={2}>
+            {row.map((cell: any, colIndex: any) => (
+              <Frame
+                key={`${rowIndex}-${colIndex}`}
+                width={cellSize}
+                height={cellSize}
+                fill="#4a4a4a"
+                cornerRadius={4}
+                onClick={() => handleCellClick(rowIndex, colIndex)}
+              >
+                {cell && (
+                  <Ellipse
+                    width={cellSize - 10}
+                    height={cellSize - 10}
+                    x={5}
+                    y={5}
+                    fill={cell === 'black' ? '#000000' : '#ffffff'}
+                  />
+                )}
+                {!cell && validMoves.some(([r, c]) => r === rowIndex && c === colIndex) && (
+                  <Ellipse
+                    width={cellSize / 4}
+                    height={cellSize / 4}
+                    x={cellSize * 3 / 8}
+                    y={cellSize * 3 / 8}
+                    fill="#808080"
+                    opacity={0.5}
+                  />
+                )}
+              </Frame>
+            ))}
+          </AutoLayout>
+        ))}
+      </AutoLayout>
     </AutoLayout>
   )
 }
