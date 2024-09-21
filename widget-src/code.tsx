@@ -21,7 +21,7 @@ const {
 import { Button } from "./components/Button";
 import { EllipseWithImage } from "./components/EllipseWithImage";
 import { Stone } from "./components/Stone";
-
+import { OthelloBoard } from "./components/board";
 function Widget() {
   const [label, setLabel] = useSyncedState(
     "label",
@@ -112,49 +112,50 @@ function Widget() {
   });
 
   return (
-    <AutoLayout
-      direction="vertical"
-      spacing={20}
-      padding={24}
-      minWidth={240}
-      verticalAlignItems="center"
-      horizontalAlignItems="center"
-      fill="#FFFFFF"
-      cornerRadius={10}
-      effect={{
-        type: "drop-shadow",
-        color: {
-          r: 0,
-          g: 0,
-          b: 0,
-          a: 0.3,
-        },
-        blur: 10,
-        offset: { x: 0, y: 0 },
-      }}
-    >
-      {players.size < 2 && <Text>{label}</Text>}
-      <AutoLayout
-        direction="horizontal"
-        verticalAlignItems="center"
-        horizontalAlignItems="center"
-        spacing={32}
-        overflow="visible"
-      >
-        <Stone color="white" onClick={handleJoin} />
-        <Stone color="black" onClick={handleJoin} />
-      </AutoLayout>
-      {players.size === 2 ? (
-        <Button label={buttonLabel} onClick={() => console.log("Game Start")} />
-      ) : (
-        <Text>{description}</Text>
-      )}
-      <AutoLayout direction="horizontal" spacing={-4}>
-        {Array.from(players.values()).map((icon, index) => (
-          <EllipseWithImage key={index} src={icon as string} />
-        ))}
-      </AutoLayout>
-    </AutoLayout>
+    <OthelloBoard />
+    // <AutoLayout
+    //   direction="vertical"
+    //   spacing={20}
+    //   padding={24}
+    //   minWidth={240}
+    //   verticalAlignItems="center"
+    //   horizontalAlignItems="center"
+    //   fill="#FFFFFF"
+    //   cornerRadius={10}
+    //   effect={{
+    //     type: "drop-shadow",
+    //     color: {
+    //       r: 0,
+    //       g: 0,
+    //       b: 0,
+    //       a: 0.3,
+    //     },
+    //     blur: 10,
+    //     offset: { x: 0, y: 0 },
+    //   }}
+    // >
+    //   {players.size < 2 && <Text>{label}</Text>}
+    //   <AutoLayout
+    //     direction="horizontal"
+    //     verticalAlignItems="center"
+    //     horizontalAlignItems="center"
+    //     spacing={32}
+    //     overflow="visible"
+    //   >
+    //     <Stone color="white" onClick={handleJoin} />
+    //     <Stone color="black" onClick={handleJoin} />
+    //   </AutoLayout>
+    //   {players.size === 2 ? (
+    //     <Button label={buttonLabel} onClick={() => console.log("Game Start")} />
+    //   ) : (
+    //     <Text>{description}</Text>
+    //   )}
+    //   <AutoLayout direction="horizontal" spacing={-4}>
+    //     {Array.from(players.values()).map((icon, index) => (
+    //       <EllipseWithImage key={index} src={icon as string} />
+    //     ))}
+    //   </AutoLayout>
+    // </AutoLayout>
   );
 }
 widget.register(Widget);
