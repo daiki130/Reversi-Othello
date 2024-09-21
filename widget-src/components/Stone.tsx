@@ -2,11 +2,11 @@ const { widget } = figma;
 const { AutoLayout, SVG } = widget;
 
 export const Stone = ({
-    color,
-    onClick, 
+  color,
+  onClick,
 }: {
-    color: "black" | "white";
-    onClick: () => void;
+  color: "black" | "white";
+  onClick: () => void;
 }) => {
   const blackFigmaIcon = `
     <svg width="23" height="32" viewBox="0 0 172 247" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -35,7 +35,12 @@ export const Stone = ({
   const innerShadowColor =
     color === "white"
       ? { r: 0, g: 0, b: 0, a: 0.5 } // 白い石の場合、内側の影は黒
-      : { r: 1, g: 1, b: 1, a: 0.3 }; // 黒い石の場合、内側の影は白
+      : { r: 1, g: 1, b: 1, a: 0.5 }; // 黒い石の場合、内側の影は白
+  const dropShadowColor =
+    color === "white"
+      ? { r: 0, g: 0, b: 0, a: 0.25 }
+      : { r: 0, g: 0, b: 0, a: 0.5 };
+  const bluer = color === "white" ? 4 : 8;
 
   return (
     <AutoLayout
@@ -49,33 +54,33 @@ export const Stone = ({
       effect={[
         {
           type: "drop-shadow",
-          color: { r: 0, g: 0, b: 0, a: 0.25 },
+          color: dropShadowColor,
           offset: { x: 2, y: 0 },
-          blur: 4,
+          blur: bluer,
         },
         {
           type: "drop-shadow",
-          color: { r: 0, g: 0, b: 0, a: 0.25 },
+          color: dropShadowColor,
           offset: { x: 0, y: 4 },
-          blur: 4,
+          blur: bluer,
         },
         {
           type: "drop-shadow",
-          color: { r: 0, g: 0, b: 0, a: 0.25 },
+          color: dropShadowColor,
           offset: { x: -2, y: 0 },
-          blur: 4,
+          blur: bluer,
         },
         {
           type: "inner-shadow",
           color: innerShadowColor,
           offset: { x: -1, y: -1 },
-          blur: 4,
+          blur: bluer,
         },
         {
           type: "inner-shadow",
           color: innerShadowColor,
           offset: { x: 1, y: 1 },
-          blur: 4,
+          blur: bluer,
         },
       ]}
       cornerRadius={9999}
