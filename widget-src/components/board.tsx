@@ -1,6 +1,15 @@
 const { widget } = figma;
-const { AutoLayout, Frame, Ellipse, useSyncedState, Text, useStickable } =
-  widget;
+const {
+  AutoLayout,
+  Frame,
+  Ellipse,
+  useSyncedState,
+  Text,
+  useStickable,
+  useSyncedMap,
+} = widget;
+
+import { EllipseWithImage } from "./EllipseWithImage";
 
 export function OthelloBoard() {
   const [board, setBoard] = useSyncedState("board", initializeBoard());
@@ -10,6 +19,7 @@ export function OthelloBoard() {
   );
   const [gameOver, setGameOver] = useSyncedState("gameOver", false);
   const [scores, setScores] = useSyncedState("scores", { black: 2, white: 2 });
+  const players = useSyncedMap("players");
 
   const cellSize = 50;
   const boardSize = cellSize * 8 + 20 + 2 * 7;
@@ -125,12 +135,16 @@ export function OthelloBoard() {
   // スコアボードコンポーネント
   function ScoreBoard() {
     useStickable();
+    const playersArray = Array.from(players.entries());
+    const currentPlayerName =
+      playersArray[currentPlayer === "black" ? 0 : 1][0];
+
     return (
       <AutoLayout
         direction="vertical"
-        spacing={8}
-        padding={16}
-        cornerRadius={8}
+        spacing={4}
+        padding={12}
+        cornerRadius={9999}
         fill="#2C2C2C"
         effect={{
           type: "drop-shadow",
@@ -139,37 +153,43 @@ export function OthelloBoard() {
           blur: 4,
         }}
       >
-        <Text fill="#FFFFFF" fontSize={16} fontWeight="bold">
-          スコア
-        </Text>
-        <AutoLayout direction="horizontal" spacing={16}>
-          <AutoLayout
-            direction="horizontal"
-            spacing={8}
-            verticalAlignItems="center"
-          >
-            <Ellipse width={20} height={20} fill="#000000" />
-            <Text fill="#FFFFFF" fontSize={14}>
-              {scores.black}
-            </Text>
-          </AutoLayout>
-          <AutoLayout
-            direction="horizontal"
-            spacing={8}
-            verticalAlignItems="center"
-          >
-            <Ellipse width={20} height={20} fill="#FFFFFF" />
-            <Text fill="#FFFFFF" fontSize={14}>
-              {scores.white}
-            </Text>
-          </AutoLayout>
+        <AutoLayout
+          direction="horizontal"
+          spacing={16}
+          verticalAlignItems="center"
+          overflow="visible"
+        >
+          {playersArray.map(([player, icon], index) => (
+            <AutoLayout
+              key={index}
+              direction="horizontal"
+              spacing={8}
+              verticalAlignItems="center"
+              overflow="visible"
+            >
+              <EllipseWithImage src={icon as string} />
+              <Ellipse
+                width={20}
+                height={20}
+                fill={index === 0 ? "#000000" : "#FFFFFF"}
+              />
+              <Text fill="#FFFFFF" fontSize={14}>
+                {index === 0 ? scores.black : scores.white}
+              </Text>
+              {index === 0 && (
+                <Text fill="#FFFFFF" fontSize={14} fontWeight="bold">
+                  {gameOver ? "ゲーム終了" : `${currentPlayerName}のターン`}
+                </Text>
+              )}
+            </AutoLayout>
+          ))}
         </AutoLayout>
       </AutoLayout>
     );
   }
 
   return (
-    <AutoLayout direction="horizontal" spacing={20}>
+    <AutoLayout direction="vertical" spacing={20} horizontalAlignItems="center">
       <AutoLayout
         direction="vertical"
         spacing={10}
@@ -179,11 +199,6 @@ export function OthelloBoard() {
         width={boardSize}
         height={boardSize + 40}
       >
-        <Text fill="#ffffff" fontSize={16}>
-          {gameOver
-            ? "ゲーム終了"
-            : `現在のプレイヤー: ${currentPlayer === "black" ? "黒" : "白"}`}
-        </Text>
         <AutoLayout direction="vertical" spacing={2}>
           {board.map((row, rowIndex) => (
             <AutoLayout key={rowIndex} direction="horizontal" spacing={2}>
