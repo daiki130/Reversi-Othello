@@ -1,28 +1,15 @@
 const { widget, notify } = figma;
-const {
-  AutoLayout,
-  Text,
-  Frame,
-  Fragment,
-  Ellipse,
-  Line,
-  Rectangle,
-  Image,
-  Span,
-  Input,
-  SVG,
-  useSyncedState,
-  useSyncedMap,
-  useEffect,
-  usePropertyMenu,
-  useStickable,
-  useStickableHost,
-} = widget;
+const { useSyncedState, AutoLayout, Text, usePropertyMenu, useSyncedMap } =
+  widget;
+
 import { Button } from "./components/Button";
-import { EllipseWithImage } from "./components/EllipseWithImage";
 import { Stone } from "./components/Stone";
+import { EllipseWithImage } from "./components/EllipseWithImage";
+import { OthelloBoard } from "./components/board";
 
 function Widget() {
+  const [gameStarted, setGameStarted] = useSyncedState("gameStarted", false);
+
   const [label, setLabel] = useSyncedState(
     "label",
     "👇 Pick a stone to start the game."
@@ -53,63 +40,22 @@ function Widget() {
     }
     if (players.size === 1) {
       setDescription("Waiting for 1 more player");
-      setButtonLabel("Join");
     }
     if (players.size === 2) {
       setDescription("Let's play!");
       setButtonLabel("Start Game");
     }
   };
-  usePropertyMenu(
-    [
-      {
-        itemType: "action",
-        tooltip: "Action",
-        propertyName: "action",
-      },
-      {
-        itemType: "separator",
-      },
-      {
-        itemType: "color-selector",
-        propertyName: "color-selector",
-        tooltip: "Color selector",
-        selectedOption: "#000",
-        options: [{ option: "#000", tooltip: "Black" }],
-      },
-      {
-        itemType: "dropdown",
-        propertyName: "dropdown",
-        tooltip: "Dropdown",
-        selectedOption: "option1",
-        options: [{ option: "option1", label: "Option 1" }],
-      },
-      {
-        itemType: "toggle",
-        tooltip: "Toggle",
-        propertyName: "toggle",
-        isToggled: true,
-      },
-      {
-        itemType: "link",
-        propertyName: "link",
-        tooltip: "link",
-        href: "www.google.com",
-      },
-      {
-        tooltip: "link with icon null",
-        propertyName: "Link",
-        itemType: "link",
-        href: "https://asana.com",
-        icon: null,
-      },
-    ],
-    ({ propertyName, propertyValue }) => {}
-  );
-  useStickable(async ({ newHostId, oldHostId }) => {
-    console.log(newHostId);
-    console.log(oldHostId);
-  });
+
+  function handleGameStart() {
+    if (players.size === 2) {
+      setGameStarted(true);
+    }
+  }
+
+  if (gameStarted) {
+    return <OthelloBoard />;
+  }
 
   return (
     <AutoLayout
@@ -145,11 +91,11 @@ function Widget() {
         <Stone color="black" onClick={handleJoin} />
       </AutoLayout>
       {players.size === 2 ? (
-        <Button label={buttonLabel} onClick={() => console.log("Game Start")} />
+        <Button label={buttonLabel} onClick={handleGameStart} />
       ) : (
         <Text>{description}</Text>
       )}
-      <AutoLayout direction="horizontal" spacing={-4}>
+      <AutoLayout direction="horizontal" spacing={-4} overflow="visible">
         {Array.from(players.values()).map((icon, index) => (
           <EllipseWithImage key={index} src={icon as string} />
         ))}
@@ -157,4 +103,5 @@ function Widget() {
     </AutoLayout>
   );
 }
+
 widget.register(Widget);
