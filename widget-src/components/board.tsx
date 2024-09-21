@@ -197,7 +197,7 @@ export function OthelloBoard() {
         cornerRadius={8}
         fill="#1e1e1e"
         width={boardSize}
-        height={boardSize + 40}
+        height={boardSize}
       >
         <AutoLayout direction="vertical" spacing={2}>
           {board.map((row, rowIndex) => (
