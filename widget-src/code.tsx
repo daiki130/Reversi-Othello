@@ -144,8 +144,11 @@ function Widget() {
         <Stone color="white" onClick={handleJoin} />
         <Stone color="black" onClick={handleJoin} />
       </AutoLayout>
-      <Text>{description}</Text>
-      <Button label={buttonLabel} onClick={handleJoin} />
+      {players.size === 2 ? (
+        <Button label={buttonLabel} onClick={() => console.log("Game Start")} />
+      ) : (
+        <Text>{description}</Text>
+      )}
       <AutoLayout direction="horizontal" spacing={-4}>
         {Array.from(players.values()).map((icon, index) => (
           <EllipseWithImage key={index} src={icon as string} />
