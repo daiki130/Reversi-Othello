@@ -1,14 +1,14 @@
-const { widget, notify } = figma
-const { useSyncedState, AutoLayout, Text, usePropertyMenu, useSyncedMap} = widget
+const { widget, notify } = figma;
+const { useSyncedState, AutoLayout, Text, usePropertyMenu, useSyncedMap } =
+  widget;
 
-import { Button } from "./components/Button"
-import { Stone } from "./components/Stone"
-import { EllipseWithImage } from "./components/EllipseWithImage"
-import { OthelloBoard } from "./components/board"
+import { Button } from "./components/Button";
+import { Stone } from "./components/Stone";
+import { EllipseWithImage } from "./components/EllipseWithImage";
+import { OthelloBoard } from "./components/board";
 
 function Widget() {
-  // const [players, setPlayers] = useSyncedState<Map<string, string>>("players", new Map())
-  const [gameStarted, setGameStarted] = useSyncedState("gameStarted", false)
+  const [gameStarted, setGameStarted] = useSyncedState("gameStarted", false);
 
   const [label, setLabel] = useSyncedState(
     "label",
@@ -49,12 +49,12 @@ function Widget() {
 
   function handleGameStart() {
     if (players.size === 2) {
-      setGameStarted(true)
+      setGameStarted(true);
     }
   }
 
   if (gameStarted) {
-    return <OthelloBoard />
+    return <OthelloBoard />;
   }
 
   return (
@@ -101,7 +101,7 @@ function Widget() {
         ))}
       </AutoLayout>
     </AutoLayout>
-  )
+  );
 }
 
-widget.register(Widget)
+widget.register(Widget);
