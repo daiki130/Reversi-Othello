@@ -23,6 +23,10 @@ import { EllipseWithImage } from "./components/EllipseWithImage";
 import { Stone } from "./components/Stone";
 
 function Widget() {
+  const [label, setLabel] = useSyncedState(
+    "label",
+    "👇 Pick a stone to start the game."
+  );
   const [description, setDescription] = useSyncedState(
     "description",
     "Waiting for 2 players."
@@ -129,7 +133,7 @@ function Widget() {
         offset: { x: 0, y: 0 },
       }}
     >
-      <Text>👇 Pick a stone to start the game.</Text>
+      {players.size < 2 && <Text>{label}</Text>}
       <AutoLayout
         direction="horizontal"
         verticalAlignItems="center"
