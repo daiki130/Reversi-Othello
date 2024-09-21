@@ -97,7 +97,7 @@ function Widget() {
       )}
       <AutoLayout direction="horizontal" spacing={-4} overflow="visible">
         {Array.from(players.values()).map((icon, index) => (
-          <EllipseWithImage key={index} src={icon as string} />
+          <EllipseWithImage key={index} src={icon as string} stroke="" strokeWidth={2} strokeAlign="outside" />
         ))}
       </AutoLayout>
     </AutoLayout>

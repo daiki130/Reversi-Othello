@@ -167,11 +167,11 @@ export function OthelloBoard() {
               verticalAlignItems="center"
               overflow="visible"
             >
-              <EllipseWithImage src={icon as string} />
-              <Ellipse
-                width={20}
-                height={20}
-                fill={index === 0 ? "#000000" : "#FFFFFF"}
+              <EllipseWithImage 
+                src={icon as string} 
+                stroke={index === 0 ? "#000000" : "#FFFFFF"}
+                strokeWidth={2}
+                strokeAlign="outside"
               />
               <Text fill="#FFFFFF" fontSize={14}>
                 {index === 0 ? scores.black : scores.white}
