@@ -21,27 +21,11 @@ const {
 import { Button } from "./components/Button";
 import { EllipseWithImage } from "./components/EllipseWithImage";
 import { Stone } from "./components/Stone";
-function CustomComponent({ label }: { label: string }) {
-  return <Text>{label}</Text>;
-}
-function CustomComponentWithChildren({
-  children,
-}: {
-  children: FigmaDeclarativeNode | FigmaDeclarativeNode[];
-}) {
-  return (
-    <AutoLayout>
-      {children}
-      <Text x={0} y={0} positioning="absolute">
-        :フライドポテト:
-      </Text>
-    </AutoLayout>
-  );
-}
+
 function Widget() {
   const [description, setDescription] = useSyncedState(
     "description",
-    "Waiting for 2 players"
+    "Waiting for 2 players."
   );
   const [buttonLabel, setButtonLabel] = useSyncedState("buttonLabel", "Join");
   // プレイヤー用の SyncedMap を追加
@@ -52,6 +36,13 @@ function Widget() {
     const user = currentUser ? currentUser.name : "Unknown User";
     const icon =
       currentUser && currentUser.photoUrl ? currentUser.photoUrl : "";
+
+    // ユーザーが既に登録されているかチェック
+    if (players.has(user)) {
+      notify("あなたはすでに登録されています");
+      return;
+    }
+
     if (players.size < 2) {
       players.set(user, icon);
       notify(`${user} が参加しました`);
@@ -138,6 +129,7 @@ function Widget() {
         offset: { x: 0, y: 0 },
       }}
     >
+      <Text>👇 Pick a stone to start the game.</Text>
       <AutoLayout
         direction="horizontal"
         verticalAlignItems="center"
