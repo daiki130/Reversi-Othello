@@ -133,7 +133,7 @@ export function OthelloBoard({ boardType }: { boardType: string }) {
   const validMoves = getValidMoves(currentPlayer);
 
   // スコアボードコンポーネント
-  function ScoreBoard() {
+  function ScoreBoard({ boardStyle }: { boardStyle: any }) {
     useStickable();
     const playersArray = Array.from(players.entries());
     const currentPlayerName =
@@ -145,7 +145,7 @@ export function OthelloBoard({ boardType }: { boardType: string }) {
         spacing={4}
         padding={12}
         cornerRadius={9999}
-        fill="#2C2C2C"
+        fill={boardStyle.fill}
         effect={{
           type: "drop-shadow",
           color: { r: 0, g: 0, b: 0, a: 0.3 },
@@ -169,15 +169,15 @@ export function OthelloBoard({ boardType }: { boardType: string }) {
             >
               <EllipseWithImage
                 src={icon as string}
-                stroke={index === 0 ? "#000000" : "#FFFFFF"}
+                stroke={index === 0 ? boardStyle.blackStone : boardStyle.whiteStone}
                 strokeWidth={2}
                 strokeAlign="outside"
               />
-              <Text fill="#FFFFFF" fontSize={14}>
+              <Text fill={boardStyle.whiteStone} fontSize={14}>
                 {index === 0 ? scores.black : scores.white}
               </Text>
               {index === 0 && (
-                <Text fill="#FFFFFF" fontSize={14} fontWeight="bold">
+                <Text fill={boardStyle.whiteStone} fontSize={14} fontWeight="bold">
                   {gameOver ? "ゲーム終了" : `${currentPlayerName}のターン`}
                 </Text>
               )}
@@ -191,13 +191,37 @@ export function OthelloBoard({ boardType }: { boardType: string }) {
   const getBoardStyle = (type: string) => {
     switch (type) {
       case "standard":
-        return { fill: "#1E1E1E", cellFill: "#15803D" };
+        return {
+          fill: "#1E1E1E",
+          cellFill: "#15803D",
+          blackStone: "#000000",
+          whiteStone: "#FFFFFF",
+          recommendFill: "#000000",
+        };
       case "vintage":
-        return { fill: "#004085", cellFill: "#F3F3E6" };
+        return {
+          fill: "#004085",
+          cellFill: "#F3F3E6",
+          blackStone: "#033973",
+          whiteStone: "#E69500",
+          recommendFill: "#95A5A6",
+        };
       case "cyberpunk":
-        return { fill: "#0A0E27", cellFill: "#4EDBEF" };
+        return {
+          fill: "#0A0E27",
+          cellFill: "#4EDBEF",
+          blackStone: "#FF00FF",
+          whiteStone: "#00FFFF",
+          recommendFill: "#67E8F9",
+        };
       default: // dark
-        return { fill: "#1e1e1e", cellFill: "#4a4a4a" };
+        return {
+          fill: "#1e1e1e",
+          cellFill: "#4a4a4a",
+          blackStone: "#000000",
+          whiteStone: "#FFFFFF",
+          recommendFill: "#808080",
+        };
     }
   };
 
@@ -232,7 +256,7 @@ export function OthelloBoard({ boardType }: { boardType: string }) {
                       height={cellSize - 10}
                       x={5}
                       y={5}
-                      fill={cell === "black" ? "#000000" : "#ffffff"}
+                      fill={cell === "black" ? boardStyle.blackStone : boardStyle.whiteStone}
                     />
                   )}
                   {!cell &&
@@ -244,7 +268,7 @@ export function OthelloBoard({ boardType }: { boardType: string }) {
                         height={cellSize / 4}
                         x={(cellSize * 3) / 8}
                         y={(cellSize * 3) / 8}
-                        fill="#808080"
+                        fill={boardStyle.recommendFill}
                         opacity={0.5}
                       />
                     )}
@@ -254,7 +278,7 @@ export function OthelloBoard({ boardType }: { boardType: string }) {
           ))}
         </AutoLayout>
       </AutoLayout>
-      <ScoreBoard />
+      <ScoreBoard boardStyle={boardStyle} />
     </AutoLayout>
   );
 }

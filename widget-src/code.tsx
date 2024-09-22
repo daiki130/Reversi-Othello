@@ -71,8 +71,8 @@ function Widget() {
         tooltip: "ボードタイプを変更",
         selectedOption: boardType,
         options: [
-          { option: "dark", label: "Dark" },
           { option: "standard", label: "Standard" },
+          { option: "dark", label: "Dark" },
           { option: "vintage", label: "Vintage" },
           { option: "cyberpunk", label: "CyberPunk" },
         ],
