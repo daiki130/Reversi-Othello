@@ -11,7 +11,7 @@ const {
 
 import { EllipseWithImage } from "./EllipseWithImage";
 
-export function OthelloBoard() {
+export function OthelloBoard({ boardType }: { boardType: string }) {
   const [board, setBoard] = useSyncedState("board", initializeBoard());
   const [currentPlayer, setCurrentPlayer] = useSyncedState(
     "currentPlayer",
@@ -167,8 +167,8 @@ export function OthelloBoard() {
               verticalAlignItems="center"
               overflow="visible"
             >
-              <EllipseWithImage 
-                src={icon as string} 
+              <EllipseWithImage
+                src={icon as string}
                 stroke={index === 0 ? "#000000" : "#FFFFFF"}
                 strokeWidth={2}
                 strokeAlign="outside"
@@ -188,6 +188,21 @@ export function OthelloBoard() {
     );
   }
 
+  const getBoardStyle = (type: string) => {
+    switch (type) {
+      case "standard":
+        return { fill: "#1E1E1E", cellFill: "#15803D" };
+      case "vintage":
+        return { fill: "#004085", cellFill: "#F3F3E6" };
+      case "cyberpunk":
+        return { fill: "#0A0E27", cellFill: "#4EDBEF" };
+      default: // dark
+        return { fill: "#1e1e1e", cellFill: "#4a4a4a" };
+    }
+  };
+
+  const boardStyle = getBoardStyle(boardType);
+
   return (
     <AutoLayout direction="vertical" spacing={20} horizontalAlignItems="center">
       <AutoLayout
@@ -195,7 +210,7 @@ export function OthelloBoard() {
         spacing={10}
         padding={10}
         cornerRadius={8}
-        fill="#1e1e1e"
+        fill={boardStyle.fill}
         width={boardSize}
         height={boardSize}
       >
@@ -207,7 +222,7 @@ export function OthelloBoard() {
                   key={`${rowIndex}-${colIndex}`}
                   width={cellSize}
                   height={cellSize}
-                  fill="#4a4a4a"
+                  fill={boardStyle.cellFill}
                   cornerRadius={4}
                   onClick={() => handleCellClick(rowIndex, colIndex)}
                 >
