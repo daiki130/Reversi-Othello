@@ -1,7 +1,7 @@
 const { widget } = figma;
-const { AutoLayout, Text, useStickable } = widget;
+const { AutoLayout, Text, useStickable, Ellipse } = widget;
 
-import { PlayerScore } from "./PlayerScore";
+import { PlayerScore } from "../primitives/PlayerScore";
 
 export function ScoreBoard({
   boardStyle,
@@ -19,6 +19,10 @@ export function ScoreBoard({
   useStickable();
   const playersArray = Array.from(players.entries()) as [string, string][];
   const currentPlayerName = playersArray[currentPlayer === "black" ? 0 : 1][0];
+
+  // 黒石と白石のプレイヤーを区別
+  const blackPlayer = playersArray[0];
+  const whitePlayer = playersArray[1];
 
   return (
     <AutoLayout
@@ -41,16 +45,53 @@ export function ScoreBoard({
         overflow="visible"
       >
         <PlayerScore
-          icon={playersArray[0][1]}
+          icon={blackPlayer[1]}
           score={scores.black}
           stoneColor="black"
           boardStyle={boardStyle}
         />
-        <Text fill={boardStyle.whiteStone} fontSize={14} fontWeight="bold">
-          {gameOver ? "ゲーム終了" : `${currentPlayerName}のターン`}
-        </Text>
+        <AutoLayout
+          direction="horizontal"
+          spacing={4}
+          verticalAlignItems="center"
+        >
+          {currentPlayer === "black" ? (
+            <AutoLayout
+              direction="horizontal"
+              spacing={4}
+              padding={4}
+              cornerRadius={4}
+              fill={boardStyle.stonePreviewBackground}
+            >
+              <Ellipse
+                width={14}
+                height={14}
+                fill={boardStyle.blackStone}
+                effect={boardStyle.blackStoneEffect}
+              />
+            </AutoLayout>
+          ) : (
+            <AutoLayout
+              direction="horizontal"
+              spacing={4}
+              padding={4}
+              cornerRadius={4}
+              fill={boardStyle.stonePreviewBackground}
+            >
+              <Ellipse
+                width={14}
+                height={14}
+                fill={boardStyle.whiteStone}
+                effect={boardStyle.whiteStoneEffect}
+              />
+            </AutoLayout>
+          )}
+          <Text fill={boardStyle.textFill} fontSize={14} fontWeight="bold">
+            {gameOver ? "ゲーム終了" : `${currentPlayerName}の番です`}
+          </Text>
+        </AutoLayout>
         <PlayerScore
-          icon={playersArray[1][1]}
+          icon={whitePlayer[1]}
           score={scores.white}
           stoneColor="white"
           boardStyle={boardStyle}
