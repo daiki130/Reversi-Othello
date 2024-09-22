@@ -141,14 +141,14 @@ export function Board({ boardType }: { boardType: string }) {
           blackStone: "#000000",
           blackStoneEffect: {
             type: "drop-shadow",
-            color: { r: 1, g: 1, b: 1, a: 1 },
+            color: { r: 0, g: 0, b: 0, a: 1 },
             offset: { x: 0, y: 1 },
             blur: 0,
           },
           whiteStone: "#FFFFFF",
           whiteStoneEffect: {
             type: "drop-shadow",
-            color: { r: 1, g: 1, b: 1, a: 1 },
+            color: { r: 0, g: 0, b: 0, a: 1 },
             offset: { x: 0, y: 1 },
             blur: 0,
           },
@@ -157,7 +157,32 @@ export function Board({ boardType }: { boardType: string }) {
           strokeWidth: 0,
           strokeAlign: "inside" as const,
           textFill: "#FFFFFF",
+          stonePreviewBackground: "#DEDEDE",
         };
+        default:
+          return {
+            fill: "#1e1e1e",
+            cellFill: "#4a4a4a",
+            blackStone: "#000000",
+            blackStoneEffect: {
+              type: "drop-shadow",
+              color: { r: 0, g: 0, b: 0, a: 1 },
+              offset: { x: 0, y: 1 },
+              blur: 0,
+            },
+            whiteStone: "#FFFFFF",
+            whiteStoneEffect: {
+              type: "drop-shadow",
+              color: { r: 0, g: 0, b: 0, a: 1 },
+              offset: { x: 0, y: 1 },
+              blur: 0,
+            },
+            recommendFill: "#808080",
+            strokeWidth: 0,
+            strokeAlign: "inside" as const,
+            textFill: "#FFFFFF",
+            stonePreviewBackground: "#DEDEDE",
+          };
       case "vintage":
         return {
           fill: "#004085",
@@ -165,14 +190,14 @@ export function Board({ boardType }: { boardType: string }) {
           blackStone: "#033973",
           blackStoneEffect: {
             type: "drop-shadow",
-            color: { r: 1, g: 1, b: 1, a: 1 },
+            color: { r: 0, g: 0, b: 0, a: 1 },
             offset: { x: 0, y: 1 },
             blur: 0,
           },
           whiteStone: "#E69500",
           whiteStoneEffect: {
             type: "drop-shadow",
-            color: { r: 1, g: 1, b: 1, a: 1 },
+            color: { r: 0, g: 0, b: 0, a: 1 },
             offset: { x: 0, y: 1 },
             blur: 0,
           },
@@ -181,7 +206,7 @@ export function Board({ boardType }: { boardType: string }) {
           strokeWidth: 0,
           strokeAlign: "inside" as const,
           textFill: "#FFFFFF",
-          stonePreviewBackground: "#FFFFFF",
+          stonePreviewBackground: "#ffffff",
         };
       case "cyberpunk":
         return {
@@ -190,14 +215,14 @@ export function Board({ boardType }: { boardType: string }) {
           blackStone: "#FF00FF",
           blackStoneEffect: {
             type: "drop-shadow",
-            color: { r: 1, g: 1, b: 1, a: 1 },
+            color: { r: 0, g: 0, b: 0, a: 1 },
             offset: { x: 0, y: 1 },
             blur: 0,
           },
           whiteStone: "#00FFFF",
           whiteStoneEffect: {
             type: "drop-shadow",
-            color: { r: 1, g: 1, b: 1, a: 1 },
+            color: { r: 0, g: 0, b: 0, a: 1 },
             offset: { x: 0, y: 1 },
             blur: 0,
           },
@@ -206,29 +231,7 @@ export function Board({ boardType }: { boardType: string }) {
           strokeWidth: 1,
           strokeAlign: "inside" as const,
           textFill: "#FFFFFF",
-        };
-      default:
-        return {
-          fill: "#1e1e1e",
-          cellFill: "#4a4a4a",
-          blackStone: "#000000",
-          blackStoneEffect: {
-            type: "drop-shadow",
-            color: { r: 1, g: 1, b: 1, a: 1 },
-            offset: { x: 0, y: 1 },
-            blur: 0,
-          },
-          whiteStone: "#FFFFFF",
-          whiteStoneEffect: {
-            type: "drop-shadow",
-            color: { r: 1, g: 1, b: 1, a: 1 },
-            offset: { x: 0, y: 1 },
-            blur: 0,
-          },
-          recommendFill: "#808080",
-          strokeWidth: 0,
-          strokeAlign: "inside" as const,
-          textFill: "#FFFFFF",
+          stonePreviewBackground: "#ffffff",
         };
     }
   };

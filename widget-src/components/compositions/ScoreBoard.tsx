@@ -2,7 +2,6 @@ const { widget } = figma;
 const { AutoLayout, Text, useStickable, Ellipse } = widget;
 
 import { PlayerScore } from "../primitives/PlayerScore";
-
 export function ScoreBoard({
   boardStyle,
   players,
@@ -19,8 +18,6 @@ export function ScoreBoard({
   useStickable();
   const playersArray = Array.from(players.entries()) as [string, string][];
   const currentPlayerName = playersArray[currentPlayer === "black" ? 0 : 1][0];
-
-  // 黒石と白石のプレイヤーを区別
   const blackPlayer = playersArray[0];
   const whitePlayer = playersArray[1];
 
