@@ -53,8 +53,44 @@ function Widget() {
     }
   }
 
+  const [boardType, setBoardType] = useSyncedState("boardType", "dark");
+
+  usePropertyMenu(
+    [
+      {
+        itemType: "action",
+        tooltip: "ゲームをリセット",
+        propertyName: "reset",
+      },
+      {
+        itemType: "separator",
+      },
+      {
+        itemType: "dropdown",
+        propertyName: "boardType",
+        tooltip: "ボードタイプを変更",
+        selectedOption: boardType,
+        options: [
+          { option: "standard", label: "Standard" },
+          { option: "dark", label: "Dark" },
+          { option: "vintage", label: "Vintage" },
+          { option: "cyberpunk", label: "CyberPunk" },
+        ],
+      },
+    ],
+    ({ propertyName, propertyValue }) => {
+      if (propertyName === "reset") {
+        console.log("reset");
+        // resetGame();
+      } else if (propertyName === "boardType") {
+        console.log(propertyValue);
+        setBoardType(propertyValue as string);
+      }
+    }
+  );
+
   if (gameStarted) {
-    return <OthelloBoard />;
+    return <OthelloBoard boardType={boardType} />;
   }
 
   return (
@@ -97,7 +133,13 @@ function Widget() {
       )}
       <AutoLayout direction="horizontal" spacing={-4} overflow="visible">
         {Array.from(players.values()).map((icon, index) => (
-          <EllipseWithImage key={index} src={icon as string} />
+          <EllipseWithImage
+            key={index}
+            src={icon as string}
+            stroke=""
+            strokeWidth={2}
+            strokeAlign="outside"
+          />
         ))}
       </AutoLayout>
     </AutoLayout>
