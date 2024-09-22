@@ -197,6 +197,9 @@ export function OthelloBoard({ boardType }: { boardType: string }) {
           blackStone: "#000000",
           whiteStone: "#FFFFFF",
           recommendFill: "#000000",
+          stroke: "",
+          strokeWidth: 0,
+          strokeAlign: "inside" as const,
         };
       case "vintage":
         return {
@@ -205,14 +208,20 @@ export function OthelloBoard({ boardType }: { boardType: string }) {
           blackStone: "#033973",
           whiteStone: "#E69500",
           recommendFill: "#95A5A6",
+          stroke: "",
+          strokeWidth: 0,
+          strokeAlign: "inside" as const,
         };
       case "cyberpunk":
         return {
           fill: "#0A0E27",
-          cellFill: "#4EDBEF",
+          cellFill: "#0A0E27",
           blackStone: "#FF00FF",
           whiteStone: "#00FFFF",
           recommendFill: "#67E8F9",
+          stroke: "#4EDBEF",
+          strokeWidth: 1,
+          strokeAlign: "inside" as const,
         };
       default: // dark
         return {
@@ -221,6 +230,9 @@ export function OthelloBoard({ boardType }: { boardType: string }) {
           blackStone: "#000000",
           whiteStone: "#FFFFFF",
           recommendFill: "#808080",
+          stroke: "",
+          strokeWidth: 0,
+          strokeAlign: "inside" as const,
         };
     }
   };
@@ -249,6 +261,9 @@ export function OthelloBoard({ boardType }: { boardType: string }) {
                   fill={boardStyle.cellFill}
                   cornerRadius={4}
                   onClick={() => handleCellClick(rowIndex, colIndex)}
+                  stroke={boardStyle.stroke}
+                  strokeWidth={boardStyle.strokeWidth}
+                  strokeAlign={boardStyle.strokeAlign}
                 >
                   {cell && (
                     <Ellipse
