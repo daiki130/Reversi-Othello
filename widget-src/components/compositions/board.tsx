@@ -215,7 +215,11 @@ export function Board({ boardType }: { boardType: string }) {
                       height={cellSize - 10}
                       x={5}
                       y={5}
-                      fill={cell === "black" ? boardStyle.blackStone : boardStyle.whiteStone}
+                      fill={
+                        cell === "black"
+                          ? boardStyle.blackStone
+                          : boardStyle.whiteStone
+                      }
                     />
                   )}
                   {!cell &&
@@ -237,7 +241,13 @@ export function Board({ boardType }: { boardType: string }) {
           ))}
         </AutoLayout>
       </AutoLayout>
-      <ScoreBoard boardStyle={boardStyle} players={players} currentPlayer={currentPlayer} scores={scores} gameOver={gameOver} />
+      <ScoreBoard
+        boardStyle={boardStyle}
+        players={players}
+        currentPlayer={currentPlayer}
+        scores={scores}
+        gameOver={gameOver}
+      />
     </AutoLayout>
   );
 }

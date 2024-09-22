@@ -2,10 +2,10 @@ const { widget, notify } = figma;
 const { useSyncedState, AutoLayout, Text, usePropertyMenu, useSyncedMap } =
   widget;
 
-import { Button } from "./components/Button";
-import { Stone } from "./components/Stone";
-import { EllipseWithImage } from "./components/EllipseWithImage";
-import { Board } from "./components/board";
+import { Button } from "./components/primitives/Button";
+import { Stone } from "./components/primitives/Stone";
+import { EllipseWithImage } from "./components/primitives/EllipseWithImage";
+import { Board } from "./components/compositions/board";
 
 function Widget() {
   const [gameStarted, setGameStarted] = useSyncedState("gameStarted", false);
