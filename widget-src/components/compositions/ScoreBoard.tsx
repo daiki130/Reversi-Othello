@@ -84,7 +84,7 @@ export function ScoreBoard({
             </AutoLayout>
           )}
           <Text fill={boardStyle.textFill} fontSize={14} fontWeight="bold">
-            {gameOver ? "ゲーム終了" : `${currentPlayerName}の番です`}
+            {gameOver ? "Game Over" : `${currentPlayerName}'s turn`}
           </Text>
         </AutoLayout>
         <PlayerScore
