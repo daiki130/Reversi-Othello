@@ -5,7 +5,7 @@ const { useSyncedState, AutoLayout, Text, usePropertyMenu, useSyncedMap } =
 import { Button } from "./components/Button";
 import { Stone } from "./components/Stone";
 import { EllipseWithImage } from "./components/EllipseWithImage";
-import { OthelloBoard } from "./components/board";
+import { Board } from "./components/board";
 
 function Widget() {
   const [gameStarted, setGameStarted] = useSyncedState("gameStarted", false);
@@ -90,7 +90,7 @@ function Widget() {
   );
 
   if (gameStarted) {
-    return <OthelloBoard boardType={boardType} />;
+    return <Board boardType={boardType} />;
   }
 
   return (

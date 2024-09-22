@@ -9,9 +9,9 @@ const {
   useSyncedMap,
 } = widget;
 
-import { EllipseWithImage } from "./EllipseWithImage";
+import { ScoreBoard } from "./ScoreBoard";
 
-export function OthelloBoard({ boardType }: { boardType: string }) {
+export function Board({ boardType }: { boardType: string }) {
   const [board, setBoard] = useSyncedState("board", initializeBoard());
   const [currentPlayer, setCurrentPlayer] = useSyncedState(
     "currentPlayer",
@@ -132,62 +132,6 @@ export function OthelloBoard({ boardType }: { boardType: string }) {
 
   const validMoves = getValidMoves(currentPlayer);
 
-  // スコアボードコンポーネント
-  function ScoreBoard({ boardStyle }: { boardStyle: any }) {
-    useStickable();
-    const playersArray = Array.from(players.entries());
-    const currentPlayerName =
-      playersArray[currentPlayer === "black" ? 0 : 1][0];
-
-    return (
-      <AutoLayout
-        direction="vertical"
-        spacing={4}
-        padding={12}
-        cornerRadius={9999}
-        fill={boardStyle.fill}
-        effect={{
-          type: "drop-shadow",
-          color: { r: 0, g: 0, b: 0, a: 0.3 },
-          offset: { x: 0, y: 2 },
-          blur: 4,
-        }}
-      >
-        <AutoLayout
-          direction="horizontal"
-          spacing={16}
-          verticalAlignItems="center"
-          overflow="visible"
-        >
-          {playersArray.map(([player, icon], index) => (
-            <AutoLayout
-              key={index}
-              direction="horizontal"
-              spacing={8}
-              verticalAlignItems="center"
-              overflow="visible"
-            >
-              <EllipseWithImage
-                src={icon as string}
-                stroke={index === 0 ? boardStyle.blackStone : boardStyle.whiteStone}
-                strokeWidth={2}
-                strokeAlign="outside"
-              />
-              <Text fill={boardStyle.whiteStone} fontSize={14}>
-                {index === 0 ? scores.black : scores.white}
-              </Text>
-              {index === 0 && (
-                <Text fill={boardStyle.whiteStone} fontSize={14} fontWeight="bold">
-                  {gameOver ? "ゲーム終了" : `${currentPlayerName}のターン`}
-                </Text>
-              )}
-            </AutoLayout>
-          ))}
-        </AutoLayout>
-      </AutoLayout>
-    );
-  }
-
   const getBoardStyle = (type: string) => {
     switch (type) {
       case "standard":
@@ -293,7 +237,7 @@ export function OthelloBoard({ boardType }: { boardType: string }) {
           ))}
         </AutoLayout>
       </AutoLayout>
-      <ScoreBoard boardStyle={boardStyle} />
+      <ScoreBoard boardStyle={boardStyle} players={players} currentPlayer={currentPlayer} scores={scores} gameOver={gameOver} />
     </AutoLayout>
   );
 }
