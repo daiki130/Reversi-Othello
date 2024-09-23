@@ -22,6 +22,8 @@ export function PlayerScore({
       overflow="visible"
     >
       <EllipseWithImage
+        width={32}
+        height={32}
         src={icon}
         stroke={
           stoneColor === "black" ? boardStyle.blackStone : boardStyle.whiteStone

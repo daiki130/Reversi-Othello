@@ -1,5 +1,5 @@
 const { widget } = figma;
-const { useSyncedState, usePropertyMenu } = widget;
+const { useSyncedState, usePropertyMenu, useSyncedMap } = widget;
 
 import { Board } from "./components/compositions/board";
 import { Modal } from "./components/compositions/modal";
@@ -7,7 +7,7 @@ import { Modal } from "./components/compositions/modal";
 function Widget() {
   const [gameStarted, setGameStarted] = useSyncedState("gameStarted", false);
   const [boardType, setBoardType] = useSyncedState("boardType", "dark");
-  
+  const players = useSyncedMap("players");
 
   usePropertyMenu(
     [
@@ -44,10 +44,10 @@ function Widget() {
   );
 
   if (gameStarted) {
-    return <Board boardType={boardType} />;
+    return <Board boardType={boardType} players={players} />;
   }
 
-  return <Modal />;
+  return <Modal players={players} setGameStarted={setGameStarted} />;
 }
 
 widget.register(Widget);

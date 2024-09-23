@@ -5,16 +5,27 @@ import { Stone } from "../primitives/Stone";
 import { Button } from "../primitives/Button";
 import { EllipseWithImage } from "../primitives/EllipseWithImage";
 
-export function Modal() {
-  const [label, setLabel] = useSyncedState(
-    "label",
-    "Pick a stone to start the game."
-  );
-  const [buttonLabel, setButtonLabel] = useSyncedState("buttonLabel", "Start Game");
-  const players = useSyncedMap("players");
-  const [gameStarted, setGameStarted] = useSyncedState("gameStarted", false);
+interface Player {
+  name: string;
+  icon: string;
+}
 
-  const handleJoin = () => {
+export function Modal({
+  players,
+  setGameStarted
+}: {
+  players: SyncedMap<unknown>;
+  setGameStarted: (value: boolean) => void;
+}) {
+  const [label, setLabel] = useSyncedState("label", "Choose a stone");
+  const [buttonLabel, setButtonLabel] = useSyncedState(
+    "buttonLabel",
+    "Start Game"
+  );
+  const [blackPlayer, setBlackPlayer] = useSyncedState<Player | null>("blackPlayer", null);
+  const [whitePlayer, setWhitePlayer] = useSyncedState<Player | null>("whitePlayer", null);
+
+  const handleJoin = (color: "black" | "white") => {
     const currentUser = figma.currentUser;
     const user = currentUser ? currentUser.name : "Unknown User";
     const icon =
@@ -34,6 +45,14 @@ export function Modal() {
     }
     if (players.size === 2) {
       setLabel("Ready to start!");
+    }
+
+    const playerInfo: Player = { name: user, icon };
+
+    if (color === "black" && !blackPlayer) {
+      setBlackPlayer(playerInfo);
+    } else if (color === "white" && !whitePlayer) {
+      setWhitePlayer(playerInfo);
     }
   };
 
@@ -77,7 +96,11 @@ export function Modal() {
         width={245}
         height={103}
       />
-      {players.size < 2 && <Text fontSize={14} fontWeight={400}>{label}</Text>}
+      {players.size < 2 && (
+        <Text fontSize={14} fontWeight={400}>
+          {label}
+        </Text>
+      )}
       <AutoLayout
         direction="horizontal"
         verticalAlignItems="center"
@@ -85,9 +108,31 @@ export function Modal() {
         spacing={24}
         overflow="visible"
       >
-        <Stone color="white" onClick={handleJoin} />
-        <Text fontFamily="Karantia">vs</Text>
-        <Stone color="black" onClick={handleJoin} />
+        {whitePlayer ? (
+          <EllipseWithImage
+            width={60}
+            height={60}
+            src={whitePlayer.icon}
+            stroke=""
+            strokeWidth={2}
+            strokeAlign="outside"
+          />
+        ) : (
+          <Stone color="white" onClick={() => handleJoin("white")} />
+        )}
+        <Text fontFamily="Karantina">vs</Text>
+        {blackPlayer ? (
+          <EllipseWithImage
+            width={60}
+            height={60}
+            src={blackPlayer.icon}
+            stroke=""
+            strokeWidth={2}
+            strokeAlign="outside"
+          />
+        ) : (
+          <Stone color="black" onClick={() => handleJoin("black")} />
+        )}
       </AutoLayout>
       {players.size === 2 ? (
         <Button
@@ -98,9 +143,10 @@ export function Modal() {
       ) : (
         <Button label={buttonLabel} onClick={() => {}} disabled={true} />
       )}
-      <AutoLayout direction="horizontal" spacing={-4} overflow="visible">
+      {/* <AutoLayout direction="horizontal" spacing={-4} overflow="visible">
         {Array.from(players.values()).map((icon, index) => (
           <EllipseWithImage
+            
             key={index}
             src={icon as string}
             stroke=""
@@ -108,7 +154,7 @@ export function Modal() {
             strokeAlign="outside"
           />
         ))}
-      </AutoLayout>
+      </AutoLayout> */}
     </AutoLayout>
   );
 }

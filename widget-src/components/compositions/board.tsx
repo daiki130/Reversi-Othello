@@ -11,7 +11,7 @@ const {
 
 import { ScoreBoard } from "./ScoreBoard";
 
-export function Board({ boardType }: { boardType: string }) {
+export function Board({ boardType, players }: { boardType: string, players: SyncedMap<unknown> }) {
   const [board, setBoard] = useSyncedState("board", initializeBoard());
   const [currentPlayer, setCurrentPlayer] = useSyncedState(
     "currentPlayer",
@@ -19,7 +19,6 @@ export function Board({ boardType }: { boardType: string }) {
   );
   const [gameOver, setGameOver] = useSyncedState("gameOver", false);
   const [scores, setScores] = useSyncedState("scores", { black: 2, white: 2 });
-  const players = useSyncedMap("players");
 
   const cellSize = 50;
   const boardSize = cellSize * 8 + 20 + 2 * 7;
