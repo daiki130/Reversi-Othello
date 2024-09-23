@@ -51,16 +51,6 @@ function Widget() {
       <Board boardType={boardType} players={players} gameStarted={gameStarted} />
       {!gameStarted && (
         <Modal players={players} setGameStarted={setGameStarted} />
-        // <AutoLayout
-        //   positioning="absolute"
-        //   x={0}
-        //   y={0}
-        //   width="fill-parent"
-        //   height="fill-parent"
-        //   fill={{ type: "solid", color: { r: 0, g: 0, b: 0, a: 0.5 } }}
-        // >
-          
-        // </AutoLayout>
       )}
     </AutoLayout>
   );
