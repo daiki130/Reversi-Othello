@@ -4,14 +4,13 @@ const {
   Frame,
   Ellipse,
   useSyncedState,
-  Text,
-  useStickable,
-  useSyncedMap,
+  usePropertyMenu
 } = widget;
 
 import { ScoreBoard } from "./ScoreBoard";
 
-export function Board({ boardType, players, gameStarted }: { boardType: string, players: SyncedMap<unknown>, gameStarted: boolean }) {
+export function Board({ players, gameStarted }: { players: SyncedMap<unknown>, gameStarted: boolean }) {
+  const [boardType, setBoardType] = useSyncedState("boardType", "standard");
   const [board, setBoard] = useSyncedState("board", initializeBoard());
   const [currentPlayer, setCurrentPlayer] = useSyncedState(
     "currentPlayer",
@@ -128,6 +127,45 @@ export function Board({ boardType, players, gameStarted }: { boardType: string, 
 
     return flippedPieces;
   }
+
+  function resetGame() {
+    setBoard(initializeBoard());
+    setCurrentPlayer("black");
+    setGameOver(false);
+    setScores({ black: 2, white: 2 });
+  }
+
+  usePropertyMenu(
+    [
+      {
+        itemType: "action",
+        tooltip: "Reset Game",
+        propertyName: "reset",
+      },
+      {
+        itemType: "separator",
+      },
+      {
+        itemType: "dropdown",
+        propertyName: "boardType",
+        tooltip: "Change board type",
+        selectedOption: boardType,
+        options: [
+          { option: "standard", label: "Standard" },
+          { option: "dark", label: "Dark" },
+          { option: "vintage", label: "Vintage" },
+          { option: "cyberpunk", label: "CyberPunk" },
+        ],
+      },
+    ],
+    ({ propertyName, propertyValue }) => {
+      if (propertyName === "reset") {
+        resetGame();
+      } else if (propertyName === "boardType") {
+        setBoardType(propertyValue as string);
+      }
+    }
+  );
 
   const validMoves = getValidMoves(currentPlayer);
 
