@@ -4,9 +4,11 @@ const { AutoLayout, SVG } = widget;
 export const Stone = ({
   color,
   onClick,
+  tooltip
 }: {
   color: "black" | "white";
   onClick: () => void;
+  tooltip?: string;
 }) => {
   const blackFigmaIcon = `
     <svg width="18" height="27" viewBox="0 0 172 247" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -51,6 +53,7 @@ export const Stone = ({
       width={60}
       height={60}
       fill={fillColor}
+      tooltip={tooltip}
       effect={[
         {
           type: "drop-shadow",

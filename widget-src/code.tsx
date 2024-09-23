@@ -6,7 +6,7 @@ import { Modal } from "./components/compositions/modal";
 
 function Widget() {
   const [gameStarted, setGameStarted] = useSyncedState("gameStarted", false);
-  const [boardType, setBoardType] = useSyncedState("boardType", "dark");
+  const [boardType, setBoardType] = useSyncedState("boardType", "standard");
   const players = useSyncedMap("players");
 
   usePropertyMenu(
