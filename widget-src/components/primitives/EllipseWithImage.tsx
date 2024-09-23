@@ -8,6 +8,7 @@ export function EllipseWithImage({
   stroke,
   strokeWidth,
   strokeAlign,
+  isStrokeDash,
 }: {
   width: number;
   height: number;
@@ -15,6 +16,7 @@ export function EllipseWithImage({
   stroke?: string;
   strokeWidth?: number;
   strokeAlign?: "inside" | "center" | "outside";
+  isStrokeDash?: boolean;
 }) {
   return (
     <Frame
@@ -25,6 +27,7 @@ export function EllipseWithImage({
       strokeWidth={strokeWidth}
       strokeAlign={strokeAlign}
       overflow="visible"
+      strokeDashPattern={isStrokeDash ? [4, 4] : undefined}
     >
       <Image src={src} width={width} height={height} cornerRadius={9999} />
     </Frame>

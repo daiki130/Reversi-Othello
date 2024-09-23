@@ -30,8 +30,14 @@ export function PlayerScore({
         }
         strokeWidth={2}
         strokeAlign="outside"
+        isStrokeDash={true}
       />
-      <Text fill={boardStyle.whiteStone} fontSize={14}>
+      <Text
+        fill={
+          stoneColor === "black" ? boardStyle.blackText : boardStyle.whiteText
+        }
+        fontSize={14}
+      >
         {score}
       </Text>
     </AutoLayout>
