@@ -8,13 +8,13 @@ import { EllipseWithImage } from "../primitives/EllipseWithImage";
 export function Modal() {
   const [label, setLabel] = useSyncedState(
     "label",
-    "👇 Pick a stone to start the game."
+    "Pick a stone to start the game."
   );
   const [description, setDescription] = useSyncedState(
     "description",
-    "Waiting for 2 players."
+    "Waiting for 2 players..."
   );
-  const [buttonLabel, setButtonLabel] = useSyncedState("buttonLabel", "Join");
+  const [buttonLabel, setButtonLabel] = useSyncedState("buttonLabel", "Start Game");
   const players = useSyncedMap("players");
   const [gameStarted, setGameStarted] = useSyncedState("gameStarted", false);
 
@@ -34,11 +34,10 @@ export function Modal() {
       notify(`${user} が参加しました`);
     }
     if (players.size === 1) {
-      setDescription("Waiting for 1 more player");
+      setLabel("Waiting for 1 more player...");
     }
     if (players.size === 2) {
-      setDescription("Let's play!");
-      setButtonLabel("Start Game");
+      setLabel("Ready to start!");
     }
   };
 
@@ -75,7 +74,13 @@ export function Modal() {
         offset: { x: 0, y: 0 },
       }}
     >
-      <Image src={"https://raw.githubusercontent.com/daiki130/Reversi-Othello/main/widget-src/assets/logo.png"} width={264} height={110} />
+      <Image
+        src={
+          "https://raw.githubusercontent.com/daiki130/Reversi-Othello/main/widget-src/assets/logo.png"
+        }
+        width={245}
+        height={103}
+      />
       {players.size < 2 && <Text>{label}</Text>}
       <AutoLayout
         direction="horizontal"
@@ -88,9 +93,13 @@ export function Modal() {
         <Stone color="black" onClick={handleJoin} />
       </AutoLayout>
       {players.size === 2 ? (
-        <Button label={buttonLabel} onClick={handleGameStart} />
+        <Button
+          label={buttonLabel}
+          onClick={handleGameStart}
+          disabled={false}
+        />
       ) : (
-        <Text>{description}</Text>
+        <Button label={buttonLabel} onClick={() => {}} disabled={true} />
       )}
       <AutoLayout direction="horizontal" spacing={-4} overflow="visible">
         {Array.from(players.values()).map((icon, index) => (
