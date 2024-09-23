@@ -11,7 +11,7 @@ const {
 
 import { ScoreBoard } from "./ScoreBoard";
 
-export function Board({ boardType, players }: { boardType: string, players: SyncedMap<unknown> }) {
+export function Board({ boardType, players, gameStarted }: { boardType: string, players: SyncedMap<unknown>, gameStarted: boolean }) {
   const [board, setBoard] = useSyncedState("board", initializeBoard());
   const [currentPlayer, setCurrentPlayer] = useSyncedState(
     "currentPlayer",
@@ -295,13 +295,15 @@ export function Board({ boardType, players }: { boardType: string, players: Sync
           ))}
         </AutoLayout>
       </AutoLayout>
-      <ScoreBoard
-        boardStyle={boardStyle}
-        players={players}
-        currentPlayer={currentPlayer}
-        scores={scores}
-        gameOver={gameOver}
-      />
+      {gameStarted && (
+        <ScoreBoard
+          boardStyle={boardStyle}
+          players={players}
+          currentPlayer={currentPlayer}
+          scores={scores}
+          gameOver={gameOver}
+        />
+      )}
     </AutoLayout>
   );
 }

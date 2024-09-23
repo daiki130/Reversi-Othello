@@ -17,7 +17,7 @@ export function Modal({
   players: SyncedMap<unknown>;
   setGameStarted: (value: boolean) => void;
 }) {
-  const [label, setLabel] = useSyncedState("label", "Choose a stone");
+  const [label, setLabel] = useSyncedState("label", "Waiting for 2 player...");
   const [buttonLabel, setButtonLabel] = useSyncedState(
     "buttonLabel",
     "Start Game"
@@ -94,6 +94,9 @@ export function Modal({
         blur: 10,
         offset: { x: 0, y: 0 },
       }}
+      positioning="absolute"
+      x={70}
+      y={60}
     >
       <Image
         src={

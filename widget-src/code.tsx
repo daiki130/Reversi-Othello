@@ -1,5 +1,5 @@
 const { widget } = figma;
-const { useSyncedState, usePropertyMenu, useSyncedMap } = widget;
+const { AutoLayout, usePropertyMenu,useSyncedState, useSyncedMap } = widget;
 
 import { Board } from "./components/compositions/board";
 import { Modal } from "./components/compositions/modal";
@@ -7,7 +7,7 @@ import { Modal } from "./components/compositions/modal";
 function Widget() {
   const [gameStarted, setGameStarted] = useSyncedState("gameStarted", false);
   const [boardType, setBoardType] = useSyncedState("boardType", "standard");
-  const players = useSyncedMap("players");
+  const players = useSyncedMap<string>("players");
 
   usePropertyMenu(
     [
@@ -42,12 +42,28 @@ function Widget() {
       }
     }
   );
-
-  if (gameStarted) {
-    return <Board boardType={boardType} players={players} />;
-  }
-
-  return <Modal players={players} setGameStarted={setGameStarted} />;
+  return (
+    <AutoLayout
+      direction="vertical"
+      width="hug-contents"
+      height="hug-contents"
+    >
+      <Board boardType={boardType} players={players} gameStarted={gameStarted} />
+      {!gameStarted && (
+        <Modal players={players} setGameStarted={setGameStarted} />
+        // <AutoLayout
+        //   positioning="absolute"
+        //   x={0}
+        //   y={0}
+        //   width="fill-parent"
+        //   height="fill-parent"
+        //   fill={{ type: "solid", color: { r: 0, g: 0, b: 0, a: 0.5 } }}
+        // >
+          
+        // </AutoLayout>
+      )}
+    </AutoLayout>
+  );
 }
 
 widget.register(Widget);
