@@ -1,5 +1,5 @@
 const { widget } = figma;
-const { AutoLayout, Text } = widget;
+const { AutoLayout, Text, Image } = widget;
 
 import { Stone } from "../primitives/Stone";
 import { Button } from "../primitives/Button";
@@ -42,6 +42,7 @@ export function Modal({
         offset: { x: 0, y: 0 },
       }}
     >
+      <Image src={"https://raw.githubusercontent.com/daiki130/Reversi-Othello/main/widget-src/assets/logo.png"} width={264} height={110} />
       {players.size < 2 && <Text>{label}</Text>}
       <AutoLayout
         direction="horizontal"
