@@ -1,25 +1,53 @@
-const { widget } = figma;
-const { AutoLayout, Text, Image } = widget;
+const { widget, notify } = figma;
+const { AutoLayout, Text, Image, useSyncedState, useSyncedMap } = widget;
 
 import { Stone } from "../primitives/Stone";
 import { Button } from "../primitives/Button";
 import { EllipseWithImage } from "../primitives/EllipseWithImage";
 
-export function Modal({
-  handleJoin,
-  handleGameStart,
-  players,
-  label,
-  description,
-  buttonLabel,
-}: {
-  handleJoin: () => void;
-  handleGameStart: () => void;
-  players: SyncedMap<unknown>;
-  label: string;
-  description: string;
-  buttonLabel: string;
-}) {
+export function Modal() {
+  const [label, setLabel] = useSyncedState(
+    "label",
+    "👇 Pick a stone to start the game."
+  );
+  const [description, setDescription] = useSyncedState(
+    "description",
+    "Waiting for 2 players."
+  );
+  const [buttonLabel, setButtonLabel] = useSyncedState("buttonLabel", "Join");
+  const players = useSyncedMap("players");
+  const [gameStarted, setGameStarted] = useSyncedState("gameStarted", false);
+
+  const handleJoin = () => {
+    const currentUser = figma.currentUser;
+    const user = currentUser ? currentUser.name : "Unknown User";
+    const icon =
+      currentUser && currentUser.photoUrl ? currentUser.photoUrl : "";
+
+    if (players.has(user)) {
+      notify("あなたはすでに登録されています");
+      return;
+    }
+
+    if (players.size < 2) {
+      players.set(user, icon);
+      notify(`${user} が参加しました`);
+    }
+    if (players.size === 1) {
+      setDescription("Waiting for 1 more player");
+    }
+    if (players.size === 2) {
+      setDescription("Let's play!");
+      setButtonLabel("Start Game");
+    }
+  };
+
+  const handleGameStart = () => {
+    if (players.size === 2) {
+      setGameStarted(true);
+    }
+  };
+
   return (
     <AutoLayout
       direction="vertical"
