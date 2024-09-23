@@ -24,7 +24,12 @@ export function Modal({
     <AutoLayout
       direction="vertical"
       spacing={20}
-      padding={24}
+      padding={{
+        top: 8,
+        bottom: 32,
+        left: 24,
+        right: 24,
+      }}
       minWidth={240}
       verticalAlignItems="center"
       horizontalAlignItems="center"
