@@ -2,10 +2,8 @@ const { widget, notify } = figma;
 const { useSyncedState, AutoLayout, Text, usePropertyMenu, useSyncedMap } =
   widget;
 
-import { Button } from "./components/primitives/Button";
-import { Stone } from "./components/primitives/Stone";
-import { EllipseWithImage } from "./components/primitives/EllipseWithImage";
 import { Board } from "./components/compositions/board";
+import { Modal } from "./components/compositions/modal";
 
 function Widget() {
   const [gameStarted, setGameStarted] = useSyncedState("gameStarted", false);
@@ -94,55 +92,14 @@ function Widget() {
   }
 
   return (
-    <AutoLayout
-      direction="vertical"
-      spacing={20}
-      padding={24}
-      minWidth={240}
-      verticalAlignItems="center"
-      horizontalAlignItems="center"
-      fill="#FFFFFF"
-      cornerRadius={10}
-      effect={{
-        type: "drop-shadow",
-        color: {
-          r: 0,
-          g: 0,
-          b: 0,
-          a: 0.3,
-        },
-        blur: 10,
-        offset: { x: 0, y: 0 },
-      }}
-    >
-      {players.size < 2 && <Text>{label}</Text>}
-      <AutoLayout
-        direction="horizontal"
-        verticalAlignItems="center"
-        horizontalAlignItems="center"
-        spacing={32}
-        overflow="visible"
-      >
-        <Stone color="white" onClick={handleJoin} />
-        <Stone color="black" onClick={handleJoin} />
-      </AutoLayout>
-      {players.size === 2 ? (
-        <Button label={buttonLabel} onClick={handleGameStart} />
-      ) : (
-        <Text>{description}</Text>
-      )}
-      <AutoLayout direction="horizontal" spacing={-4} overflow="visible">
-        {Array.from(players.values()).map((icon, index) => (
-          <EllipseWithImage
-            key={index}
-            src={icon as string}
-            stroke=""
-            strokeWidth={2}
-            strokeAlign="outside"
-          />
-        ))}
-      </AutoLayout>
-    </AutoLayout>
+    <Modal
+      handleJoin={handleJoin}
+      handleGameStart={handleGameStart}
+      players={players}
+      label={label}
+      description={description}
+      buttonLabel={buttonLabel}
+    />
   );
 }
 
