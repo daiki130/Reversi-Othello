@@ -10,10 +10,6 @@ export function Modal() {
     "label",
     "Pick a stone to start the game."
   );
-  const [description, setDescription] = useSyncedState(
-    "description",
-    "Waiting for 2 players..."
-  );
   const [buttonLabel, setButtonLabel] = useSyncedState("buttonLabel", "Start Game");
   const players = useSyncedMap("players");
   const [gameStarted, setGameStarted] = useSyncedState("gameStarted", false);
@@ -81,15 +77,16 @@ export function Modal() {
         width={245}
         height={103}
       />
-      {players.size < 2 && <Text>{label}</Text>}
+      {players.size < 2 && <Text fontSize={14} fontWeight={400}>{label}</Text>}
       <AutoLayout
         direction="horizontal"
         verticalAlignItems="center"
         horizontalAlignItems="center"
-        spacing={32}
+        spacing={24}
         overflow="visible"
       >
         <Stone color="white" onClick={handleJoin} />
+        <Text fontFamily="Karantia">vs</Text>
         <Stone color="black" onClick={handleJoin} />
       </AutoLayout>
       {players.size === 2 ? (

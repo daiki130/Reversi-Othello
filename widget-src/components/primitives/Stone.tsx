@@ -9,7 +9,7 @@ export const Stone = ({
   onClick: () => void;
 }) => {
   const blackFigmaIcon = `
-    <svg width="23" height="32" viewBox="0 0 172 247" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="18" height="27" viewBox="0 0 172 247" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g id="Group">
         <path id="Rectangle 55" d="M164 46.5C164 67.763 146.763 85 125.5 85L86 85L86 8.0001L125.5 8.0001C146.763 8.0001 164 25.2371 164 46.5V46.5Z" stroke="black" stroke-width="15.081"/>
         <path id="Rectangle 55_2" d="M8 46.5C8 67.763 25.237 85 46.5 85L86 85L86 8.0001L46.5 8.0001C25.237 8.0001 8 25.2371 8 46.5V46.5Z" stroke="black" stroke-width="15.081"/>
@@ -20,7 +20,7 @@ export const Stone = ({
     </svg>
   `;
   const whiteFigmaIcon = `
-    <svg width="23" height="32" viewBox="0 0 172 247" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="18" height="27" viewBox="0 0 172 247" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g id="Group">
         <path id="Rectangle 55" d="M164 46.5C164 67.763 146.763 85 125.5 85L86 85L86 8.0001L125.5 8.0001C146.763 8.0001 164 25.2371 164 46.5V46.5Z" stroke="white" stroke-width="15.081"/>
         <path id="Rectangle 55_2" d="M8 46.5C8 67.763 25.237 85 46.5 85L86 85L86 8.0001L46.5 8.0001C25.237 8.0001 8 25.2371 8 46.5V46.5Z" stroke="white" stroke-width="15.081"/>
@@ -48,8 +48,8 @@ export const Stone = ({
       verticalAlignItems="center"
       horizontalAlignItems="center"
       spacing={10}
-      width={66}
-      height={66}
+      width={60}
+      height={60}
       fill={fillColor}
       effect={[
         {
