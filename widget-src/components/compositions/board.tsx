@@ -9,9 +9,9 @@ const {
   useSyncedMap,
 } = widget;
 
-import { EllipseWithImage } from "./EllipseWithImage";
+import { ScoreBoard } from "./ScoreBoard";
 
-export function OthelloBoard({ boardType }: { boardType: string }) {
+export function Board({ boardType }: { boardType: string }) {
   const [board, setBoard] = useSyncedState("board", initializeBoard());
   const [currentPlayer, setCurrentPlayer] = useSyncedState(
     "currentPlayer",
@@ -132,62 +132,6 @@ export function OthelloBoard({ boardType }: { boardType: string }) {
 
   const validMoves = getValidMoves(currentPlayer);
 
-  // スコアボードコンポーネント
-  function ScoreBoard({ boardStyle }: { boardStyle: any }) {
-    useStickable();
-    const playersArray = Array.from(players.entries());
-    const currentPlayerName =
-      playersArray[currentPlayer === "black" ? 0 : 1][0];
-
-    return (
-      <AutoLayout
-        direction="vertical"
-        spacing={4}
-        padding={12}
-        cornerRadius={9999}
-        fill={boardStyle.fill}
-        effect={{
-          type: "drop-shadow",
-          color: { r: 0, g: 0, b: 0, a: 0.3 },
-          offset: { x: 0, y: 2 },
-          blur: 4,
-        }}
-      >
-        <AutoLayout
-          direction="horizontal"
-          spacing={16}
-          verticalAlignItems="center"
-          overflow="visible"
-        >
-          {playersArray.map(([player, icon], index) => (
-            <AutoLayout
-              key={index}
-              direction="horizontal"
-              spacing={8}
-              verticalAlignItems="center"
-              overflow="visible"
-            >
-              <EllipseWithImage
-                src={icon as string}
-                stroke={index === 0 ? boardStyle.blackStone : boardStyle.whiteStone}
-                strokeWidth={2}
-                strokeAlign="outside"
-              />
-              <Text fill={boardStyle.whiteStone} fontSize={14}>
-                {index === 0 ? scores.black : scores.white}
-              </Text>
-              {index === 0 && (
-                <Text fill={boardStyle.whiteStone} fontSize={14} fontWeight="bold">
-                  {gameOver ? "ゲーム終了" : `${currentPlayerName}のターン`}
-                </Text>
-              )}
-            </AutoLayout>
-          ))}
-        </AutoLayout>
-      </AutoLayout>
-    );
-  }
-
   const getBoardStyle = (type: string) => {
     switch (type) {
       case "standard":
@@ -195,44 +139,99 @@ export function OthelloBoard({ boardType }: { boardType: string }) {
           fill: "#1E1E1E",
           cellFill: "#15803D",
           blackStone: "#000000",
+          blackStoneEffect: {
+            type: "drop-shadow",
+            color: { r: 0, g: 0, b: 0, a: 1 },
+            offset: { x: 0, y: 1 },
+            blur: 0,
+          },
           whiteStone: "#FFFFFF",
+          whiteStoneEffect: {
+            type: "drop-shadow",
+            color: { r: 0, g: 0, b: 0, a: 1 },
+            offset: { x: 0, y: 1 },
+            blur: 0,
+          },
           recommendFill: "#000000",
           stroke: "",
           strokeWidth: 0,
           strokeAlign: "inside" as const,
+          textFill: "#FFFFFF",
+          stonePreviewBackground: "#DEDEDE",
         };
+        default:
+          return {
+            fill: "#1e1e1e",
+            cellFill: "#4a4a4a",
+            blackStone: "#000000",
+            blackStoneEffect: {
+              type: "drop-shadow",
+              color: { r: 0, g: 0, b: 0, a: 1 },
+              offset: { x: 0, y: 1 },
+              blur: 0,
+            },
+            whiteStone: "#FFFFFF",
+            whiteStoneEffect: {
+              type: "drop-shadow",
+              color: { r: 0, g: 0, b: 0, a: 1 },
+              offset: { x: 0, y: 1 },
+              blur: 0,
+            },
+            recommendFill: "#808080",
+            strokeWidth: 0,
+            strokeAlign: "inside" as const,
+            textFill: "#FFFFFF",
+            stonePreviewBackground: "#DEDEDE",
+          };
       case "vintage":
         return {
           fill: "#004085",
           cellFill: "#F3F3E6",
           blackStone: "#033973",
+          blackStoneEffect: {
+            type: "drop-shadow",
+            color: { r: 0, g: 0, b: 0, a: 1 },
+            offset: { x: 0, y: 1 },
+            blur: 0,
+          },
           whiteStone: "#E69500",
-          recommendFill: "#95A5A6",
+          whiteStoneEffect: {
+            type: "drop-shadow",
+            color: { r: 0, g: 0, b: 0, a: 1 },
+            offset: { x: 0, y: 1 },
+            blur: 0,
+          },
+          recommendFill: "#808080",
           stroke: "",
           strokeWidth: 0,
           strokeAlign: "inside" as const,
+          textFill: "#FFFFFF",
+          stonePreviewBackground: "#ffffff",
         };
       case "cyberpunk":
         return {
           fill: "#0A0E27",
           cellFill: "#0A0E27",
           blackStone: "#FF00FF",
+          blackStoneEffect: {
+            type: "drop-shadow",
+            color: { r: 0, g: 0, b: 0, a: 1 },
+            offset: { x: 0, y: 1 },
+            blur: 0,
+          },
           whiteStone: "#00FFFF",
+          whiteStoneEffect: {
+            type: "drop-shadow",
+            color: { r: 0, g: 0, b: 0, a: 1 },
+            offset: { x: 0, y: 1 },
+            blur: 0,
+          },
           recommendFill: "#67E8F9",
           stroke: "#4EDBEF",
           strokeWidth: 1,
           strokeAlign: "inside" as const,
-        };
-      default: // dark
-        return {
-          fill: "#1e1e1e",
-          cellFill: "#4a4a4a",
-          blackStone: "#000000",
-          whiteStone: "#FFFFFF",
-          recommendFill: "#808080",
-          stroke: "",
-          strokeWidth: 0,
-          strokeAlign: "inside" as const,
+          textFill: "#FFFFFF",
+          stonePreviewBackground: "#ffffff",
         };
     }
   };
@@ -271,7 +270,11 @@ export function OthelloBoard({ boardType }: { boardType: string }) {
                       height={cellSize - 10}
                       x={5}
                       y={5}
-                      fill={cell === "black" ? boardStyle.blackStone : boardStyle.whiteStone}
+                      fill={
+                        cell === "black"
+                          ? boardStyle.blackStone
+                          : boardStyle.whiteStone
+                      }
                     />
                   )}
                   {!cell &&
@@ -293,7 +296,13 @@ export function OthelloBoard({ boardType }: { boardType: string }) {
           ))}
         </AutoLayout>
       </AutoLayout>
-      <ScoreBoard boardStyle={boardStyle} />
+      <ScoreBoard
+        boardStyle={boardStyle}
+        players={players}
+        currentPlayer={currentPlayer}
+        scores={scores}
+        gameOver={gameOver}
+      />
     </AutoLayout>
   );
 }
