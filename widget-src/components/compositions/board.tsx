@@ -10,6 +10,9 @@ const {
 
 import {
   useGameState,
+  useInitializeBoard,
+  cellSize,
+  boardSize,
 } from "../../hooks";
 
 import { ScoreBoard } from "./ScoreBoard";
@@ -23,7 +26,7 @@ export function Board({
 }) {
   const [gameState, setGameState] = useGameState();
   const [boardType, setBoardType] = useSyncedState("boardType", "standard");
-  const [board, setBoard] = useSyncedState("board", initializeBoard());
+  const [board, setBoard] = useSyncedState("board", useInitializeBoard());
   const [currentPlayer, setCurrentPlayer] = useSyncedState(
     "currentPlayer",
     "black"
@@ -33,18 +36,6 @@ export function Board({
   const [passCount, setPassCount] = useSyncedState("passCount", 0);
   const [winner, setWinner] = useSyncedState("winner", null);
   const [isSoundPlaying, setIsBGMPlaying] = useSyncedState("isSoundPlaying", false);
-
-  const cellSize = 50;
-  const boardSize = cellSize * 8 + 20 + 2 * 7;
-
-  function initializeBoard() {
-    const newBoard = Array(8)
-      .fill(null)
-      .map(() => Array(8).fill(null));
-    newBoard[3][3] = newBoard[4][4] = "white";
-    newBoard[3][4] = newBoard[4][3] = "black";
-    return newBoard;
-  }
 
   function getValidMoves(player: string) {
     const validMoves: [number, number][] = [];
@@ -156,7 +147,7 @@ export function Board({
   }
 
   function resetGame() {
-    setBoard(initializeBoard());
+    setBoard(useInitializeBoard());
     setCurrentPlayer("black");
     setGameOver(false);
     setScores({ black: 2, white: 2 });
