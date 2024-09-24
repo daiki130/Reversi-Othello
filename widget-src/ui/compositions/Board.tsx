@@ -18,6 +18,7 @@ import {
   useGetBoardStyle,
   useScores,
   useGameMenu,
+  useResetGame,
 } from "../hooks";
 
 import { ScoreBoard } from "./ScoreBoard";
@@ -33,10 +34,20 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
   const [gameOver, setGameOver] = useSyncedState("gameOver", false);
   const [scores, setScores] = useSyncedState("scores", { black: 2, white: 2 });
   const [passCount, setPassCount] = useSyncedState("passCount", 0);
-  const [winner, setWinner] = useSyncedState("winner", null);
+  const [winner, setWinner] = useSyncedState<string | null>("winner", null);
   const [isSoundPlaying, setIsBGMPlaying] = useSyncedState(
     "isSoundPlaying",
     false
+  );
+  const resetGame = useResetGame(
+    setBoard,
+    setCurrentPlayer,
+    setGameOver,
+    setScores,
+    setPassCount,
+    setGameState,
+    setWinner,
+    useInitializeBoard
   );
 
   function handleCellClick(row: number, col: number) {
@@ -80,68 +91,13 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
           return newPassCount;
         });
       } else {
-        // 両方のプレイヤーに��効な手がない場合、ゲームオーバーにする
+        // 両方のプレイヤーに効な手がない場合、ゲームオーバーにする
         setGameOver(true);
         console.log("Game Over: No valid moves for both players");
       }
       setCurrentPlayer(currentPlayer); // 同じプレイヤーのターンを続ける
     }
   }
-
-  function resetGame() {
-    setBoard(useInitializeBoard());
-    setCurrentPlayer("black");
-    setGameOver(false);
-    setScores({ black: 2, white: 2 });
-    setPassCount(0); // パスカウントをリセット
-    setGameState("entry");
-    setWinner(null);
-  }
-
-  // function handlePass(player: string) {
-  //   if (passCount >= 2) {
-  //     // 連続パスが2回になったらゲームを終了
-  //     setGameState("finished");
-  //   } else {
-  //     const nextPlayer = player === "black" ? "white" : "black";
-  //     setCurrentPlayer(nextPlayer);
-  //     setPassCount((prev) => prev + 1); // パスカウントを増す
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   const newScore = board.reduce(
-  //     (acc, row) => {
-  //       row.forEach((cell) => {
-  //         if (cell === "black") acc.black++;
-  //         if (cell === "white") acc.white++;
-  //       });
-  //       return acc;
-  //     },
-  //     { black: 0, white: 0 }
-  //   );
-  //   setScores(newScore);
-
-  //   if (gameState === "finished") {
-  //     // ゲ��ム終了に勝者を決定
-  //     if (newScore.black > newScore.white) {
-  //       setWinner("black");
-  //     } else if (newScore.white > newScore.black) {
-  //       setWinner("white");
-  //     } else {
-  //       setWinner(null); // 引き分けの場合
-  //     }
-  //   } else if (newScore.black + newScore.white === 64) { // 8x8のボードサイズ
-  //     if (newScore.black > newScore.white) {
-  //       setWinner("black");
-  //     } else if (newScore.white > newScore.black) {
-  //       setWinner("white");
-  //     } else {
-  //       setWinner(null); // 引き分けの場合
-  //     }
-  //     setGameState("finished");
-  //   }
-  // }, [board, gameState]);
 
   useGameMenu(
     resetGame,
