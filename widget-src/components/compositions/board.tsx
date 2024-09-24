@@ -13,6 +13,7 @@ import {
   useInitializeBoard,
   cellSize,
   boardSize,
+  useGetFlippedPieces,
 } from "../../hooks";
 
 import { ScoreBoard } from "./ScoreBoard";
@@ -43,7 +44,7 @@ export function Board({
       for (let col = 0; col < 8; col++) {
         if (
           board[row][col] === null &&
-          getFlippedPieces(row, col, player).length > 0
+          useGetFlippedPieces(row, col, player, board).length > 0
         ) {
           validMoves.push([row, col]);
         }
@@ -55,7 +56,7 @@ export function Board({
   function handleCellClick(row: number, col: number) {
     if (gameOver || board[row][col] !== null) return;
 
-    const flippedPieces = getFlippedPieces(row, col, currentPlayer);
+    const flippedPieces = useGetFlippedPieces(row, col, currentPlayer, board);
     if (flippedPieces.length === 0) return;
 
     const newBoard = board.map((row) => [...row]);
@@ -110,40 +111,6 @@ export function Board({
       }
       setCurrentPlayer(currentPlayer); // 同じプレイヤーのターンを続ける
     }
-  }
-
-  function getFlippedPieces(row: number, col: number, player: string) {
-    const opponent = player === "black" ? "white" : "black";
-    const directions = [
-      [-1, -1],
-      [-1, 0],
-      [-1, 1],
-      [0, -1],
-      [0, 1],
-      [1, -1],
-      [1, 0],
-      [1, 1],
-    ];
-
-    const flippedPieces: [number, number][] = [];
-
-    directions.forEach(([dx, dy]) => {
-      let x = row + dx;
-      let y = col + dy;
-      const tempFlipped: [number, number][] = [];
-
-      while (x >= 0 && x < 8 && y >= 0 && y < 8 && board[x][y] === opponent) {
-        tempFlipped.push([x, y]);
-        x += dx;
-        y += dy;
-      }
-
-      if (x >= 0 && x < 8 && y >= 0 && y < 8 && board[x][y] === player) {
-        flippedPieces.push(...tempFlipped);
-      }
-    });
-
-    return flippedPieces;
   }
 
   function resetGame() {
