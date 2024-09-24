@@ -11,6 +11,7 @@ const {
 import {
   useGameState,
   useInitializeBoard,
+  useGetValidMoves,
   cellSize,
   boardSize,
   useGetFlippedPieces,
@@ -38,21 +39,6 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
     false
   );
 
-  function getValidMoves(player: string) {
-    const validMoves: [number, number][] = [];
-    for (let row = 0; row < 8; row++) {
-      for (let col = 0; col < 8; col++) {
-        if (
-          board[row][col] === null &&
-          useGetFlippedPieces(row, col, player, board).length > 0
-        ) {
-          validMoves.push([row, col]);
-        }
-      }
-    }
-    return validMoves;
-  }
-
   function handleCellClick(row: number, col: number) {
     if (gameOver || board[row][col] !== null) return;
 
@@ -77,12 +63,12 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
 
   function switchTurn() {
     const nextPlayer = currentPlayer === "black" ? "white" : "black";
-    const nextPlayerMoves = getValidMoves(nextPlayer);
+    const nextPlayerMoves = useGetValidMoves(board, nextPlayer);
 
     if (nextPlayerMoves.length > 0) {
       setCurrentPlayer(nextPlayer);
     } else {
-      const currentPlayerMoves = getValidMoves(currentPlayer);
+      const currentPlayerMoves = useGetValidMoves(board, currentPlayer);
       if (currentPlayerMoves.length > 0) {
         console.log(`${nextPlayer} has no valid moves. Passing...`);
         setPassCount((prev) => {
@@ -94,7 +80,7 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
           return newPassCount;
         });
       } else {
-        // 両方のプレイヤーに有効な手がない場合、ゲームオーバーにする
+        // 両方のプレイヤーに��効な手がない場合、ゲームオーバーにする
         setGameOver(true);
         console.log("Game Over: No valid moves for both players");
       }
@@ -137,7 +123,7 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
   //   setScores(newScore);
 
   //   if (gameState === "finished") {
-  //     // ゲーム終了に勝者を決定
+  //     // ゲ��ム終了に勝者を決定
   //     if (newScore.black > newScore.white) {
   //       setWinner("black");
   //     } else if (newScore.white > newScore.black) {
@@ -165,7 +151,7 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
     isSoundPlaying
   );
 
-  const validMoves = getValidMoves(currentPlayer);
+  const validMoves = useGetValidMoves(board, currentPlayer);
 
   const boardStyle = useGetBoardStyle(boardType);
 
