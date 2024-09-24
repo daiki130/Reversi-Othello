@@ -1,11 +1,13 @@
 // ターンを切り替えるためのフック
+type GameState = "entry" | "playing" | "finished";
+
 export const useSwitchTurn = (
   newBoard: string[][],
   currentPlayer: string,
   setCurrentPlayer: (player: string) => void,
   scores: { black: number; white: number },
-  setGameOver: (gameOver: boolean) => void,
-  setWinner: (winner: string) => void,
+  setGameState: (state: GameState) => void,
+  setWinner: (winner: string | null) => void,
   setPassCount: (passCount: number | ((currValue: number) => number)) => void,
   useGetValidMoves: (board: string[][], player: string) => [number, number][]
 ) => {
@@ -22,22 +24,29 @@ export const useSwitchTurn = (
       setPassCount((prev: number) => {
         const newPassCount = prev + 1;
         if (newPassCount >= 2) {
-          setGameOver(true);
+          setGameState("finished");
+          const winner =
+            scores.black > scores.white
+              ? "black"
+              : scores.white > scores.black
+              ? "white"
+              : "draw";
+          setWinner(winner);
           console.log("Game Over");
         }
         return newPassCount;
       });
     } else {
       // 両方のプレイヤーに効な手がない場合、ゲームオーバーにする
-      setGameOver(true);
+      setGameState("finished");
       const winner =
         scores.black > scores.white
-          ? "Black"
+          ? "black"
           : scores.white > scores.black
-          ? "White"
-          : "Draw";
+          ? "white"
+          : "draw";
       setWinner(winner);
-      console.log(`Game Over: Winner is ${winner}`);
+      console.log("Game Over");
     }
   }
 };

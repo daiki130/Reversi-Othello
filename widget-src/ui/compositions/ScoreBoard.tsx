@@ -7,13 +7,15 @@ export function ScoreBoard({
   players,
   currentPlayer,
   scores,
-  gameOver,
+  gameState,
+  winner,
 }: {
   boardStyle: any;
   players: any;
   currentPlayer: string;
   scores: any;
-  gameOver: any;
+  gameState: any;
+  winner: any;
 }) {
   useStickable();
   const playersArray = Array.from(players.entries()) as [string, string][];
@@ -84,7 +86,11 @@ export function ScoreBoard({
             </AutoLayout>
           )}
           <Text fill={boardStyle.textFill} fontSize={14} fontWeight="bold">
-            {gameOver ? "Game Over" : `${currentPlayerName}'s turn`}
+            {gameState === "finished"
+              ? winner === "draw"
+                ? "Draw"
+                : `Winner: ${winner}`
+              : `${currentPlayerName}'s turn`}
           </Text>
         </AutoLayout>
         <PlayerScore

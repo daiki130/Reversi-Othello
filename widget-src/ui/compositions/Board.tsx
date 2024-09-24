@@ -1,10 +1,5 @@
 const { widget } = figma;
-const {
-  AutoLayout,
-  Frame,
-  Ellipse,
-  useSyncedState,
-} = widget;
+const { AutoLayout, Frame, Ellipse, useSyncedState } = widget;
 
 import {
   useGameState,
@@ -30,7 +25,6 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
     "currentPlayer",
     "black"
   );
-  const [gameOver, setGameOver] = useSyncedState("gameOver", false);
   const [scores, setScores] = useSyncedState("scores", { black: 2, white: 2 });
   const [passCount, setPassCount] = useSyncedState("passCount", 0);
   const [winner, setWinner] = useSyncedState<string | null>("winner", null);
@@ -43,7 +37,6 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
   const resetGame = useResetGame(
     setBoard,
     setCurrentPlayer,
-    setGameOver,
     setScores,
     setPassCount,
     setGameState,
@@ -54,7 +47,7 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
   // ボードのセルをクリックしたときの処理
   function handleCellClick(row: number, col: number) {
     // ゲームが終了しているか、すでにそのセルが埋まっている場合は何もしない
-    if (gameOver || board[row][col] !== null) return;
+    if (gameState === "finished" || board[row][col] !== null) return;
 
     // 選択したセルに基づいてひっくり返すべきピースを取得
     const flippedPieces = useGetFlippedPieces(row, col, currentPlayer, board);
@@ -79,7 +72,16 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
     setPassCount(0);
 
     // ターンを切り替える
-    useSwitchTurn(newBoard, currentPlayer, setCurrentPlayer, scores, setGameOver, setWinner, setPassCount, useGetValidMoves);
+    useSwitchTurn(
+      newBoard,
+      currentPlayer,
+      setCurrentPlayer,
+      newScores,
+      setGameState,
+      setWinner,
+      setPassCount,
+      useGetValidMoves,
+    );
   }
 
   // ゲームメニューの作成
@@ -161,7 +163,8 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
           players={players}
           currentPlayer={currentPlayer}
           scores={scores}
-          gameOver={gameOver}
+          gameState={gameState}
+          winner={winner}
         />
       )}
     </AutoLayout>

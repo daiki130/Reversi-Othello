@@ -1,23 +1,17 @@
 const { widget, notify } = figma;
-const { AutoLayout, Text, Image, useSyncedState } = widget;
+const { AutoLayout, Text, Image, useSyncedState, Fragment } = widget;
 
 import { Stone } from "../primitives/Stone";
 import { Button } from "../primitives/Button";
 import { EllipseWithImage } from "../primitives/EllipseWithImage";
-import {
-  useGameState,
-} from "../hooks";
+import { useGameState } from "../hooks";
 
 interface Player {
   name: string;
   icon: string;
 }
 
-export function Modal({
-  players,
-}: {
-  players: SyncedMap<unknown>;
-}) {
+export function Modal({ players }: { players: SyncedMap<unknown> }) {
   const [gameState, setGameState] = useGameState();
   const [label, setLabel] = useSyncedState("label", "Waiting for 2 player...");
   const [buttonLabel, setButtonLabel] = useSyncedState(
@@ -32,6 +26,7 @@ export function Modal({
     "whitePlayer",
     null
   );
+  const [winner, setWinner] = useSyncedState<string | null>("winner", null);
 
   const handleJoin = (color: "black" | "white") => {
     const currentUser = figma.currentUser;
@@ -70,6 +65,50 @@ export function Modal({
     }
   };
 
+  const winnerDisplay = winner ? (
+    <Fragment>
+      <Text fontSize={24} fontWeight={700}>
+        Winner
+      </Text>
+      <AutoLayout
+        direction="vertical"
+        spacing={24}
+        horizontalAlignItems="center"
+      >
+        {winner === "black" && blackPlayer && (
+          <EllipseWithImage
+            width={60}
+            height={60}
+            src={blackPlayer.icon}
+            stroke=""
+            strokeWidth={2}
+            strokeAlign="outside"
+          />
+        )}
+        {winner === "white" && whitePlayer && (
+          <EllipseWithImage
+            width={60}
+            height={60}
+            src={whitePlayer.icon}
+            stroke=""
+            strokeWidth={2}
+            strokeAlign="outside"
+          />
+        )}
+        {winner === "draw" && (
+          <Text fontSize={24} fontWeight={700}>
+            Draw
+          </Text>
+        )}
+        <Button
+          label="Reset Game"
+          onClick={() => console.log("Reset Game")}
+          disabled={false}
+        />
+      </AutoLayout>
+    </Fragment>
+  ) : null;
+
   return (
     <AutoLayout
       direction="vertical"
@@ -107,58 +146,64 @@ export function Modal({
         width={245}
         height={103}
       />
-      <Text fontSize={14} fontWeight={400}>
-        {label}
-      </Text>
-      <AutoLayout
-        direction="horizontal"
-        verticalAlignItems="center"
-        horizontalAlignItems="center"
-        spacing={24}
-        overflow="visible"
-      >
-        {blackPlayer ? (
-          <EllipseWithImage
-            width={60}
-            height={60}
-            src={blackPlayer.icon}
-            stroke=""
-            strokeWidth={2}
-            strokeAlign="outside"
-          />
-        ) : (
-          <Stone 
-            color="black" 
-            onClick={() => handleJoin("black")} 
-            tooltip="Click to join as black"
-          />
-        )}
-        <Text fontFamily="Karantina">vs</Text>
-        {whitePlayer ? (
-          <EllipseWithImage
-            width={60}
-            height={60}
-            src={whitePlayer.icon}
-            stroke=""
-            strokeWidth={2}
-            strokeAlign="outside"
-          />
-        ) : (
-          <Stone 
-            color="white" 
-            onClick={() => handleJoin("white")} 
-            tooltip="Click to join as white"
-          />
-        )}
-      </AutoLayout>
-      {players.size === 2 ? (
-        <Button
-          label={buttonLabel}
-          onClick={handleGameStart}
-          disabled={false}
-        />
+      {gameState === "finished" ? (
+        winnerDisplay
       ) : (
-        <Button label={buttonLabel} onClick={() => {}} disabled={true} />
+        <Fragment>
+          <Text fontSize={14} fontWeight={400}>
+            {label}
+          </Text>
+          <AutoLayout
+            direction="horizontal"
+            verticalAlignItems="center"
+            horizontalAlignItems="center"
+            spacing={24}
+            overflow="visible"
+          >
+            {blackPlayer ? (
+              <EllipseWithImage
+                width={60}
+                height={60}
+                src={blackPlayer.icon}
+                stroke=""
+                strokeWidth={2}
+                strokeAlign="outside"
+              />
+            ) : (
+              <Stone
+                color="black"
+                onClick={() => handleJoin("black")}
+                tooltip="Click to join as black"
+              />
+            )}
+            <Text fontFamily="Karantina">vs</Text>
+            {whitePlayer ? (
+              <EllipseWithImage
+                width={60}
+                height={60}
+                src={whitePlayer.icon}
+                stroke=""
+                strokeWidth={2}
+                strokeAlign="outside"
+              />
+            ) : (
+              <Stone
+                color="white"
+                onClick={() => handleJoin("white")}
+                tooltip="Click to join as white"
+              />
+            )}
+          </AutoLayout>
+          {players.size === 2 ? (
+            <Button
+              label={buttonLabel}
+              onClick={handleGameStart}
+              disabled={false}
+            />
+          ) : (
+            <Button label={buttonLabel} onClick={() => {}} disabled={true} />
+          )}
+        </Fragment>
       )}
     </AutoLayout>
   );
