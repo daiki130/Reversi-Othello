@@ -52,13 +52,19 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
 
   // ボードのセルをクリックしたときの処理
   function handleCellClick(row: number, col: number) {
+    // ゲームが終了しているか、すでにそのセルが埋まっている場合は何もしない
     if (gameOver || board[row][col] !== null) return;
 
+    // 選択したセルに基づいてひっくり返すべきピースを取得
     const flippedPieces = useGetFlippedPieces(row, col, currentPlayer, board);
+    // ひっくり返すピースがない場合は何もしない
     if (flippedPieces.length === 0) return;
 
+    // 新しいボードを作成
     const newBoard = board.map((row) => [...row]);
+    // 選択したセルに現在のプレイヤーのマークを追加
     newBoard[row][col] = currentPlayer;
+    // ひっくり返すピースを更新
     flippedPieces.forEach(([r, c]) => {
       newBoard[r][c] = currentPlayer;
     });
@@ -70,19 +76,20 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
     setBoard(newBoard);
     setScores(newScores);
     setPassCount(0);
-    switchTurn();
+    switchTurn(newBoard);
   }
 
   // ターンを切り替える
-  function switchTurn() {
+  function switchTurn(newBoard: string[][]) {
     const nextPlayer = currentPlayer === "black" ? "white" : "black";
-    const nextPlayerMoves = useGetValidMoves(board, nextPlayer);
+    const nextPlayerMoves = useGetValidMoves(newBoard, nextPlayer);
 
     if (nextPlayerMoves.length > 0) {
       setCurrentPlayer(nextPlayer);
     } else {
-      const currentPlayerMoves = useGetValidMoves(board, currentPlayer);
+      const currentPlayerMoves = useGetValidMoves(newBoard, currentPlayer);
       if (currentPlayerMoves.length > 0) {
+        setCurrentPlayer(currentPlayer);
         console.log(`${nextPlayer} has no valid moves. Passing...`);
         setPassCount((prev) => {
           const newPassCount = prev + 1;
@@ -95,9 +102,10 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
       } else {
         // 両方のプレイヤーに効な手がない場合、ゲームオーバーにする
         setGameOver(true);
-        console.log("Game Over: No valid moves for both players");
+        const winner = scores.black > scores.white ? "Black" : scores.white > scores.black ? "White" : "Draw";
+        setWinner(winner);
+        console.log(`Game Over: Winner is ${winner}`);
       }
-      setCurrentPlayer(currentPlayer); // 同じプレイヤーのターンを続ける
     }
   }
 
