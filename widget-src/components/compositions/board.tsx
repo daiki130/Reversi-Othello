@@ -8,8 +8,11 @@ const {
   useEffect,
 } = widget;
 
+import {
+  useGameState,
+} from "../../hooks";
+
 import { ScoreBoard } from "./ScoreBoard";
-import { useGameState } from "../../hooks";
 
 export function Board({
   players,
@@ -206,12 +209,6 @@ export function Board({
   //     setGameState("finished");
   //   }
   // }, [board, gameState]);
-
-  // useEffect(() => {
-  //   if (gameOver) {
-  //     console.log("Game Over: No valid moves for both players");
-  //   }
-  // }, [gameOver]);
 
   usePropertyMenu(
     [

@@ -3,10 +3,11 @@ const { AutoLayout, usePropertyMenu,useSyncedState, useSyncedMap } = widget;
 
 import { Board } from "./components/compositions/board";
 import { Modal } from "./components/compositions/modal";
+import { usePlayer } from "./hooks/usePlayer";
 
 function Widget() {
   const [gameStarted, setGameStarted] = useSyncedState("gameStarted", false);
-  const players = useSyncedMap<string>("players");
+  const players = usePlayer();
 
   return (
     <AutoLayout
