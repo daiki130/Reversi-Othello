@@ -9,6 +9,7 @@ const {
 } = widget;
 
 import { ScoreBoard } from "./ScoreBoard";
+import { useGameState } from "../../hooks";
 
 export function Board({
   players,
@@ -17,6 +18,7 @@ export function Board({
   players: SyncedMap<unknown>;
   gameStarted: boolean;
 }) {
+  const [gameState, setGameState] = useGameState();
   const [boardType, setBoardType] = useSyncedState("boardType", "standard");
   const [board, setBoard] = useSyncedState("board", initializeBoard());
   const [currentPlayer, setCurrentPlayer] = useSyncedState(
@@ -26,7 +28,6 @@ export function Board({
   const [gameOver, setGameOver] = useSyncedState("gameOver", false);
   const [scores, setScores] = useSyncedState("scores", { black: 2, white: 2 });
   const [passCount, setPassCount] = useSyncedState("passCount", 0);
-  const [gameState, setGameState] = useSyncedState("gameState", "ongoing");
   const [winner, setWinner] = useSyncedState("winner", null);
   const [isSoundPlaying, setIsBGMPlaying] = useSyncedState("isSoundPlaying", false);
 
@@ -157,7 +158,7 @@ export function Board({
     setGameOver(false);
     setScores({ black: 2, white: 2 });
     setPassCount(0); // パスカウントをリセット
-    setGameState("ongoing");
+    setGameState("entry");
     setWinner(null);
   }
 
