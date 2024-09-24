@@ -15,6 +15,7 @@ import {
   boardSize,
   useGetFlippedPieces,
   useGetBoardStyle,
+  useScores,
 } from "../../hooks";
 
 import { ScoreBoard } from "./ScoreBoard";
@@ -64,24 +65,13 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
     });
 
     // 新しいスコアを計算
-    const newScores = calculateScores(newBoard);
+    const newScores = useScores(newBoard);
 
     // ボード、スコア、プレイヤーを同時に更新
     setBoard(newBoard);
     setScores(newScores);
     setPassCount(0);
     switchTurn();
-  }
-
-  function calculateScores(boardState: string[][]) {
-    const newScores = { black: 0, white: 0 };
-    boardState.forEach((row) => {
-      row.forEach((cell) => {
-        if (cell === "black") newScores.black++;
-        if (cell === "white") newScores.white++;
-      });
-    });
-    return newScores;
   }
 
   function switchTurn() {

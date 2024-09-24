@@ -34,7 +34,8 @@ export function PlayerScore({
       />
       <Text
         fill={
-          stoneColor === "black" ? boardStyle.blackText : boardStyle.whiteText
+          // stoneColor === "black" ? boardStyle.blackText : boardStyle.whiteText
+          boardStyle.textFill
         }
         fontSize={14}
       >
