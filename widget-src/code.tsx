@@ -3,10 +3,13 @@ const { AutoLayout, usePropertyMenu,useSyncedState, useSyncedMap } = widget;
 
 import { Board } from "./components/compositions/board";
 import { Modal } from "./components/compositions/modal";
-import { usePlayer } from "./hooks/usePlayer";
+import {
+  useGameState,
+  usePlayer,
+} from "./hooks";
 
 function Widget() {
-  const [gameStarted, setGameStarted] = useSyncedState("gameStarted", false);
+  const [gameState] = useGameState();
   const players = usePlayer();
 
   return (
@@ -15,9 +18,9 @@ function Widget() {
       width="hug-contents"
       height="hug-contents"
     >
-      <Board players={players} gameStarted={gameStarted} />
-      {!gameStarted && (
-        <Modal players={players} setGameStarted={setGameStarted} />
+      <Board players={players} />
+      {(gameState === 'entry' || gameState === 'finished') && (
+        <Modal players={players} />
       )}
     </AutoLayout>
   );

@@ -4,6 +4,9 @@ const { AutoLayout, Text, Image, useSyncedState } = widget;
 import { Stone } from "../primitives/Stone";
 import { Button } from "../primitives/Button";
 import { EllipseWithImage } from "../primitives/EllipseWithImage";
+import {
+  useGameState,
+} from "../../hooks";
 
 interface Player {
   name: string;
@@ -12,11 +15,10 @@ interface Player {
 
 export function Modal({
   players,
-  setGameStarted,
 }: {
   players: SyncedMap<unknown>;
-  setGameStarted: (value: boolean) => void;
 }) {
+  const [gameState, setGameState] = useGameState();
   const [label, setLabel] = useSyncedState("label", "Waiting for 2 player...");
   const [buttonLabel, setButtonLabel] = useSyncedState(
     "buttonLabel",
@@ -64,7 +66,7 @@ export function Modal({
 
   const handleGameStart = () => {
     if (players.size === 2) {
-      setGameStarted(true);
+      setGameState("playing");
     }
   };
 

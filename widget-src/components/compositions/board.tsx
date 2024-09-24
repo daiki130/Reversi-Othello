@@ -19,13 +19,7 @@ import {
 
 import { ScoreBoard } from "./ScoreBoard";
 
-export function Board({
-  players,
-  gameStarted,
-}: {
-  players: SyncedMap<unknown>;
-  gameStarted: boolean;
-}) {
+export function Board({ players }: { players: SyncedMap<unknown> }) {
   const [gameState, setGameState] = useGameState();
   const [boardType, setBoardType] = useSyncedState("boardType", "standard");
   const [board, setBoard] = useSyncedState("board", useInitializeBoard());
@@ -282,7 +276,7 @@ export function Board({
           ))}
         </AutoLayout>
       </AutoLayout>
-      {gameStarted && (
+      {gameState === "playing" && (
         <ScoreBoard
           boardStyle={boardStyle}
           players={players}
