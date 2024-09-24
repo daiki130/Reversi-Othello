@@ -6,7 +6,7 @@ import { Button } from "../primitives/Button";
 import { EllipseWithImage } from "../primitives/EllipseWithImage";
 import {
   useGameState,
-} from "../../hooks";
+} from "../hooks";
 
 interface Player {
   name: string;
