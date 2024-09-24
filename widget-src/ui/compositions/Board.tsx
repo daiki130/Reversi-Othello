@@ -17,6 +17,7 @@ import {
   useScores,
   useGameMenu,
   useResetGame,
+  useSwitchTurn,
 } from "../hooks";
 
 import { ScoreBoard } from "./ScoreBoard";
@@ -76,37 +77,9 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
     setBoard(newBoard);
     setScores(newScores);
     setPassCount(0);
-    switchTurn(newBoard);
-  }
 
-  // ターンを切り替える
-  function switchTurn(newBoard: string[][]) {
-    const nextPlayer = currentPlayer === "black" ? "white" : "black";
-    const nextPlayerMoves = useGetValidMoves(newBoard, nextPlayer);
-
-    if (nextPlayerMoves.length > 0) {
-      setCurrentPlayer(nextPlayer);
-    } else {
-      const currentPlayerMoves = useGetValidMoves(newBoard, currentPlayer);
-      if (currentPlayerMoves.length > 0) {
-        setCurrentPlayer(currentPlayer);
-        console.log(`${nextPlayer} has no valid moves. Passing...`);
-        setPassCount((prev) => {
-          const newPassCount = prev + 1;
-          if (newPassCount >= 2) {
-            setGameOver(true);
-            console.log("Game Over");
-          }
-          return newPassCount;
-        });
-      } else {
-        // 両方のプレイヤーに効な手がない場合、ゲームオーバーにする
-        setGameOver(true);
-        const winner = scores.black > scores.white ? "Black" : scores.white > scores.black ? "White" : "Draw";
-        setWinner(winner);
-        console.log(`Game Over: Winner is ${winner}`);
-      }
-    }
+    // ターンを切り替える
+    useSwitchTurn(newBoard, currentPlayer, setCurrentPlayer, scores, setGameOver, setWinner, setPassCount, useGetValidMoves);
   }
 
   // ゲームメニューの作成

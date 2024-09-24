@@ -8,3 +8,4 @@ export * from "./useGetFlippedPieces";
 export * from "./useGetBoardStyle";
 export * from "./useScores";
 export * from "./useGameMenu";
+export * from "./useSwitchTurn";
