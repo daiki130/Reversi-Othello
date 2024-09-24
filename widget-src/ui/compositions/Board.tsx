@@ -4,8 +4,6 @@ const {
   Frame,
   Ellipse,
   useSyncedState,
-  usePropertyMenu,
-  useEffect,
 } = widget;
 
 import {
@@ -39,6 +37,8 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
     "isSoundPlaying",
     false
   );
+
+  // ゲームのリセット処理を呼び出す
   const resetGame = useResetGame(
     setBoard,
     setCurrentPlayer,
@@ -50,6 +50,7 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
     useInitializeBoard
   );
 
+  // ボードのセルをクリックしたときの処理
   function handleCellClick(row: number, col: number) {
     if (gameOver || board[row][col] !== null) return;
 
@@ -72,6 +73,7 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
     switchTurn();
   }
 
+  // ターンを切り替える
   function switchTurn() {
     const nextPlayer = currentPlayer === "black" ? "white" : "black";
     const nextPlayerMoves = useGetValidMoves(board, nextPlayer);
@@ -99,6 +101,7 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
     }
   }
 
+  // ゲームメニューの作成
   useGameMenu(
     resetGame,
     boardType,
@@ -107,8 +110,10 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
     isSoundPlaying
   );
 
+  // 有効な手を取得
   const validMoves = useGetValidMoves(board, currentPlayer);
 
+  // ボードのスタイルを取得
   const boardStyle = useGetBoardStyle(boardType);
 
   return (
