@@ -28,7 +28,7 @@ export function Board({
   const [passCount, setPassCount] = useSyncedState("passCount", 0);
   const [gameState, setGameState] = useSyncedState("gameState", "ongoing");
   const [winner, setWinner] = useSyncedState("winner", null);
-  const [isBGMPlaying, setIsBGMPlaying] = useSyncedState("isBGMPlaying", false);
+  const [isSoundPlaying, setIsBGMPlaying] = useSyncedState("isSoundPlaying", false);
 
   const cellSize = 50;
   const boardSize = cellSize * 8 + 20 + 2 * 7;
@@ -236,10 +236,10 @@ export function Board({
       },
       {
         itemType: "toggle",
-        tooltip: "BGMを再生",
-        propertyName: "playBGM",
-        isToggled: isBGMPlaying,
-        icon: isBGMPlaying
+        tooltip: "Play sound effects",
+        propertyName: "playSound",
+        isToggled: isSoundPlaying,
+        icon: isSoundPlaying
           ? `<svg width="16" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M38.14 9.86011C41.8894 13.6107 43.9957 18.6968 43.9957 24.0001C43.9957 29.3034 41.8894 34.3896 38.14 38.1401M31.08 16.9201C32.9547 18.7954 34.0079 21.3385 34.0079 23.9901C34.0079 26.6417 32.9547 29.1848 31.08 31.0601M22 10.0001L12 18.0001H4V30.0001H12L22 38.0001V10.0001Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>`
@@ -253,9 +253,9 @@ export function Board({
         resetGame();
       } else if (propertyName === "boardType") {
         setBoardType(propertyValue as string);
-      } else if (propertyName === "playBGM") {
+      } else if (propertyName === "playSound") {
         setIsBGMPlaying((prev) => !prev);
-        console.log("BGM再生:", !isBGMPlaying);
+        console.log("BGM再生:", !isSoundPlaying);
       }
     }
   );
