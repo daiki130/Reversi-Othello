@@ -1,12 +1,12 @@
 const { widget } = figma;
 const { AutoLayout, usePropertyMenu,useSyncedState, useSyncedMap } = widget;
 
-import { Board } from "./components/compositions/board";
-import { Modal } from "./components/compositions/modal";
+import { Board } from "./ui/compositions/Board";
+import { Modal } from "./ui/compositions/Modal";
 import {
   useGameState,
   usePlayer,
-} from "./hooks";
+} from "./ui/hooks";
 
 function Widget() {
   const [gameState] = useGameState();

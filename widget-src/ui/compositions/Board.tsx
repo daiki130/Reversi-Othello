@@ -16,7 +16,7 @@ import {
   useGetFlippedPieces,
   useGetBoardStyle,
   useScores,
-} from "../../hooks";
+} from "../hooks";
 
 import { ScoreBoard } from "./ScoreBoard";
 
