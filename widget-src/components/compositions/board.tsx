@@ -4,12 +4,19 @@ const {
   Frame,
   Ellipse,
   useSyncedState,
-  usePropertyMenu
+  usePropertyMenu,
+  useEffect,
 } = widget;
 
 import { ScoreBoard } from "./ScoreBoard";
 
-export function Board({ players, gameStarted }: { players: SyncedMap<unknown>, gameStarted: boolean }) {
+export function Board({
+  players,
+  gameStarted,
+}: {
+  players: SyncedMap<unknown>;
+  gameStarted: boolean;
+}) {
   const [boardType, setBoardType] = useSyncedState("boardType", "standard");
   const [board, setBoard] = useSyncedState("board", initializeBoard());
   const [currentPlayer, setCurrentPlayer] = useSyncedState(
@@ -18,6 +25,10 @@ export function Board({ players, gameStarted }: { players: SyncedMap<unknown>, g
   );
   const [gameOver, setGameOver] = useSyncedState("gameOver", false);
   const [scores, setScores] = useSyncedState("scores", { black: 2, white: 2 });
+  const [passCount, setPassCount] = useSyncedState("passCount", 0);
+  const [gameState, setGameState] = useSyncedState("gameState", "ongoing");
+  const [winner, setWinner] = useSyncedState("winner", null);
+  const [isBGMPlaying, setIsBGMPlaying] = useSyncedState("isBGMPlaying", false);
 
   const cellSize = 50;
   const boardSize = cellSize * 8 + 20 + 2 * 7;
@@ -64,6 +75,7 @@ export function Board({ players, gameStarted }: { players: SyncedMap<unknown>, g
     // ボード、スコア、プレイヤーを同時に更新
     setBoard(newBoard);
     setScores(newScores);
+    setPassCount(0);
     switchTurn();
   }
 
@@ -88,9 +100,20 @@ export function Board({ players, gameStarted }: { players: SyncedMap<unknown>, g
       const currentPlayerMoves = getValidMoves(currentPlayer);
       if (currentPlayerMoves.length > 0) {
         console.log(`${nextPlayer} has no valid moves. Passing...`);
+        setPassCount((prev) => {
+          const newPassCount = prev + 1;
+          if (newPassCount >= 2) {
+            setGameOver(true);
+            console.log("Game Over");
+          }
+          return newPassCount;
+        });
       } else {
+        // 両方のプレイヤーに有効な手がない場合、ゲームオーバーにする
         setGameOver(true);
+        console.log("Game Over: No valid moves for both players");
       }
+      setCurrentPlayer(currentPlayer); // 同じプレイヤーのターンを続ける
     }
   }
 
@@ -133,7 +156,61 @@ export function Board({ players, gameStarted }: { players: SyncedMap<unknown>, g
     setCurrentPlayer("black");
     setGameOver(false);
     setScores({ black: 2, white: 2 });
+    setPassCount(0); // パスカウントをリセット
+    setGameState("ongoing");
+    setWinner(null);
   }
+
+  // function handlePass(player: string) {
+  //   if (passCount >= 2) {
+  //     // 連続パスが2回になったらゲームを終了
+  //     setGameState("finished");
+  //   } else {
+  //     const nextPlayer = player === "black" ? "white" : "black";
+  //     setCurrentPlayer(nextPlayer);
+  //     setPassCount((prev) => prev + 1); // パスカウントを増す
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   const newScore = board.reduce(
+  //     (acc, row) => {
+  //       row.forEach((cell) => {
+  //         if (cell === "black") acc.black++;
+  //         if (cell === "white") acc.white++;
+  //       });
+  //       return acc;
+  //     },
+  //     { black: 0, white: 0 }
+  //   );
+  //   setScores(newScore);
+
+  //   if (gameState === "finished") {
+  //     // ゲーム終了に勝者を決定
+  //     if (newScore.black > newScore.white) {
+  //       setWinner("black");
+  //     } else if (newScore.white > newScore.black) {
+  //       setWinner("white");
+  //     } else {
+  //       setWinner(null); // 引き分けの場合
+  //     }
+  //   } else if (newScore.black + newScore.white === 64) { // 8x8のボードサイズ
+  //     if (newScore.black > newScore.white) {
+  //       setWinner("black");
+  //     } else if (newScore.white > newScore.black) {
+  //       setWinner("white");
+  //     } else {
+  //       setWinner(null); // 引き分けの場合
+  //     }
+  //     setGameState("finished");
+  //   }
+  // }, [board, gameState]);
+
+  // useEffect(() => {
+  //   if (gameOver) {
+  //     console.log("Game Over: No valid moves for both players");
+  //   }
+  // }, [gameOver]);
 
   usePropertyMenu(
     [
@@ -157,12 +234,28 @@ export function Board({ players, gameStarted }: { players: SyncedMap<unknown>, g
           { option: "cyberpunk", label: "CyberPunk" },
         ],
       },
+      {
+        itemType: "toggle",
+        tooltip: "BGMを再生",
+        propertyName: "playBGM",
+        isToggled: isBGMPlaying,
+        icon: isBGMPlaying
+          ? `<svg width="16" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M38.14 9.86011C41.8894 13.6107 43.9957 18.6968 43.9957 24.0001C43.9957 29.3034 41.8894 34.3896 38.14 38.1401M31.08 16.9201C32.9547 18.7954 34.0079 21.3385 34.0079 23.9901C34.0079 26.6417 32.9547 29.1848 31.08 31.0601M22 10.0001L12 18.0001H4V30.0001H12L22 38.0001V10.0001Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`
+          : `<svg width="16" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M46 18L34 30M34 18L46 30M22 10L12 18H4V30H12L22 38V10Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`,
+      },
     ],
     ({ propertyName, propertyValue }) => {
       if (propertyName === "reset") {
         resetGame();
       } else if (propertyName === "boardType") {
         setBoardType(propertyValue as string);
+      } else if (propertyName === "playBGM") {
+        setIsBGMPlaying((prev) => !prev);
+        console.log("BGM再生:", !isBGMPlaying);
       }
     }
   );
@@ -196,30 +289,30 @@ export function Board({ players, gameStarted }: { players: SyncedMap<unknown>, g
           textFill: "#FFFFFF",
           stonePreviewBackground: "#DEDEDE",
         };
-        default:
-          return {
-            fill: "#1e1e1e",
-            cellFill: "#4a4a4a",
-            blackStone: "#000000",
-            blackStoneEffect: {
-              type: "drop-shadow",
-              color: { r: 0, g: 0, b: 0, a: 1 },
-              offset: { x: 0, y: 1 },
-              blur: 0,
-            },
-            whiteStone: "#FFFFFF",
-            whiteStoneEffect: {
-              type: "drop-shadow",
-              color: { r: 0, g: 0, b: 0, a: 1 },
-              offset: { x: 0, y: 1 },
-              blur: 0,
-            },
-            recommendFill: "#808080",
-            strokeWidth: 0,
-            strokeAlign: "inside" as const,
-            textFill: "#FFFFFF",
-            stonePreviewBackground: "#DEDEDE",
-          };
+      default:
+        return {
+          fill: "#1e1e1e",
+          cellFill: "#4a4a4a",
+          blackStone: "#000000",
+          blackStoneEffect: {
+            type: "drop-shadow",
+            color: { r: 0, g: 0, b: 0, a: 1 },
+            offset: { x: 0, y: 1 },
+            blur: 0,
+          },
+          whiteStone: "#FFFFFF",
+          whiteStoneEffect: {
+            type: "drop-shadow",
+            color: { r: 0, g: 0, b: 0, a: 1 },
+            offset: { x: 0, y: 1 },
+            blur: 0,
+          },
+          recommendFill: "#808080",
+          strokeWidth: 0,
+          strokeAlign: "inside" as const,
+          textFill: "#FFFFFF",
+          stonePreviewBackground: "#DEDEDE",
+        };
       case "vintage":
         return {
           fill: "#004085",
