@@ -101,7 +101,7 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
           </Text>
         )}
         <Button
-          label="Reset Game"
+          label="Restart Game"
           onClick={() => console.log("Reset Game")}
           disabled={false}
         />
