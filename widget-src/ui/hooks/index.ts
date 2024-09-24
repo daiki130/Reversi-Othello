@@ -7,3 +7,4 @@ export * from "./useResetGame";
 export * from "./useGetFlippedPieces";
 export * from "./useGetBoardStyle";
 export * from "./useScores";
+export * from "./useGameMenu";
