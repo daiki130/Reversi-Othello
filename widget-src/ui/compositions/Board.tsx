@@ -15,11 +15,8 @@ import {
 
 import { ScoreBoard } from "./ScoreBoard";
 
-export function Board({
-  players,
-}: {
-  players: SyncedMap<unknown>;
-}) {
+export function Board({ players }: { players: SyncedMap<unknown> }) {
+  // ゲームの状態を取得
   const {
     gameState,
     setGameState,
@@ -38,6 +35,8 @@ export function Board({
     isSoundPlaying,
     setIsBGMPlaying,
   } = useGameSettings();
+
+  // ゲームをリセット
   const resetGame = useResetGame(
     setBoard,
     setCurrentPlayer,

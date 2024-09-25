@@ -4,7 +4,7 @@ const { AutoLayout, Text, Image, useSyncedState, Fragment } = widget;
 import { Stone } from "../primitives/Stone";
 import { Button } from "../primitives/Button";
 import { EllipseWithImage } from "../primitives/EllipseWithImage";
-import { useGameState } from "../hooks";
+import { useGameSettings, useInitializeBoard } from "../hooks";
 
 interface Player {
   name: string;
@@ -12,7 +12,16 @@ interface Player {
 }
 
 export function Modal({ players }: { players: SyncedMap<unknown> }) {
-  const [gameState, setGameState] = useGameState();
+  const {
+    gameState,
+    setGameState,
+    setBoard,
+    setCurrentPlayer,
+    setScores,
+    setPassCount,
+    winner,
+    setWinner,
+  } = useGameSettings();
   const [label, setLabel] = useSyncedState("label", "Waiting for 2 player...");
   const [buttonLabel, setButtonLabel] = useSyncedState(
     "buttonLabel",
@@ -26,7 +35,6 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
     "whitePlayer",
     null
   );
-  const [winner, setWinner] = useSyncedState<string | null>("winner", null);
 
   const handleJoin = (color: "black" | "white") => {
     const currentUser = figma.currentUser;
@@ -70,7 +78,12 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
   };
 
   const handleGameRestart = () => {
+    setBoard(useInitializeBoard());
+    setCurrentPlayer("black");
+    setScores({ black: 2, white: 2 });
+    setPassCount(0);
     setGameState("entry");
+    setWinner(null);
   };
 
   const winnerDisplay = winner ? (
