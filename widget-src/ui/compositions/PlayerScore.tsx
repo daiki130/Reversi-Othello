@@ -1,7 +1,7 @@
 const { widget } = figma;
 const { AutoLayout, Text } = widget;
 
-import { EllipseWithImage } from "./EllipseWithImage";
+import { EllipseWithImage } from "../primitives/EllipseWithImage";
 
 export function PlayerScore({
   icon,

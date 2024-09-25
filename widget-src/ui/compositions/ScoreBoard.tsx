@@ -1,7 +1,7 @@
 const { widget } = figma;
 const { AutoLayout, Text, useStickable, Ellipse } = widget;
 
-import { PlayerScore } from "../primitives/PlayerScore";
+import { PlayerScore } from "./PlayerScore";
 export function ScoreBoard({
   boardStyle,
   players,
@@ -18,10 +18,18 @@ export function ScoreBoard({
   winner: any;
 }) {
   useStickable();
-  const playersArray = Array.from(players.entries()) as [string, { icon: string, stone: string }][];
-  const currentPlayerName = playersArray.find(player => player[1].stone === currentPlayer)?.[0] || "";
-  const blackPlayer = playersArray.find(player => player[1].stone === "black");
-  const whitePlayer = playersArray.find(player => player[1].stone === "white");
+  const playersArray = Array.from(players.entries()) as [
+    string,
+    { icon: string; stone: string }
+  ][];
+  const currentPlayerName =
+    playersArray.find((player) => player[1].stone === currentPlayer)?.[0] || "";
+  const blackPlayer = playersArray.find(
+    (player) => player[1].stone === "black"
+  );
+  const whitePlayer = playersArray.find(
+    (player) => player[1].stone === "white"
+  );
 
   return (
     <AutoLayout

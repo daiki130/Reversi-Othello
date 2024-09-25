@@ -32,7 +32,6 @@ export const useSwitchTurn = (
               ? "white"
               : "draw";
           setWinner(winner);
-          console.log("Game Over");
         }
         return newPassCount;
       });
@@ -46,7 +45,6 @@ export const useSwitchTurn = (
           ? "white"
           : "draw";
       setWinner(winner);
-      console.log("Game Over");
     }
   }
 };
