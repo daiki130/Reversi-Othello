@@ -40,8 +40,9 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
     }
 
     if (players.size < 2) {
-      players.set(user, icon);
-      notify(`${user} が参加しました`);
+      players.set(user, {icon, stone: color });
+      notify(`${user} has joined with ${color === "black" ? "black" : "white"} stones`);
+      console.log(players.entries());
     }
     if (players.size === 1) {
       setLabel("Waiting for 1 more player...");
