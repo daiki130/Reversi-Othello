@@ -40,8 +40,12 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
     }
 
     if (players.size < 2) {
-      players.set(user, {icon, stone: color });
-      notify(`${user} has joined with ${color === "black" ? "black" : "white"} stones`);
+      players.set(user, { icon, stone: color });
+      notify(
+        `${user} has joined with ${
+          color === "black" ? "black" : "white"
+        } stones`
+      );
       console.log(players.entries());
     }
     if (players.size === 1) {
