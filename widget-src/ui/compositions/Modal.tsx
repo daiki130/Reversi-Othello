@@ -100,7 +100,7 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
 
   const winnerDisplay = winner ? (
     <Fragment>
-      <Text fontSize={24} fontFamily="Rampart One" fontWeight={600}>
+      <Text fontSize={40} fontFamily="Rampart One" fontWeight={400}>
         Winner
       </Text>
       <AutoLayout
@@ -129,7 +129,7 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
           />
         )}
         {winner === "draw" && (
-          <Text fontSize={24} fontFamily="Radio Canada Big" fontWeight={600}>
+          <Text fontSize={40} fontFamily="Rampart One" fontWeight={400}>
             Draw
           </Text>
         )}
