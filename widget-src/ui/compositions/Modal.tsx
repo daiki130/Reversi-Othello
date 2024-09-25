@@ -69,6 +69,10 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
     }
   };
 
+  const reStartGame = () => {
+    setGameState("entry");
+  };
+
   const winnerDisplay = winner ? (
     <Fragment>
       <Text fontSize={24} fontWeight={700}>
@@ -106,7 +110,7 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
         )}
         <Button
           label="Restart Game"
-          onClick={() => console.log("Reset Game")}
+          onClick={reStartGame}
           disabled={false}
         />
       </AutoLayout>

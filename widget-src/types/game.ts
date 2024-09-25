@@ -1,1 +1,1 @@
-export type GameState = "entry" | "playing" | "finished";
+export type GameState = "entry" | "reset" | "playing" | "finished";

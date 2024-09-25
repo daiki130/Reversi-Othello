@@ -1,4 +1,3 @@
-import { useInitializeBoard } from "./useInitializeBoard";
 import { GameState } from '../../types/game';
 
 export const useResetGame = (
@@ -15,7 +14,7 @@ export const useResetGame = (
     setCurrentPlayer("black");
     setScores({ black: 2, white: 2 });
     setPassCount(0);
-    setGameState("entry");
+    setGameState("reset");
     setWinner(null);
   };
 
