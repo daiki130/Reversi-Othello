@@ -93,7 +93,7 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
                       setPassCount,
                       setCurrentPlayer,
                       setGameState,
-                      setWinner,
+                      setWinner
                     )
                   }
                   stroke={boardStyle.stroke}
@@ -132,7 +132,7 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
           ))}
         </AutoLayout>
       </AutoLayout>
-      {gameState === "playing" || gameState === "reset" && (
+      {gameState !== "entry" && gameState !== "finished" && (
         <ScoreBoard
           boardStyle={boardStyle}
           players={players}

@@ -108,11 +108,7 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
             Draw
           </Text>
         )}
-        <Button
-          label="Restart Game"
-          onClick={reStartGame}
-          disabled={false}
-        />
+        <Button label="Restart Game" onClick={reStartGame} disabled={false} />
       </AutoLayout>
     </Fragment>
   ) : null;
