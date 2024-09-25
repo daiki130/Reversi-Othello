@@ -2,6 +2,8 @@ const { widget } = figma;
 const { AutoLayout, Text, useStickable, Ellipse } = widget;
 
 import { PlayerScore } from "./PlayerScore";
+import { GameState } from '../../types/game';
+
 export function ScoreBoard({
   boardStyle,
   players,
@@ -14,7 +16,7 @@ export function ScoreBoard({
   players: any;
   currentPlayer: string;
   scores: any;
-  gameState: any;
+  gameState: GameState;
   winner: any;
 }) {
   useStickable();

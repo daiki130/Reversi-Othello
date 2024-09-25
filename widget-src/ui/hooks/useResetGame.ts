@@ -1,6 +1,5 @@
 import { useInitializeBoard } from "./useInitializeBoard";
-
-type GameState = "entry" | "playing" | "finished";
+import { GameState } from '../../types/game';
 
 export const useResetGame = (
   setBoard: (board: string[][]) => void,

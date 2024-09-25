@@ -1,9 +1,11 @@
 const { widget } = figma;
 const { useSyncedState } = widget;
-
-type GameState = "entry" | "playing" | "finished";
+import { GameState } from "../../types/game";
 
 export const useGameState = () => {
-  const [gameState, setGameState] = useSyncedState<GameState>("gameState", "entry");
+  const [gameState, setGameState] = useSyncedState<GameState>(
+    "gameState",
+    "entry"
+  );
   return [gameState, setGameState] as const;
-}
+};

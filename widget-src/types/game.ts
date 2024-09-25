@@ -1,0 +1,1 @@
+export type GameState = "entry" | "playing" | "finished";
