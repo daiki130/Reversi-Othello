@@ -1,12 +1,16 @@
 const { widget } = figma;
 const { AutoLayout, usePropertyMenu,useSyncedState, useSyncedMap } = widget;
 
-import { Board } from "./components/compositions/board";
-import { Modal } from "./components/compositions/modal";
+import { Board } from "./ui/compositions/Board";
+import { Modal } from "./ui/compositions/Modal";
+import {
+  useGameState,
+  usePlayer,
+} from "./ui/hooks";
 
 function Widget() {
-  const [gameStarted, setGameStarted] = useSyncedState("gameStarted", false);
-  const players = useSyncedMap<string>("players");
+  const [gameState] = useGameState();
+  const players = usePlayer();
 
   return (
     <AutoLayout
@@ -14,9 +18,9 @@ function Widget() {
       width="hug-contents"
       height="hug-contents"
     >
-      <Board players={players} gameStarted={gameStarted} />
-      {!gameStarted && (
-        <Modal players={players} setGameStarted={setGameStarted} />
+      <Board players={players} />
+      {(gameState === 'entry' || gameState === 'finished') && (
+        <Modal players={players} />
       )}
     </AutoLayout>
   );

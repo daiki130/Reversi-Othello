@@ -1,25 +1,35 @@
 const { widget } = figma;
 const { AutoLayout, Text, useStickable, Ellipse } = widget;
 
-import { PlayerScore } from "../primitives/PlayerScore";
+import { PlayerScore } from "./PlayerScore";
 export function ScoreBoard({
   boardStyle,
   players,
   currentPlayer,
   scores,
-  gameOver,
+  gameState,
+  winner,
 }: {
   boardStyle: any;
   players: any;
   currentPlayer: string;
   scores: any;
-  gameOver: any;
+  gameState: any;
+  winner: any;
 }) {
   useStickable();
-  const playersArray = Array.from(players.entries()) as [string, string][];
-  const currentPlayerName = playersArray[currentPlayer === "black" ? 0 : 1][0];
-  const blackPlayer = playersArray[0];
-  const whitePlayer = playersArray[1];
+  const playersArray = Array.from(players.entries()) as [
+    string,
+    { icon: string; stone: string }
+  ][];
+  const currentPlayerName =
+    playersArray.find((player) => player[1].stone === currentPlayer)?.[0] || "";
+  const blackPlayer = playersArray.find(
+    (player) => player[1].stone === "black"
+  );
+  const whitePlayer = playersArray.find(
+    (player) => player[1].stone === "white"
+  );
 
   return (
     <AutoLayout
@@ -42,7 +52,7 @@ export function ScoreBoard({
         overflow="visible"
       >
         <PlayerScore
-          icon={blackPlayer[1]}
+          icon={blackPlayer ? blackPlayer[1].icon : ""}
           score={scores.black}
           stoneColor="black"
           boardStyle={boardStyle}
@@ -84,11 +94,15 @@ export function ScoreBoard({
             </AutoLayout>
           )}
           <Text fill={boardStyle.textFill} fontSize={14} fontWeight="bold">
-            {gameOver ? "Game Over" : `${currentPlayerName}'s turn`}
+            {gameState === "finished"
+              ? winner === "draw"
+                ? "Draw"
+                : `Winner: ${winner}`
+              : `${currentPlayerName}'s turn`}
           </Text>
         </AutoLayout>
         <PlayerScore
-          icon={whitePlayer[1]}
+          icon={whitePlayer ? whitePlayer[1].icon : ""}
           score={scores.white}
           stoneColor="white"
           boardStyle={boardStyle}

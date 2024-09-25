@@ -1,7 +1,7 @@
 const { widget } = figma;
 const { AutoLayout, Text } = widget;
 
-import { EllipseWithImage } from "./EllipseWithImage";
+import { EllipseWithImage } from "../primitives/EllipseWithImage";
 
 export function PlayerScore({
   icon,
@@ -34,7 +34,8 @@ export function PlayerScore({
       />
       <Text
         fill={
-          stoneColor === "black" ? boardStyle.blackText : boardStyle.whiteText
+          // stoneColor === "black" ? boardStyle.blackText : boardStyle.whiteText
+          boardStyle.textFill
         }
         fontSize={14}
       >
