@@ -99,7 +99,35 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
   };
 
   const winnerDisplay = winner ? (
-    <Fragment>
+    <AutoLayout
+    direction="vertical"
+    spacing={20}
+    padding={{
+      top: 8,
+      bottom: 32,
+      left: 24,
+      right: 24,
+    }}
+    minWidth={240}
+    verticalAlignItems="center"
+    horizontalAlignItems="center"
+    fill="#F9F9F9"
+    cornerRadius={10}
+    effect={{
+      type: "drop-shadow",
+      color: {
+        r: 0,
+        g: 0,
+        b: 0,
+        a: 0.3,
+      },
+      blur: 10,
+      offset: { x: 0, y: 0 },
+    }}
+    positioning="absolute"
+    x={97}
+    y={98}
+  >
       <Text fontSize={40} fontFamily="Rampart One" fontWeight={400}>
         Winner
       </Text>
@@ -139,49 +167,50 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
           disabled={false}
         />
       </AutoLayout>
-    </Fragment>
+    </AutoLayout>
   ) : null;
 
   return (
-    <AutoLayout
-      direction="vertical"
-      spacing={20}
-      padding={{
-        top: 8,
-        bottom: 32,
-        left: 24,
-        right: 24,
-      }}
-      minWidth={240}
-      verticalAlignItems="center"
-      horizontalAlignItems="center"
-      fill="#F9F9F9"
-      cornerRadius={10}
-      effect={{
-        type: "drop-shadow",
-        color: {
-          r: 0,
-          g: 0,
-          b: 0,
-          a: 0.3,
-        },
-        blur: 10,
-        offset: { x: 0, y: 0 },
-      }}
-      positioning="absolute"
-      x={70}
-      y={60}
-    >
-      <Image
-        src={
-          "https://raw.githubusercontent.com/daiki130/Reversi-Othello/main/widget-src/assets/logo.png"
-        }
-        width={245}
-        height={103}
-      />
+    <Fragment>
       {gameState === "finished" ? (
-        winnerDisplay
-      ) : (
+      winnerDisplay
+    ) : (
+      <AutoLayout
+        direction="vertical"
+        spacing={20}
+        padding={{
+          top: 8,
+          bottom: 32,
+          left: 24,
+          right: 24,
+        }}
+        minWidth={240}
+        verticalAlignItems="center"
+        horizontalAlignItems="center"
+        fill="#F9F9F9"
+        cornerRadius={10}
+        effect={{
+          type: "drop-shadow",
+          color: {
+            r: 0,
+            g: 0,
+            b: 0,
+            a: 0.3,
+          },
+          blur: 10,
+          offset: { x: 0, y: 0 },
+        }}
+        positioning="absolute"
+        x={70}
+        y={60}
+      >
+        <Image
+          src={
+            "https://raw.githubusercontent.com/daiki130/Reversi-Othello/main/widget-src/assets/logo.png"
+          }
+          width={245}
+          height={103}
+        />
         <Fragment>
           <Text fontSize={14} fontFamily="Radio Canada Big" fontWeight={600}>
             {label}
@@ -237,7 +266,8 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
             <Button label={buttonLabel} onClick={() => {}} disabled={true} />
           )}
         </Fragment>
+        </AutoLayout>
       )}
-    </AutoLayout>
+    </Fragment>
   );
 }
