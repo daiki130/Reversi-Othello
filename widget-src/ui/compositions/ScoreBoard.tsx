@@ -98,7 +98,7 @@ export function ScoreBoard({
           <Text
             fill={boardStyle.textFill}
             fontSize={14}
-            fontWeight="bold"
+            fontWeight={boardStyle.fontWeight}
             fontFamily={boardStyle.fontFamily}
           >
             {gameState === "finished"
