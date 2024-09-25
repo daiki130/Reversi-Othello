@@ -2,7 +2,13 @@
 const { widget } = figma;
 const { usePropertyMenu } = widget;
 
-export function useGameMenu(resetGame: () => void, boardType: string, setBoardType: (type: string) => void, setIsBGMPlaying: (prev: (prev: boolean) => boolean) => void, isSoundPlaying: boolean) {
+export function useGameMenu(
+  resetGame: () => void,
+  boardType: string,
+  setBoardType: (type: string) => void,
+  setIsBGMPlaying: (prev: (prev: boolean) => boolean) => void,
+  isSoundPlaying: boolean
+) {
   usePropertyMenu(
     [
       {
