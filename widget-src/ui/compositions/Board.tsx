@@ -43,13 +43,15 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
   );
 
   // ゲームメニューの作成
-  useGameMenu(
-    resetGame,
-    boardType,
-    setBoardType,
-    setIsBGMPlaying,
-    isSoundPlaying
-  );
+  if (gameState === "playing" || gameState === "reset") {
+    useGameMenu(
+      resetGame,
+      boardType,
+      setBoardType,
+      setIsBGMPlaying,
+      isSoundPlaying
+    );
+  }
 
   // 有効な手を取得
   const validMoves = useGetValidMoves(board, currentPlayer);
@@ -130,7 +132,7 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
           ))}
         </AutoLayout>
       </AutoLayout>
-      {gameState === "playing" && (
+      {gameState === "playing" || gameState === "reset" && (
         <ScoreBoard
           boardStyle={boardStyle}
           players={players}
