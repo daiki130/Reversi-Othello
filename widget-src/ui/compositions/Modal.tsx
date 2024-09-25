@@ -46,7 +46,6 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
           color === "black" ? "black" : "white"
         } stones`
       );
-      console.log(players.entries());
     }
     if (players.size === 1) {
       setLabel("Waiting for 1 more player...");
