@@ -10,3 +10,9 @@ export * from "./useScores";
 export * from "./useGameMenu";
 export * from "./useSwitchTurn";
 export * from "./useGameSettings";
+
+export { useGameState } from "./useGameState";
+export { usePlayer } from "./usePlayer";
+export { useResetGame } from "./useResetGame";
+export { useGameMenu } from "./useGameMenu";
+export { useGameSettings } from "./useGameSettings"; // 追加

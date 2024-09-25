@@ -1,5 +1,23 @@
+const { widget, loadFontAsync } = figma;
+const { useSyncedState, useEffect } = widget;
+
 // ボードのスタイルを取得し、ボードのスタイルを返す
 export const useGetBoardStyle = (type: string) => {
+  const [fontLoaded, setFontLoaded] = useSyncedState("fontLoaded", false);
+  useEffect(() => {
+    const loadFont = async () => {
+      await loadFontAsync({
+        family: "Pacifico",
+        style: "Regular",
+      });
+      setFontLoaded(true);
+    };
+    loadFont();
+  });
+
+  // vintageボードのフォントをPacificoに設定
+  const vintageFontFamily = fontLoaded ? "Pacifico" : "Inter";
+
   switch (type) {
     case "standard":
       return {
@@ -25,6 +43,7 @@ export const useGetBoardStyle = (type: string) => {
         strokeAlign: "inside" as const,
         textFill: "#FFFFFF",
         stonePreviewBackground: "#DEDEDE",
+        fontFamily: "Inter",
       };
     default:
       return {
@@ -49,6 +68,7 @@ export const useGetBoardStyle = (type: string) => {
         strokeAlign: "inside" as const,
         textFill: "#FFFFFF",
         stonePreviewBackground: "#DEDEDE",
+        fontFamily: "Inter",
       };
     case "vintage":
       return {
@@ -74,6 +94,7 @@ export const useGetBoardStyle = (type: string) => {
         strokeAlign: "inside" as const,
         textFill: "#FFFFFF",
         stonePreviewBackground: "#ffffff",
+        fontFamily: vintageFontFamily,
       };
     case "cyberpunk":
       return {
@@ -99,6 +120,7 @@ export const useGetBoardStyle = (type: string) => {
         strokeAlign: "inside" as const,
         textFill: "#FFFFFF",
         stonePreviewBackground: "#ffffff",
+        fontFamily: "Orbitron",
       };
   }
 };

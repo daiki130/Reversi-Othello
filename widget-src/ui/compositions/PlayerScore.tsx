@@ -37,6 +37,7 @@ export function PlayerScore({
           // stoneColor === "black" ? boardStyle.blackText : boardStyle.whiteText
           boardStyle.textFill
         }
+        fontFamily={boardStyle.fontFamily}
         fontSize={14}
       >
         {score}

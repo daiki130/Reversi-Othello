@@ -2,7 +2,7 @@ const { widget } = figma;
 const { AutoLayout, Text, useStickable, Ellipse } = widget;
 
 import { PlayerScore } from "./PlayerScore";
-import { GameState } from '../../types/game';
+import { GameState } from "../../types/game";
 
 export function ScoreBoard({
   boardStyle,
@@ -95,7 +95,12 @@ export function ScoreBoard({
               />
             </AutoLayout>
           )}
-          <Text fill={boardStyle.textFill} fontSize={14} fontWeight="bold">
+          <Text
+            fill={boardStyle.textFill}
+            fontSize={14}
+            fontWeight="bold"
+            fontFamily={boardStyle.fontFamily}
+          >
             {gameState === "finished"
               ? winner === "draw"
                 ? "Draw"

@@ -1,5 +1,5 @@
-const { widget, notify } = figma;
-const { AutoLayout, Text, Image, useSyncedState, Fragment } = widget;
+const { widget, notify, loadFontAsync } = figma;
+const { AutoLayout, Text, Image, useSyncedState, Fragment, useEffect } = widget;
 
 import { Stone } from "../primitives/Stone";
 import { Button } from "../primitives/Button";
@@ -35,6 +35,18 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
     "whitePlayer",
     null
   );
+  const [fontLoaded, setFontLoaded] = useSyncedState("fontLoaded", false);
+
+  useEffect(() => {
+    const loadFont = async () => {
+      await loadFontAsync({
+        family: "Pacifico",
+        style: "Regular",
+      });
+      setFontLoaded(true);
+    };
+    loadFont();
+  });
 
   const handleJoin = (color: "black" | "white") => {
     const currentUser = figma.currentUser;
@@ -88,7 +100,7 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
 
   const winnerDisplay = winner ? (
     <Fragment>
-      <Text fontSize={24} fontWeight={700}>
+      <Text fontSize={24} fontFamily="Rampart One" fontWeight={600}>
         Winner
       </Text>
       <AutoLayout
@@ -117,11 +129,15 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
           />
         )}
         {winner === "draw" && (
-          <Text fontSize={24} fontWeight={700}>
+          <Text fontSize={24} fontFamily="Radio Canada Big" fontWeight={600}>
             Draw
           </Text>
         )}
-        <Button label="Restart Game" onClick={handleGameRestart} disabled={false} />
+        <Button
+          label="Restart Game"
+          onClick={handleGameRestart}
+          disabled={false}
+        />
       </AutoLayout>
     </Fragment>
   ) : null;
@@ -139,7 +155,7 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
       minWidth={240}
       verticalAlignItems="center"
       horizontalAlignItems="center"
-      fill="#FFFFFF"
+      fill="#F9F9F9"
       cornerRadius={10}
       effect={{
         type: "drop-shadow",
@@ -167,7 +183,7 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
         winnerDisplay
       ) : (
         <Fragment>
-          <Text fontSize={14} fontWeight={400}>
+          <Text fontSize={14} fontFamily="Radio Canada Big" fontWeight={600}>
             {label}
           </Text>
           <AutoLayout
@@ -193,7 +209,7 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
                 tooltip="Click to join as black"
               />
             )}
-            <Text fontFamily="Karantina">vs</Text>
+            <Text fontFamily={fontLoaded ? "Pacifico" : "Inter"}>vs</Text>
             {whitePlayer ? (
               <EllipseWithImage
                 width={60}

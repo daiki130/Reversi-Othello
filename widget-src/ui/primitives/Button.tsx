@@ -24,6 +24,8 @@ export function Button({
         onClick={disabled ? undefined : onClick}
         fill="#FFFDFD"
         opacity={1}
+        fontFamily="Radio Canada Big"
+        fontWeight={600}
       >
         {label}
       </Text>
