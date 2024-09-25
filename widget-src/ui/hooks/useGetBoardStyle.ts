@@ -44,6 +44,7 @@ export const useGetBoardStyle = (type: string) => {
         textFill: "#FFFFFF",
         stonePreviewBackground: "#DEDEDE",
         fontFamily: "Inter",
+        fontWeight: 600,
       };
     default:
       return {
@@ -69,6 +70,7 @@ export const useGetBoardStyle = (type: string) => {
         textFill: "#FFFFFF",
         stonePreviewBackground: "#DEDEDE",
         fontFamily: "Inter",
+        fontWeight: 600,
       };
     case "vintage":
       return {
@@ -95,6 +97,7 @@ export const useGetBoardStyle = (type: string) => {
         textFill: "#FFFFFF",
         stonePreviewBackground: "#ffffff",
         fontFamily: vintageFontFamily,
+        fontWeight: 400,
       };
     case "cyberpunk":
       return {
@@ -121,6 +124,7 @@ export const useGetBoardStyle = (type: string) => {
         textFill: "#FFFFFF",
         stonePreviewBackground: "#ffffff",
         fontFamily: "Orbitron",
+        fontWeight: 600,
       };
   }
 };
