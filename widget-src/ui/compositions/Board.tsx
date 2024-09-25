@@ -2,7 +2,6 @@ const { widget } = figma;
 const { AutoLayout, Frame, Ellipse, useSyncedState } = widget;
 
 import {
-  useGameState,
   useInitializeBoard,
   useGetValidMoves,
   cellSize,
@@ -11,27 +10,34 @@ import {
   useGameMenu,
   useResetGame,
   useHandleCellClick,
+  useGameSettings,
 } from "../hooks";
 
 import { ScoreBoard } from "./ScoreBoard";
 
-export function Board({ players }: { players: SyncedMap<unknown> }) {
-  const [gameState, setGameState] = useGameState();
-  const [boardType, setBoardType] = useSyncedState("boardType", "standard");
-  const [board, setBoard] = useSyncedState("board", useInitializeBoard());
-  const [currentPlayer, setCurrentPlayer] = useSyncedState(
-    "currentPlayer",
-    "black"
-  );
-  const [scores, setScores] = useSyncedState("scores", { black: 2, white: 2 });
-  const [passCount, setPassCount] = useSyncedState("passCount", 0);
-  const [winner, setWinner] = useSyncedState<string | null>("winner", null);
-  const [isSoundPlaying, setIsBGMPlaying] = useSyncedState(
-    "isSoundPlaying",
-    false
-  );
-
-  // ゲームのリセット処理を呼び出す
+export function Board({
+  players,
+}: {
+  players: SyncedMap<unknown>;
+}) {
+  const {
+    gameState,
+    setGameState,
+    boardType,
+    setBoardType,
+    board,
+    setBoard,
+    currentPlayer,
+    setCurrentPlayer,
+    scores,
+    setScores,
+    passCount,
+    setPassCount,
+    winner,
+    setWinner,
+    isSoundPlaying,
+    setIsBGMPlaying,
+  } = useGameSettings();
   const resetGame = useResetGame(
     setBoard,
     setCurrentPlayer,

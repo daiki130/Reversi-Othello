@@ -9,3 +9,4 @@ export * from "./useGetBoardStyle";
 export * from "./useScores";
 export * from "./useGameMenu";
 export * from "./useSwitchTurn";
+export * from "./useGameSettings";

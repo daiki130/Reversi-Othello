@@ -69,7 +69,7 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
     }
   };
 
-  const reStartGame = () => {
+  const handleGameRestart = () => {
     setGameState("entry");
   };
 
@@ -108,7 +108,7 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
             Draw
           </Text>
         )}
-        <Button label="Restart Game" onClick={reStartGame} disabled={false} />
+        <Button label="Restart Game" onClick={handleGameRestart} disabled={false} />
       </AutoLayout>
     </Fragment>
   ) : null;
