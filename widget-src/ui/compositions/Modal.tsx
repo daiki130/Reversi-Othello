@@ -103,7 +103,7 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
   const winnerDisplay = winner ? (
     <Fragment>
       {winner !== "draw" ? (
-        // ドローの場合の処理
+        // winnerがblackかwhiteの場合の処理
         <AutoLayout
           direction="vertical"
           spacing={20}
@@ -227,7 +227,7 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
           direction="vertical"
           spacing={20}
           padding={{
-            top: 8,
+            top: 16,
             bottom: 32,
             left: 24,
             right: 24,
@@ -250,11 +250,11 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
           }}
           positioning="absolute"
           x={70}
-          y={60}
+          y={54}
         >
           <Image
             src={
-              "https://raw.githubusercontent.com/daiki130/Reversi-Othello/main/widget-src/assets/logo.png"
+              "https://raw.githubusercontent.com/daiki130/Reversi-Othello/main/widget-src/assets/logo/logo.png"
             }
             width={245}
             height={103}
