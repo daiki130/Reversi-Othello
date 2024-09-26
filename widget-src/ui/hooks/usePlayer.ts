@@ -1,3 +1,4 @@
+// プレイヤーを取得するためのフック
 const { widget } = figma;
 const { useSyncedMap } = widget;
 

@@ -1,6 +1,6 @@
-// ターンを切り替えるためのフック
-type GameState = "entry" | "playing" | "finished";
+import { GameState } from '../../types/game';
 
+// ターンを切り替えるためのフック
 export const useSwitchTurn = (
   newBoard: string[][],
   currentPlayer: string,

@@ -100,34 +100,34 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
 
   const winnerDisplay = winner ? (
     <AutoLayout
-    direction="vertical"
-    spacing={20}
-    padding={{
-      top: 8,
-      bottom: 32,
-      left: 24,
-      right: 24,
-    }}
-    minWidth={240}
-    verticalAlignItems="center"
-    horizontalAlignItems="center"
-    fill="#F9F9F9"
-    cornerRadius={10}
-    effect={{
-      type: "drop-shadow",
-      color: {
-        r: 0,
-        g: 0,
-        b: 0,
-        a: 0.3,
-      },
-      blur: 10,
-      offset: { x: 0, y: 0 },
-    }}
-    positioning="absolute"
-    x={97}
-    y={98}
-  >
+      direction="vertical"
+      spacing={20}
+      padding={{
+        top: 8,
+        bottom: 32,
+        left: 24,
+        right: 24,
+      }}
+      minWidth={240}
+      verticalAlignItems="center"
+      horizontalAlignItems="center"
+      fill="#F9F9F9"
+      cornerRadius={10}
+      effect={{
+        type: "drop-shadow",
+        color: {
+          r: 0,
+          g: 0,
+          b: 0,
+          a: 0.3,
+        },
+        blur: 10,
+        offset: { x: 0, y: 0 },
+      }}
+      positioning="absolute"
+      x={97}
+      y={98}
+    >
       <Text fontSize={40} fontFamily="Rampart One" fontWeight={400}>
         Winner
       </Text>
@@ -173,99 +173,99 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
   return (
     <Fragment>
       {gameState === "finished" ? (
-      winnerDisplay
-    ) : (
-      <AutoLayout
-        direction="vertical"
-        spacing={20}
-        padding={{
-          top: 8,
-          bottom: 32,
-          left: 24,
-          right: 24,
-        }}
-        minWidth={240}
-        verticalAlignItems="center"
-        horizontalAlignItems="center"
-        fill="#F9F9F9"
-        cornerRadius={10}
-        effect={{
-          type: "drop-shadow",
-          color: {
-            r: 0,
-            g: 0,
-            b: 0,
-            a: 0.3,
-          },
-          blur: 10,
-          offset: { x: 0, y: 0 },
-        }}
-        positioning="absolute"
-        x={70}
-        y={60}
-      >
-        <Image
-          src={
-            "https://raw.githubusercontent.com/daiki130/Reversi-Othello/main/widget-src/assets/logo.png"
-          }
-          width={245}
-          height={103}
-        />
-        <Fragment>
-          <Text fontSize={14} fontFamily="Radio Canada Big" fontWeight={600}>
-            {label}
-          </Text>
-          <AutoLayout
-            direction="horizontal"
-            verticalAlignItems="center"
-            horizontalAlignItems="center"
-            spacing={24}
-            overflow="visible"
-          >
-            {blackPlayer ? (
-              <EllipseWithImage
-                width={60}
-                height={60}
-                src={blackPlayer.icon}
-                stroke=""
-                strokeWidth={2}
-                strokeAlign="outside"
+        winnerDisplay
+      ) : (
+        <AutoLayout
+          direction="vertical"
+          spacing={20}
+          padding={{
+            top: 8,
+            bottom: 32,
+            left: 24,
+            right: 24,
+          }}
+          minWidth={240}
+          verticalAlignItems="center"
+          horizontalAlignItems="center"
+          fill="#F9F9F9"
+          cornerRadius={10}
+          effect={{
+            type: "drop-shadow",
+            color: {
+              r: 0,
+              g: 0,
+              b: 0,
+              a: 0.3,
+            },
+            blur: 10,
+            offset: { x: 0, y: 0 },
+          }}
+          positioning="absolute"
+          x={70}
+          y={60}
+        >
+          <Image
+            src={
+              "https://raw.githubusercontent.com/daiki130/Reversi-Othello/main/widget-src/assets/logo.png"
+            }
+            width={245}
+            height={103}
+          />
+          <Fragment>
+            <Text fontSize={14} fontFamily="Radio Canada Big" fontWeight={600}>
+              {label}
+            </Text>
+            <AutoLayout
+              direction="horizontal"
+              verticalAlignItems="center"
+              horizontalAlignItems="center"
+              spacing={24}
+              overflow="visible"
+            >
+              {blackPlayer ? (
+                <EllipseWithImage
+                  width={60}
+                  height={60}
+                  src={blackPlayer.icon}
+                  stroke=""
+                  strokeWidth={2}
+                  strokeAlign="outside"
+                />
+              ) : (
+                <Stone
+                  color="black"
+                  onClick={() => handleJoin("black")}
+                  tooltip="Click to join as black"
+                />
+              )}
+              <Text fontFamily={fontLoaded ? "Pacifico" : "Inter"}>vs</Text>
+              {whitePlayer ? (
+                <EllipseWithImage
+                  width={60}
+                  height={60}
+                  src={whitePlayer.icon}
+                  stroke=""
+                  strokeWidth={2}
+                  strokeAlign="outside"
+                />
+              ) : (
+                <Stone
+                  color="white"
+                  onClick={() => handleJoin("white")}
+                  tooltip="Click to join as white"
+                />
+              )}
+            </AutoLayout>
+            {players.size === 2 ? (
+              <Button
+                label={buttonLabel}
+                onClick={handleGameStart}
+                disabled={false}
               />
             ) : (
-              <Stone
-                color="black"
-                onClick={() => handleJoin("black")}
-                tooltip="Click to join as black"
-              />
+              <Button label={buttonLabel} onClick={() => {}} disabled={true} />
             )}
-            <Text fontFamily={fontLoaded ? "Pacifico" : "Inter"}>vs</Text>
-            {whitePlayer ? (
-              <EllipseWithImage
-                width={60}
-                height={60}
-                src={whitePlayer.icon}
-                stroke=""
-                strokeWidth={2}
-                strokeAlign="outside"
-              />
-            ) : (
-              <Stone
-                color="white"
-                onClick={() => handleJoin("white")}
-                tooltip="Click to join as white"
-              />
-            )}
-          </AutoLayout>
-          {players.size === 2 ? (
-            <Button
-              label={buttonLabel}
-              onClick={handleGameStart}
-              disabled={false}
-            />
-          ) : (
-            <Button label={buttonLabel} onClick={() => {}} disabled={true} />
-          )}
-        </Fragment>
+          </Fragment>
         </AutoLayout>
       )}
     </Fragment>

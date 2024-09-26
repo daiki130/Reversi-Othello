@@ -34,7 +34,6 @@ export function PlayerScore({
       />
       <Text
         fill={
-          // stoneColor === "black" ? boardStyle.blackText : boardStyle.whiteText
           boardStyle.textFill
         }
         fontFamily={boardStyle.fontFamily}

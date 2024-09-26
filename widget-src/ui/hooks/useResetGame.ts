@@ -1,5 +1,6 @@
 import { GameState } from '../../types/game';
 
+// ゲームをリセットするフック
 export const useResetGame = (
   setBoard: (board: string[][]) => void,
   setCurrentPlayer: (player: string) => void,

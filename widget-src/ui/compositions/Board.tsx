@@ -1,5 +1,5 @@
 const { widget } = figma;
-const { AutoLayout, Frame, Ellipse, useSyncedState } = widget;
+const { AutoLayout, Frame, Ellipse } = widget;
 
 import {
   useInitializeBoard,

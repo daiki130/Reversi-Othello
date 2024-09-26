@@ -5,6 +5,7 @@ import {
   useSwitchTurn,
 } from "../hooks";
 
+// セルをクリックしたときの処理を行うためのフック
 export const useHandleCellClick = (
   row: number,
   col: number,

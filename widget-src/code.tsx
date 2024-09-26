@@ -1,5 +1,5 @@
 const { widget } = figma;
-const { AutoLayout, usePropertyMenu, useSyncedState, useSyncedMap } = widget;
+const { AutoLayout } = widget;
 
 import { Board } from "./ui/compositions/Board";
 import { Modal } from "./ui/compositions/Modal";

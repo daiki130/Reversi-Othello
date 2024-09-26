@@ -1,4 +1,4 @@
-// 指定されたマスに置かれた石が、その石の色の反転にどの石を反転させるかを計算する
+// 指定されたマスに置かれた石が、その石の色の反転にどの石を反転させるかを計算するためのフック
 export const useGetFlippedPieces = (
   row: number,
   col: number,

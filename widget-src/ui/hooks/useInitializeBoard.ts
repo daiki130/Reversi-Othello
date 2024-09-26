@@ -1,3 +1,4 @@
+// ボードを初期化するためのフック
 export const useInitializeBoard = () => {
   const newBoard = Array(8)
     .fill(null)

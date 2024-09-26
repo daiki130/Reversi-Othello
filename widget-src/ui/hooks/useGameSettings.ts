@@ -1,4 +1,4 @@
-// ゲームの設定を管理する
+// ゲームの設定を管理するためのフック
 const { widget } = figma;
 const { useSyncedState } = widget;
 

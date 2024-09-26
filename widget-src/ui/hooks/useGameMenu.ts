@@ -1,4 +1,4 @@
-// ゲームメニューを表示するフック
+// ゲームメニューを表示するためのフック
 const { widget } = figma;
 const { usePropertyMenu } = widget;
 

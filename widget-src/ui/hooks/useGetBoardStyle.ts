@@ -1,7 +1,7 @@
 const { widget, loadFontAsync } = figma;
 const { useSyncedState, useEffect } = widget;
 
-// ボードのスタイルを取得し、ボードのスタイルを返す
+// ボードのスタイルを取得し、ボードのスタイルを返すためのフック
 export const useGetBoardStyle = (type: string) => {
   const [fontLoaded, setFontLoaded] = useSyncedState("fontLoaded", false);
   useEffect(() => {

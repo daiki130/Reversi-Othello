@@ -1,3 +1,4 @@
+// スコアを取得するためのフック
 export const useScores = (boardState: string[][]) => {
   const newScores = { black: 0, white: 0 };
   boardState.forEach((row) => {
