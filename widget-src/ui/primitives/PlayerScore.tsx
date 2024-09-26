@@ -1,7 +1,7 @@
 const { widget } = figma;
 const { AutoLayout, Text } = widget;
 
-import { EllipseWithImage } from "../primitives/EllipseWithImage";
+import { EllipseWithImage } from "./EllipseWithImage";
 
 export function PlayerScore({
   icon,
@@ -33,9 +33,7 @@ export function PlayerScore({
         isStrokeDash={true}
       />
       <Text
-        fill={
-          boardStyle.textFill
-        }
+        fill={boardStyle.textFill}
         fontFamily={boardStyle.fontFamily}
         fontSize={14}
       >

@@ -1,7 +1,8 @@
 const { widget } = figma;
-const { AutoLayout, Text, useStickable, Ellipse } = widget;
+const { AutoLayout, useStickable } = widget;
 
-import { PlayerScore } from "./PlayerScore";
+import { PlayerScore } from "../primitives/PlayerScore";
+import { Turn } from "../primitives/Turn";
 import { GameState } from "../../types/game";
 
 export function ScoreBoard({
@@ -59,55 +60,13 @@ export function ScoreBoard({
           stoneColor="black"
           boardStyle={boardStyle}
         />
-        <AutoLayout
-          direction="horizontal"
-          spacing={4}
-          verticalAlignItems="center"
-        >
-          {currentPlayer === "black" ? (
-            <AutoLayout
-              direction="horizontal"
-              spacing={4}
-              padding={4}
-              cornerRadius={4}
-              fill={boardStyle.stonePreviewBackground}
-            >
-              <Ellipse
-                width={14}
-                height={14}
-                fill={boardStyle.blackStone}
-                effect={boardStyle.blackStoneEffect}
-              />
-            </AutoLayout>
-          ) : (
-            <AutoLayout
-              direction="horizontal"
-              spacing={4}
-              padding={4}
-              cornerRadius={4}
-              fill={boardStyle.stonePreviewBackground}
-            >
-              <Ellipse
-                width={14}
-                height={14}
-                fill={boardStyle.whiteStone}
-                effect={boardStyle.whiteStoneEffect}
-              />
-            </AutoLayout>
-          )}
-          <Text
-            fill={boardStyle.textFill}
-            fontSize={14}
-            fontWeight={boardStyle.fontWeight}
-            fontFamily={boardStyle.fontFamily}
-          >
-            {gameState === "finished"
-              ? winner === "draw"
-                ? "Draw"
-                : `Winner: ${winner}`
-              : `${currentPlayerName}'s turn`}
-          </Text>
-        </AutoLayout>
+        <Turn
+          boardStyle={boardStyle}
+          currentPlayer={currentPlayer}
+          gameState={gameState}
+          winner={winner}
+          currentPlayerName={currentPlayerName}
+        />
         <PlayerScore
           icon={whitePlayer ? whitePlayer[1].icon : ""}
           score={scores.white}
