@@ -19,7 +19,7 @@ export function PlayerScore({
   return (
     <AutoLayout
       direction="horizontal"
-      spacing={4}
+      spacing={8}
       padding={12}
       verticalAlignItems="center"
       overflow="visible"
@@ -36,7 +36,7 @@ export function PlayerScore({
       <Text
         fill={boardStyle.textFill}
         fontFamily={boardStyle.fontFamily}
-        fontSize={14}
+        fontSize={16}
       >
         {score}
       </Text>

@@ -63,6 +63,8 @@ export function ScoreBoard({
         width={"fill-parent"}
         height={1}
         fill={boardStyle.scoreBoardDivider}
+        cornerRadius={999}
+        opacity={0.4}
       />
       <AutoLayout
         direction="horizontal"
