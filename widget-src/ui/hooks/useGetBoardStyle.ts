@@ -26,7 +26,7 @@ export const useGetBoardStyle = (type: string) => {
         blackStone: "#000000",
         blackStoneEffect: {
           type: "drop-shadow",
-          color: { r: 0, g: 0, b: 0, a: 1 },
+          color: { r: 0, g: 0, b: 0, a: 0.4 },
           offset: { x: 0, y: 1 },
           blur: 0,
         },
@@ -58,7 +58,7 @@ export const useGetBoardStyle = (type: string) => {
         blackStone: "#000000",
         blackStoneEffect: {
           type: "drop-shadow",
-          color: { r: 0, g: 0, b: 0, a: 1 },
+          color: { r: 0, g: 0, b: 0, a: 0.4 },
           offset: { x: 0, y: 1 },
           blur: 0,
         },
