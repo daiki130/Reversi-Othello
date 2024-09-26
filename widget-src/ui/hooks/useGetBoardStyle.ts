@@ -53,7 +53,7 @@ export const useGetBoardStyle = (type: string) => {
       };
     default:
       return {
-        fill: "#1e1e1e",
+        fill: "#010713",
         cellFill: "#4a4a4a",
         blackStone: "#000000",
         blackStoneEffect: {
