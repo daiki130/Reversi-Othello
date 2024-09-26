@@ -4,7 +4,7 @@ const { AutoLayout, SVG } = widget;
 export const Stone = ({
   color,
   onClick,
-  tooltip
+  tooltip,
 }: {
   color: "black" | "white";
   onClick: () => void;
@@ -37,7 +37,7 @@ export const Stone = ({
   const innerShadowColor =
     color === "white"
       ? { r: 0, g: 0, b: 0, a: 0.5 } // 白い石の場合、内側の影は黒
-      : { r: 1, g: 1, b: 1, a: 0.5 }; // 黒い石の場合、内側の影は白
+      : { r: 1, g: 1, b: 1, a: 0.25 }; // 黒い石の場合、内側の影は白
   const dropShadowColor =
     color === "white"
       ? { r: 0, g: 0, b: 0, a: 0.25 }
