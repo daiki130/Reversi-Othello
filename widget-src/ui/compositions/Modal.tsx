@@ -15,6 +15,7 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
   const {
     gameState,
     setGameState,
+    setBoardType,
     setBoard,
     setCurrentPlayer,
     setScores,
@@ -95,6 +96,7 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
     setScores({ black: 2, white: 2 });
     setPassCount(0);
     setGameState("entry");
+    setBoardType("standard");
     setWinner(null);
   };
 
