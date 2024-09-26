@@ -8,29 +8,30 @@ export function PlayerScore({
   score,
   stoneColor,
   boardStyle,
+  isCurrentPlayer,
 }: {
   icon: string;
   score: number;
   stoneColor: "black" | "white";
   boardStyle: any;
+  isCurrentPlayer: boolean;
 }) {
   return (
     <AutoLayout
       direction="horizontal"
-      spacing={8}
+      spacing={4}
+      padding={12}
       verticalAlignItems="center"
       overflow="visible"
+      minWidth={94}
+      fill={isCurrentPlayer ? boardStyle.playerScoreBackground : ""}
+      cornerRadius={8}
     >
       <EllipseWithImage
         width={32}
         height={32}
         src={icon}
-        stroke={
-          stoneColor === "black" ? boardStyle.blackStone : boardStyle.whiteStone
-        }
-        strokeWidth={2}
         strokeAlign="outside"
-        isStrokeDash={true}
       />
       <Text
         fill={boardStyle.textFill}

@@ -41,10 +41,15 @@ export const useGetBoardStyle = (type: string) => {
         stroke: "",
         strokeWidth: 0,
         strokeAlign: "inside" as const,
-        textFill: "#FFFFFF",
-        stonePreviewBackground: "#DEDEDE",
-        fontFamily: "Inter",
-        fontWeight: 600,
+        fontFamily: "Radio Canada Big",
+        fontWeight: 700,
+
+        // スコアボードのカラー
+        scoreBoardBackground: "#FFFFFF",
+        stonePreviewBackground: "#E6E6E6",
+        textFill: "#000000",
+        playerScoreBackground: "#F5F5F5",
+        scoreBoardDivider: "#E6E6E6",
       };
     default:
       return {
@@ -67,10 +72,15 @@ export const useGetBoardStyle = (type: string) => {
         recommendFill: "#808080",
         strokeWidth: 0,
         strokeAlign: "inside" as const,
+        fontFamily: "Radio Canada Big",
+        fontWeight: 700,
+        
+        // スコアボードのカラー
+        scoreBoardBackground: "#010713",
+        stonePreviewBackground: "#E6E6E6",
         textFill: "#FFFFFF",
-        stonePreviewBackground: "#DEDEDE",
-        fontFamily: "Inter",
-        fontWeight: 600,
+        playerScoreBackground: "#222831",
+        scoreBoardDivider: "#E6E6E6",
       };
     case "vintage":
       return {
@@ -94,10 +104,15 @@ export const useGetBoardStyle = (type: string) => {
         stroke: "",
         strokeWidth: 0,
         strokeAlign: "inside" as const,
-        textFill: "#FFFFFF",
-        stonePreviewBackground: "#ffffff",
         fontFamily: vintageFontFamily,
         fontWeight: 400,
+
+        // スコアボードのカラー
+        scoreBoardBackground: "#004085",
+        stonePreviewBackground: "#FFFFFF",
+        textFill: "#FFFFFF",
+        playerScoreBackground: "#165BA5",
+        scoreBoardDivider: "#E6E6E6",
       };
     case "cyberpunk":
       return {
@@ -121,10 +136,15 @@ export const useGetBoardStyle = (type: string) => {
         stroke: "#4EDBEF",
         strokeWidth: 1,
         strokeAlign: "inside" as const,
-        textFill: "#FFFFFF",
-        stonePreviewBackground: "#ffffff",
         fontFamily: "Orbitron",
         fontWeight: 600,
+
+        // スコアボードのカラー
+        scoreBoardBackground: "#0A0E27",
+        stonePreviewBackground: "#FFFFFF",
+        textFill: "#FFFFFF",
+        playerScoreBackground: "#202546",
+        scoreBoardDivider: "#E6E6E6",
       };
   }
 };

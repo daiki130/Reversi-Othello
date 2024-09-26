@@ -1,5 +1,5 @@
 const { widget } = figma;
-const { AutoLayout, useStickable } = widget;
+const { AutoLayout, useStickable, Rectangle } = widget;
 
 import { PlayerScore } from "../primitives/PlayerScore";
 import { Turn } from "../primitives/Turn";
@@ -37,41 +37,51 @@ export function ScoreBoard({
   return (
     <AutoLayout
       direction="vertical"
-      spacing={4}
+      spacing={12}
       padding={12}
-      cornerRadius={9999}
-      fill={boardStyle.fill}
+      cornerRadius={8}
+      fill={boardStyle.scoreBoardBackground}
+      verticalAlignItems="center"
+      horizontalAlignItems="center"
+      minWidth={210}
       effect={{
         type: "drop-shadow",
         color: { r: 0, g: 0, b: 0, a: 0.3 },
         offset: { x: 0, y: 2 },
         blur: 4,
       }}
+      overflow="visible"
     >
+      <Turn
+        boardStyle={boardStyle}
+        currentPlayer={currentPlayer}
+        gameState={gameState}
+        winner={winner}
+        currentPlayerName={currentPlayerName}
+      />
+      <Rectangle
+        width={"fill-parent"}
+        height={1}
+        fill={boardStyle.scoreBoardDivider}
+      />
       <AutoLayout
         direction="horizontal"
-        spacing={16}
+        spacing={4}
         verticalAlignItems="center"
-        overflow="visible"
       >
         <PlayerScore
           icon={blackPlayer ? blackPlayer[1].icon : ""}
           score={scores.black}
           stoneColor="black"
           boardStyle={boardStyle}
-        />
-        <Turn
-          boardStyle={boardStyle}
-          currentPlayer={currentPlayer}
-          gameState={gameState}
-          winner={winner}
-          currentPlayerName={currentPlayerName}
+          isCurrentPlayer={currentPlayer === "black"}
         />
         <PlayerScore
           icon={whitePlayer ? whitePlayer[1].icon : ""}
           score={scores.white}
           stoneColor="white"
           boardStyle={boardStyle}
+          isCurrentPlayer={currentPlayer === "white"}
         />
       </AutoLayout>
     </AutoLayout>
