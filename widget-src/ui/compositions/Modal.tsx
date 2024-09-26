@@ -99,75 +99,121 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
   };
 
   const winnerDisplay = winner ? (
-    <AutoLayout
-      direction="vertical"
-      spacing={20}
-      padding={{
-        top: 8,
-        bottom: 32,
-        left: 24,
-        right: 24,
-      }}
-      minWidth={240}
-      verticalAlignItems="center"
-      horizontalAlignItems="center"
-      fill="#F9F9F9"
-      cornerRadius={10}
-      effect={{
-        type: "drop-shadow",
-        color: {
-          r: 0,
-          g: 0,
-          b: 0,
-          a: 0.3,
-        },
-        blur: 10,
-        offset: { x: 0, y: 0 },
-      }}
-      positioning="absolute"
-      x={97}
-      y={98}
-    >
-      <Text fontSize={40} fontFamily="Rampart One" fontWeight={400}>
-        Winner
-      </Text>
-      <AutoLayout
-        direction="vertical"
-        spacing={24}
-        horizontalAlignItems="center"
-      >
-        {winner === "black" && blackPlayer && (
-          <EllipseWithImage
-            width={60}
-            height={60}
-            src={blackPlayer.icon}
-            stroke=""
-            strokeWidth={2}
-            strokeAlign="outside"
-          />
-        )}
-        {winner === "white" && whitePlayer && (
-          <EllipseWithImage
-            width={60}
-            height={60}
-            src={whitePlayer.icon}
-            stroke=""
-            strokeWidth={2}
-            strokeAlign="outside"
-          />
-        )}
-        {winner === "draw" && (
+    <Fragment>
+      {winner !== "draw" ? (
+        // ドローの場合の処理
+        <AutoLayout
+          direction="vertical"
+          spacing={20}
+          padding={{
+            top: 8,
+            bottom: 32,
+            left: 24,
+            right: 24,
+          }}
+          minWidth={240}
+          verticalAlignItems="center"
+          horizontalAlignItems="center"
+          fill="#F9F9F9"
+          cornerRadius={10}
+          effect={{
+            type: "drop-shadow",
+            color: {
+              r: 0,
+              g: 0,
+              b: 0,
+              a: 0.3,
+            },
+            blur: 10,
+            offset: { x: 0, y: 0 },
+          }}
+          positioning="absolute"
+          x={97}
+          y={98}
+        >
+          <Text fontSize={40} fontFamily="Rampart One" fontWeight={400}>
+            Winner
+          </Text>
+          <AutoLayout
+            direction="vertical"
+            spacing={24}
+            horizontalAlignItems="center"
+          >
+            {winner === "black" && blackPlayer && (
+              <EllipseWithImage
+                width={60}
+                height={60}
+                src={blackPlayer.icon}
+                stroke=""
+                strokeWidth={2}
+                strokeAlign="outside"
+              />
+            )}
+            {winner === "white" && whitePlayer && (
+              <EllipseWithImage
+                width={60}
+                height={60}
+                src={whitePlayer.icon}
+                stroke=""
+                strokeWidth={2}
+                strokeAlign="outside"
+              />
+            )}
+            <Button
+              label="Restart Game"
+              onClick={handleGameRestart}
+              disabled={false}
+            />
+          </AutoLayout>
+        </AutoLayout>
+      ) : (
+        // ドローの場合の処理
+        <AutoLayout
+          direction="vertical"
+          spacing={20}
+          padding={{
+            top: 8,
+            bottom: 32,
+            left: 24,
+            right: 24,
+          }}
+          minWidth={240}
+          verticalAlignItems="center"
+          horizontalAlignItems="center"
+          fill="#F9F9F9"
+          cornerRadius={10}
+          effect={{
+            type: "drop-shadow",
+            color: {
+              r: 0,
+              g: 0,
+              b: 0,
+              a: 0.3,
+            },
+            blur: 10,
+            offset: { x: 0, y: 0 },
+          }}
+          positioning="absolute"
+          x={97}
+          y={140}
+        >
           <Text fontSize={40} fontFamily="Rampart One" fontWeight={400}>
             Draw
           </Text>
-        )}
-        <Button
-          label="Restart Game"
-          onClick={handleGameRestart}
-          disabled={false}
-        />
-      </AutoLayout>
-    </AutoLayout>
+          <AutoLayout
+            direction="vertical"
+            spacing={24}
+            horizontalAlignItems="center"
+          >
+            <Button
+              label="Restart Game"
+              onClick={handleGameRestart}
+              disabled={false}
+            />
+          </AutoLayout>
+        </AutoLayout>
+      )}
+    </Fragment>
   ) : null;
 
   return (
