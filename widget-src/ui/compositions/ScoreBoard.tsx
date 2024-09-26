@@ -1,7 +1,8 @@
 const { widget } = figma;
-const { AutoLayout, Text, useStickable, Ellipse } = widget;
+const { AutoLayout, useStickable, Rectangle } = widget;
 
-import { PlayerScore } from "./PlayerScore";
+import { PlayerScore } from "../primitives/PlayerScore";
+import { Turn } from "../primitives/Turn";
 import { GameState } from "../../types/game";
 
 export function ScoreBoard({
@@ -36,83 +37,53 @@ export function ScoreBoard({
   return (
     <AutoLayout
       direction="vertical"
-      spacing={4}
+      spacing={12}
       padding={12}
-      cornerRadius={9999}
-      fill={boardStyle.fill}
+      cornerRadius={8}
+      fill={boardStyle.scoreBoardBackground}
+      verticalAlignItems="center"
+      horizontalAlignItems="center"
+      minWidth={210}
       effect={{
         type: "drop-shadow",
         color: { r: 0, g: 0, b: 0, a: 0.3 },
         offset: { x: 0, y: 2 },
         blur: 4,
       }}
+      overflow="visible"
     >
+      <Turn
+        boardStyle={boardStyle}
+        currentPlayer={currentPlayer}
+        gameState={gameState}
+        winner={winner}
+        currentPlayerName={currentPlayerName}
+      />
+      <Rectangle
+        width={"fill-parent"}
+        height={1}
+        fill={boardStyle.scoreBoardDivider}
+        cornerRadius={999}
+        opacity={0.4}
+      />
       <AutoLayout
         direction="horizontal"
-        spacing={16}
+        spacing={4}
         verticalAlignItems="center"
-        overflow="visible"
       >
         <PlayerScore
           icon={blackPlayer ? blackPlayer[1].icon : ""}
           score={scores.black}
           stoneColor="black"
           boardStyle={boardStyle}
+          isCurrentPlayer={currentPlayer === "black"}
         />
-        <AutoLayout
-          direction="horizontal"
-          spacing={4}
-          verticalAlignItems="center"
-        >
-          {currentPlayer === "black" ? (
-            <AutoLayout
-              direction="horizontal"
-              spacing={4}
-              padding={4}
-              cornerRadius={4}
-              fill={boardStyle.stonePreviewBackground}
-            >
-              <Ellipse
-                width={14}
-                height={14}
-                fill={boardStyle.blackStone}
-                effect={boardStyle.blackStoneEffect}
-              />
-            </AutoLayout>
-          ) : (
-            <AutoLayout
-              direction="horizontal"
-              spacing={4}
-              padding={4}
-              cornerRadius={4}
-              fill={boardStyle.stonePreviewBackground}
-            >
-              <Ellipse
-                width={14}
-                height={14}
-                fill={boardStyle.whiteStone}
-                effect={boardStyle.whiteStoneEffect}
-              />
-            </AutoLayout>
-          )}
-          <Text
-            fill={boardStyle.textFill}
-            fontSize={14}
-            fontWeight={boardStyle.fontWeight}
-            fontFamily={boardStyle.fontFamily}
-          >
-            {gameState === "finished"
-              ? winner === "draw"
-                ? "Draw"
-                : `Winner: ${winner}`
-              : `${currentPlayerName}'s turn`}
-          </Text>
-        </AutoLayout>
         <PlayerScore
           icon={whitePlayer ? whitePlayer[1].icon : ""}
           score={scores.white}
           stoneColor="white"
           boardStyle={boardStyle}
+          isCurrentPlayer={currentPlayer === "white"}
         />
       </AutoLayout>
     </AutoLayout>
