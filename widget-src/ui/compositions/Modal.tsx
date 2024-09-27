@@ -260,7 +260,7 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
             height={103}
           />
           <Fragment>
-            <Text fontSize={14} fontFamily="Radio Canada Big" fontWeight={600}>
+            <Text fontSize={14} fontFamily="Radio Canada Big" fontWeight={400}>
               {label}
             </Text>
             <AutoLayout
@@ -286,7 +286,7 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
                   tooltip="Click to join as black"
                 />
               )}
-              <Text fontFamily={fontLoaded ? "Pacifico" : "Inter"}>vs</Text>
+              <Text fontFamily={fontLoaded ? "Radio Canada Big" : "Inter"} fontSize={14} fontWeight={700}>vs</Text>
               {whitePlayer ? (
                 <EllipseWithImage
                   width={60}
