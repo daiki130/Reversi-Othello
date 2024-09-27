@@ -56,7 +56,7 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
       currentUser && currentUser.photoUrl ? currentUser.photoUrl : "";
 
     if (players.has(user)) {
-      notify("あなたはすでに登録されています");
+      notify("You are already registered");
       return;
     }
 
@@ -72,7 +72,7 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
       setLabel("Waiting for 1 more player...");
     }
     if (players.size === 2) {
-      setLabel("✨Ready to start!");
+      setLabel("✨ Ready to start!");
     }
 
     const playerInfo: Player = { name: user, icon };

@@ -65,7 +65,7 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
   const boardStyle = useGetBoardStyle(boardType);
 
   return (
-    <AutoLayout direction="vertical" spacing={20} horizontalAlignItems="center">
+    <AutoLayout direction="vertical" spacing={20} horizontalAlignItems="center" overflow="visible">
       <AutoLayout
         direction="vertical"
         spacing={10}

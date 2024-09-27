@@ -10,7 +10,7 @@ function Widget() {
   const players = usePlayer();
 
   return (
-    <AutoLayout direction="vertical" width="hug-contents" height="hug-contents">
+    <AutoLayout direction="vertical" width="hug-contents" height="hug-contents" overflow="visible">
       <Board players={players} />
       {(gameState === "entry" || gameState === "finished") && (
         <Modal players={players} />

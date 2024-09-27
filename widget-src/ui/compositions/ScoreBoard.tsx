@@ -37,7 +37,7 @@ export function ScoreBoard({
   return (
     <AutoLayout
       direction="vertical"
-      spacing={12}
+      spacing={8}
       padding={12}
       cornerRadius={8}
       fill={boardStyle.scoreBoardBackground}
