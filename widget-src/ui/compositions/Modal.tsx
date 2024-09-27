@@ -1,5 +1,12 @@
 const { widget, notify, loadFontAsync } = figma;
-const { AutoLayout, Text, Image, useSyncedState, Fragment, useEffect } = widget;
+const {
+  AutoLayout,
+  Text,
+  Image,
+  useSyncedState,
+  Fragment,
+  useEffect,
+} = widget;
 
 import { Stone } from "../primitives/Stone";
 import { Button } from "../primitives/Button";
@@ -97,6 +104,15 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
     setPassCount(0);
     setGameState("entry");
     setBoardType("standard");
+    setLabel("Waiting for 2 player...");
+    if (blackPlayer?.name) {
+      players.delete(blackPlayer.name);
+      setBlackPlayer(null);
+    }
+    if (whitePlayer?.name) {
+      players.delete(whitePlayer.name);
+      setWhitePlayer(null);
+    }
     setWinner(null);
   };
 
@@ -286,7 +302,13 @@ export function Modal({ players }: { players: SyncedMap<unknown> }) {
                   tooltip="Click to join as black"
                 />
               )}
-              <Text fontFamily={fontLoaded ? "Radio Canada Big" : "Inter"} fontSize={14} fontWeight={700}>vs</Text>
+              <Text
+                fontFamily={fontLoaded ? "Radio Canada Big" : "Inter"}
+                fontSize={14}
+                fontWeight={700}
+              >
+                vs
+              </Text>
               {whitePlayer ? (
                 <EllipseWithImage
                   width={60}
