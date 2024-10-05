@@ -6,8 +6,6 @@ export function useGameMenu(
   resetGame: () => void,
   boardType: string,
   setBoardType: (type: string) => void,
-  setIsBGMPlaying: (prev: (prev: boolean) => boolean) => void,
-  isSoundPlaying: boolean
 ) {
   usePropertyMenu(
     [

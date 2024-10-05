@@ -53,8 +53,6 @@ export function Board({ players }: { players: SyncedMap<unknown> }) {
       resetGame,
       boardType,
       setBoardType,
-      setIsBGMPlaying,
-      isSoundPlaying
     );
   }
 
